@@ -26,6 +26,7 @@
 		
 		_noiseJitter          = 0.5;
 		_noiseScale           = 1;
+		_noiseOffset          = 0;
 		
 		_colorTintStrength    = 0.5;
 		_colorHue             = 0.75;
@@ -34,7 +35,7 @@
 		_colorGrain           = 0.15;
 		
 		_imageDrawingScale    = 1;
-		
+				
 		/* Fill noise */
 		_noiseGrid[0][0]                                 = 0;
 		_noiseGrid[NOISE_GRID_SIZE-1][0]                 = 0.25;
@@ -70,6 +71,9 @@
 		_grainView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grain"]];
 		_grainView.alpha = _colorGrain;
 		[self addSubview:_grainView];
+		
+		/* Clip grain to my dimensions */
+		self.clipsToBounds = YES;
 		
 	}
 	return self;
@@ -182,10 +186,10 @@
 	
 	//return (d00 / totalDist) * _noiseGrid[floorX][floorY] + ;
 	
-	return _noiseGrid[floorX][floorY] * (cX * cY) +
-		   _noiseGrid[ceilX][floorY]  * (fX * cY) +
-		   _noiseGrid[floorX][ceilY]  * (cX * fY) +
-		   _noiseGrid[ceilX][ceilY]   * (fX * fY);
+	return (_noiseGrid[floorX][floorY] * (cX * cY) +
+		    _noiseGrid[ceilX][floorY]  * (fX * cY) +
+		    _noiseGrid[floorX][ceilY]  * (cX * fY) +
+		    _noiseGrid[ceilX][ceilY]   * (fX * fY)) + _noiseOffset;
 	
 }
 

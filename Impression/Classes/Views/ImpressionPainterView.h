@@ -61,6 +61,9 @@
 /* What scale to use of the noise grid */
 @property (nonatomic, assign) float noiseScale;
 
+/* The noise offset (so waves can rotate) */
+@property (nonatomic, assign) float noiseOffset;
+
 /* --- Stroke properties --- */
 
 /* The number of lines active in the image */
