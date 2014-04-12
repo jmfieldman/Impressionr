@@ -17,20 +17,23 @@
 		_paintingInterval = 0.01;
 		
 		/* Set hardcoded default attributes */
-		_lineWidth            = 20;
+		_lineWidth            = 10;
 		_lineCount            = 20;
-		_lineLifetime         = 1;
-		_lineSpeed            = 20;
+		_lineLifetime         = 0.1;
+		_lineSpeed            = 100;
 		_lineAlpha            = 0.5;
-		_lineAngleFieldWeight = 0.50;
+		_lineAngleFieldWeight = 1;
 		
-		_noiseJitter          = 0.15;
+		_noiseJitter          = 0.5;
+		_noiseScale           = 1;
 		
 		_colorOriginalProb    = 1;
 		_colorHue             = 0;
 		_colorSaturation      = 1;
 		_colorLightness       = 1;
-		_colorGrain           = 0.7;
+		_colorGrain           = 0.15;
+		
+		_imageDrawingScale    = 1;
 		
 		/* Fill noise */
 		_noiseGrid[0][0]                                 = 0;
@@ -40,7 +43,7 @@
 		[self fillNoiseGridFromX1:0 y1:0 x2:NOISE_GRID_SIZE-1 y2:NOISE_GRID_SIZE-1 depth:0];
 		
 		/* DEBUG */
-		#if 0
+		#if 1
 		NSMutableString *s = [NSMutableString string];
 		for (int y = 0; y < NOISE_GRID_SIZE; y++) {
 			for (int x = 0; x < NOISE_GRID_SIZE; x++) {
@@ -51,19 +54,22 @@
 		NSLog(@"Grid:\n%@\n", s);
 		
 		for (int i = 0; i < 10; i++) {
-			NSLog(@"val: %f", [self noiseValueForPoint:CGPointMake(0.025*i, 0.000*i)]);
+			//NSLog(@"val: %f", [self noiseValueForPoint:CGPointMake(0.025*i, 0.000*i)]);
 		}
 		#endif
 		
 		/* Create lines */
 		_lines = [NSMutableArray array];
-		for (int i = 0; i < 400; i++) {
+		for (int i = 0; i < 100; i++) {
 			PaintLine *line = [[PaintLine alloc] init];
 			[self createNewLineParameters:line];
 			[_lines addObject:line];
 		}
 		
-		
+		/* Add grain */
+		_grainView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grain"]];
+		_grainView.alpha = _colorGrain;
+		[self addSubview:_grainView];
 		
 	}
 	return self;
@@ -196,12 +202,33 @@
 }
 
 - (void) createNewLineParameters:(PaintLine*)line {
+	
+	/* Random position */
 	line.currentPosition = CGPointMake(floatBetween(0, _originalW), floatBetween(0, _originalH));
-	line.speedVector = CGVectorMake(floatBetween(-200, 200), floatBetween(-200, 200));
-	line.speedVector = CGVectorMake(floatBetween(1000,1201), floatBetween(-50, 50));
-
+	
+	//line.speedVector = CGVectorMake(floatBetween(-200, 200), floatBetween(-200, 200));
+	//line.speedVector = CGVectorMake(floatBetween(1000,1201), floatBetween(-50, 50));
+	
+	if (_originalW == 0 || _originalH == 0) {
+		/* Don't have an image; no speed vector */
+		line.speedVector = CGVectorMake(0, 0);
+	} else {
+	
+		/* The noise grid will give us the noise angle at the particular x/y coord */
+		float angle = (2 * M_PI) * [self noiseValueForPoint:CGPointMake(_noiseScale * line.currentPosition.x / _originalW, _noiseScale * line.currentPosition.y / _originalH)];
+		
+		/* And we modulate it by the angle scale */
+		angle *= _lineAngleFieldWeight;
+		
+		/* Calculate velocity */
+		line.speedVector = CGVectorMake(cosf(angle) * _lineSpeed * _imageDrawingScale, sinf(angle) * _lineSpeed * _imageDrawingScale);
+	}
+		
+	/* Line width is multiplied by scale factor */
 	line.lineWidth = _lineWidth * _imageDrawingScale;
-	line.lifeRemaining = _lineLifetime;
+	
+	/* Lifetime */
+	line.lifeRemaining = _lineLifetime * floatBetween(0.9, 1.1);
 	
 	/* Get color at point */
 	if (_originalMemory) {

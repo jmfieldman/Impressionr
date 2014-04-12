@@ -30,6 +30,8 @@
 	/* Perlin noise chart */
 	float          _noiseGrid[NOISE_GRID_SIZE][NOISE_GRID_SIZE];
 	
+	/* Grain on top */
+	UIImageView   *_grainView;
 }
 
 /* The image that we are painting onto the view */
@@ -52,6 +54,8 @@
 /* How much the noise jumps each interval */
 @property (nonatomic, readonly) float noiseJitter;
 
+/* What scale to use of the noise grid */
+@property (nonatomic, assign) float noiseScale;
 
 /* --- Stroke properties --- */
 

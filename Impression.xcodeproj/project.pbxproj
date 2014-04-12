@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35446EFF18F9994B00E75A9D /* grain.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446EFD18F9994B00E75A9D /* grain.png */; };
+		35446F0018F9994B00E75A9D /* grain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446EFE18F9994B00E75A9D /* grain@2x.png */; };
 		35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7918F5927D0054C376 /* Foundation.framework */; };
 		35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */; };
 		35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7D18F5927D0054C376 /* UIKit.framework */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		35446EFD18F9994B00E75A9D /* grain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grain.png; sourceTree = "<group>"; };
+		35446EFE18F9994B00E75A9D /* grain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grain@2x.png"; sourceTree = "<group>"; };
 		35D6FE7618F5927D0054C376 /* Impression.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Impression.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D6FE7918F5927D0054C376 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -257,6 +261,8 @@
 		35D6FEC818F595CB0054C376 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				35446EFD18F9994B00E75A9D /* grain.png */,
+				35446EFE18F9994B00E75A9D /* grain@2x.png */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -337,6 +343,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				35D6FE8418F5927D0054C376 /* InfoPlist.strings in Resources */,
+				35446EFF18F9994B00E75A9D /* grain.png in Resources */,
+				35446F0018F9994B00E75A9D /* grain@2x.png in Resources */,
 				35D6FE8C18F5927D0054C376 /* Images.xcassets in Resources */,
 				35D6FEC918F595CB0054C376 /* test_image1.jpg in Resources */,
 			);
@@ -565,6 +573,7 @@
 				35D6FEA418F5927D0054C376 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35D6FEA518F5927D0054C376 /* Build configuration list for PBXNativeTarget "ImpressionTests" */ = {
 			isa = XCConfigurationList;
@@ -573,6 +582,7 @@
 				35D6FEA718F5927D0054C376 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
