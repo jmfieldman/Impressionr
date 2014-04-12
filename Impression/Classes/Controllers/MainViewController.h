@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ImpressionPainterView.h"
 #import "UIDirectionalPanGestureRecognizer.h"
+#import "SettingsManager.h"
 
-@interface MainViewController : UIViewController {
+@interface MainViewController : UIViewController <SettingsManagerDelegate> {
 	/* Painting view */
 	ImpressionPainterView *_paintView;
 	

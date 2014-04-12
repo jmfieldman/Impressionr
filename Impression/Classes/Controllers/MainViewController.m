@@ -75,19 +75,36 @@ SINGLETON_IMPL(MainViewController);
 		
 		UIPinchGestureRecognizer *twoPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTwoPinch:)];
 		[_gesturePad addGestureRecognizer:twoPinch];
+		
+		/* Register for settings */
+		[[SettingsManager sharedInstance] addDelegate:self];
 	}
 	return self;
 }
 
+
+#pragma mark UIGestureRecognizerDelegate methods
+
 - (void) handleOnePan:(UIDirectionalPanGestureRecognizer*)pan {
 	CGPoint translation = [pan translationInView:_gesturePad];
-	_paintView.lineSpeed -= translation.y / 1.0;
-	NSLog(@"modifying by: %d %f", pan.direction, -translation.y / 1.0);
+	if (pan.direction == PAN_DIR_HORIZONTAL) {
+		[SettingsManager sharedInstance].lineWidth += translation.x / (self.view.bounds.size.width/2);
+	} else if (pan.direction == PAN_DIR_VERTICAL) {
+		[SettingsManager sharedInstance].lineSpeed -= translation.y / (self.view.bounds.size.height/2);
+	}
+	
 	[pan setTranslation:CGPointZero inView:_gesturePad];
 }
 
 - (void) handleTwoPan:(UIDirectionalPanGestureRecognizer*)pan {
+	CGPoint translation = [pan translationInView:_gesturePad];
+	if (pan.direction == PAN_DIR_HORIZONTAL) {
+		[SettingsManager sharedInstance].lineAlpha += translation.x / (self.view.bounds.size.width/2);
+	} else if (pan.direction == PAN_DIR_VERTICAL) {
+		[SettingsManager sharedInstance].lineCount -= translation.y / (self.view.bounds.size.height/2);
+	}
 	
+	[pan setTranslation:CGPointZero inView:_gesturePad];
 }
 
 - (void) handleThreePan:(UIDirectionalPanGestureRecognizer*)pan {
@@ -99,11 +116,59 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) handleTwoRot:(UIRotationGestureRecognizer*)rot {
-	
+	[SettingsManager sharedInstance].tintHue += rot.rotation;
+	rot.rotation = 0;
 }
 
 - (void) handleTwoPinch:(UIPinchGestureRecognizer*)pinch {
+	[SettingsManager sharedInstance].tintStrength += pinch.scale - 1;
+	pinch.scale = 1;
+}
+
+
+#pragma mark SettingsManagerDelegate methods
+
+
+- (void) settingLineWidthChangedTo:(float)slider actual:(float)width {
+	_paintView.lineWidth = width;
+}
+
+- (void) settingLineSpeedChangedTo:(float)slider actual:(float)speed {
+	_paintView.lineSpeed = speed;
+}
+
+- (void) settingLineCountChangedTo:(float)slider actual:(int)count {
+	_paintView.lineCount = count;
+}
+
+- (void) settingLineAlphaChangedTo:(float)slider actual:(float)alpha {
+	_paintView.lineAlpha = alpha;
+}
+
+- (void) settingAngleFieldScaleChangedTo:(float)slider actual:(float)scale {
 	
 }
+
+- (void) settingAngleFieldWeightChangedTo:(float)slider actual:(float)weight {
+	
+}
+
+- (void) settingTintStrengthChangedTo:(float)slider actual:(float)strength {
+	NSLog(@"set strength: %f", strength);
+	_paintView.colorTintStrength = strength;
+}
+
+- (void) settingTintHueChangedTo:(float)slider actual:(float)hue {
+	_paintView.colorHue = hue;
+}
+
+- (void) settingSaturationChangedTo:(float)slider actual:(float)saturation {
+	
+}
+
+- (void) settingGrainOpacityChangedTo:(float)slider actual:(float)grain {
+	
+}
+
 
 @end

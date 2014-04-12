@@ -29,7 +29,7 @@
 	
 	/* If this isn't the first draw, we need to clip out the previous segment overlap */
 	BOOL clipped = NO;
-	if (_firstDraw) {
+	if (_firstDraw || !_needsClip) {
 		_firstDraw = NO;
 	} else {
 		float half = _lineWidth / 2;

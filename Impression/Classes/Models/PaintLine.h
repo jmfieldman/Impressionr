@@ -16,6 +16,7 @@
 @property (nonatomic, assign)   NSTimeInterval  lifeRemaining;
 @property (nonatomic, strong)   UIColor        *color;
 @property (nonatomic, assign)   BOOL            firstDraw;
+@property (nonatomic, assign)   BOOL            needsClip;
 
 
 /* Draws the line for however much life is left; return the excess time */

@@ -18,7 +18,7 @@
 		
 		/* Set hardcoded default attributes */
 		_lineWidth            = 10;
-		_lineCount            = 20;
+		_lineCount            = 0;
 		_lineLifetime         = 0.1;
 		_lineSpeed            = 100;
 		_lineAlpha            = 0.5;
@@ -61,11 +61,7 @@
 		
 		/* Create lines */
 		_lines = [NSMutableArray array];
-		for (int i = 0; i < 100; i++) {
-			PaintLine *line = [[PaintLine alloc] init];
-			[self createNewLineParameters:line];
-			[_lines addObject:line];
-		}
+		self.lineCount = 20;
 		
 		/* Add grain */
 		_grainView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grain"]];
@@ -79,6 +75,16 @@
 	return self;
 }
 
+- (void) setLineCount:(int)lineCount {
+	if (_lineCount < lineCount) {
+		for (int i = _lineCount; i < lineCount; i++) {
+			PaintLine *line = [[PaintLine alloc] init];
+			[self createNewLineParameters:line];
+			[_lines addObject:line];
+		}
+	}
+	_lineCount = lineCount;
+}
 
 - (void) setImage:(UIImage *)image {
 	_image = image;
@@ -209,6 +215,7 @@
 	
 	/* Set first-draw property */
 	line.firstDraw = YES;
+	line.needsClip = (_lineAlpha < 1);
 	
 	/* Random position */
 	line.currentPosition = CGPointMake(floatBetween(0, _originalW), floatBetween(0, _originalH));
@@ -338,7 +345,8 @@
 	_lastUpdateTime = currentTime;
 	
 	/* Update all of the lines */
-	for (PaintLine *line in _lines) {
+	for (int i = 0; i < _lineCount; i++) {
+		PaintLine *line = _lines[i];
 		NSTimeInterval remainingTime = timeDiff;
 		while ( (remainingTime = [line paintInContext:_bitmapContext forTimeDuration:remainingTime]) > 0) {
 			/* New line! */
