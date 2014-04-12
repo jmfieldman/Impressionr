@@ -85,7 +85,7 @@
 /* --- Color properties --- */
 
 /* What percent of lines will have the original color vs. generated color */
-@property (nonatomic, assign) float colorOriginalProb;
+@property (nonatomic, assign) float colorTintStrength;
 
 /* The HSL values of the artificial color */
 @property (nonatomic, assign) float colorHue;

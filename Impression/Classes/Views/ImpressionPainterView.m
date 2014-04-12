@@ -20,15 +20,15 @@
 		_lineWidth            = 10;
 		_lineCount            = 20;
 		_lineLifetime         = 0.1;
-		_lineSpeed            = 400;
-		_lineAlpha            = 0.2;
+		_lineSpeed            = 100;
+		_lineAlpha            = 0.5;
 		_lineAngleFieldWeight = 1;
 		
 		_noiseJitter          = 0.5;
 		_noiseScale           = 1;
 		
-		_colorOriginalProb    = 1;
-		_colorHue             = 0.8;
+		_colorTintStrength    = 0.5;
+		_colorHue             = 0.75;
 		_colorSaturation      = 1;
 		_colorLightness       = 1;
 		_colorGrain           = 0.15;
@@ -243,7 +243,7 @@
 		float g = colorReference[1] / 255.0;
 		float b = colorReference[2] / 255.0;
 		
-		#if 1 /* This is the hue-or-not mode */
+		#if 0 /* This is the hue-or-not mode */
 		if (floatBetween(0, 1) <= _colorOriginalProb) {
 			/* Use original color */
 			line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
@@ -260,21 +260,15 @@
 			
 			line.color = [UIColor colorWithHue:_colorHue saturation:_colorSaturation * saturation brightness:_colorLightness * lightness alpha:_lineAlpha];
 		}
-		#endif
+		#else
 		
-		#if 0
 		float max = MAX(MAX(r, g), b);
 		float min = MIN(MIN(r, g), b);
 		
-		float sum = max + min;
 		float dif = max - min;
 		
-		float lightness  = sum / 2;
-		float saturation = (max == min) ? 0 : ( (lightness > 0.5) ? (dif / (2 - sum)) : (dif / sum) );
-		saturation = (max == min) ? 0 : ( dif / (1 - abs(2 * lightness - 1)) );
-		saturation += 0.1;
-		lightness += 0.1;
-		//lightness = 0.3 * r + 0.59 * g + 0.11 * b;
+		float lightness  = max;
+		float saturation = dif / lightness;
 		
 		float hue = 0;
 		
@@ -284,14 +278,41 @@
 			hue = (g - b) / dif + ( (g < b) ? 6 : 0 );
 		} else if (max == g) {
 			hue = (b - r) / dif + 2;
-		} else {
+		} else if (max == b) {
 			hue = (r - g) / dif + 4;
+		} else {
+			NSLog(@"wtf");
 		}
 		hue /= 6;
 		
-		line.color = [UIColor colorWithHue:hue saturation:saturation brightness:lightness alpha:_lineAlpha];
+		
+		/* Now mix in tint */
+		if (_colorTintStrength > 0) {
+			/* Hue is a wheel */
+			float hueDiff = hue - _colorHue;
+			if (fabs(hueDiff) > 0.5) {
+				/* If they are on different sides of the wheel, need to bring them together */
+				if (hueDiff < 0) {
+					/* current hue is less; should add 1 */
+					hue += 1;
+				} else {
+					/* current hue is more; should sub 1 */
+					hue -= 1;
+				}
+			}
+			
+			/* Now hues should be within 0.5 of each other, can blend */
+			hue = hue * (1 - _colorTintStrength) + _colorHue * _colorTintStrength;
+			
+			/* Bring back into 0-1 range */
+			if (hue < 0) hue += 1; else if (hue > 1) hue -= 1;
+		}
+		
+		
+		line.color = [UIColor colorWithHue:hue saturation:saturation * _colorSaturation brightness:lightness * _colorLightness alpha:_lineAlpha];
 		//line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
 		#endif
+		
 	} else {
 		line.color = [UIColor blackColor];
 	}

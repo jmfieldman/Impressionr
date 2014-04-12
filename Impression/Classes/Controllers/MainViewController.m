@@ -12,6 +12,18 @@
 
 @end
 
+/* Screen Gestures
+
+ one   finger pan    vertical         - line speed
+ one   finger pan    horizontal       - line width
+ two   finger pan    vertical         - line count
+ two   finger pan    horizontal       - line alpha
+ two   finger rotate                  - grain opacity
+ three finger pan    vertical         - angle field scale
+ three finger pan    horizontal       - angle field weight
+ three finger rotate                  -
+*/
+
 @implementation MainViewController
 
 SINGLETON_IMPL(MainViewController);
