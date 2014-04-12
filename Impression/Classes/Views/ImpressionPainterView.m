@@ -27,7 +27,7 @@
 		_noiseJitter          = 0.5;
 		_noiseScale           = 1;
 		
-		_colorOriginalProb    = 0;
+		_colorOriginalProb    = 1;
 		_colorHue             = 0.8;
 		_colorSaturation      = 1;
 		_colorLightness       = 1;
@@ -202,6 +202,9 @@
 }
 
 - (void) createNewLineParameters:(PaintLine*)line {
+	
+	/* Set first-draw property */
+	line.firstDraw = YES;
 	
 	/* Random position */
 	line.currentPosition = CGPointMake(floatBetween(0, _originalW), floatBetween(0, _originalH));
