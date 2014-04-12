@@ -27,7 +27,7 @@
 		_noiseJitter          = 0.5;
 		_noiseScale           = 1;
 		
-		_colorOriginalProb    = 1;
+		_colorOriginalProb    = 0;
 		_colorHue             = 0.8;
 		_colorSaturation      = 1;
 		_colorLightness       = 1;
@@ -240,6 +240,7 @@
 		float g = colorReference[1] / 255.0;
 		float b = colorReference[2] / 255.0;
 		
+		#if 1 /* This is the hue-or-not mode */
 		if (floatBetween(0, 1) <= _colorOriginalProb) {
 			/* Use original color */
 			line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
@@ -256,6 +257,38 @@
 			
 			line.color = [UIColor colorWithHue:_colorHue saturation:_colorSaturation * saturation brightness:_colorLightness * lightness alpha:_lineAlpha];
 		}
+		#endif
+		
+		#if 0
+		float max = MAX(MAX(r, g), b);
+		float min = MIN(MIN(r, g), b);
+		
+		float sum = max + min;
+		float dif = max - min;
+		
+		float lightness  = sum / 2;
+		float saturation = (max == min) ? 0 : ( (lightness > 0.5) ? (dif / (2 - sum)) : (dif / sum) );
+		saturation = (max == min) ? 0 : ( dif / (1 - abs(2 * lightness - 1)) );
+		saturation += 0.1;
+		lightness += 0.1;
+		//lightness = 0.3 * r + 0.59 * g + 0.11 * b;
+		
+		float hue = 0;
+		
+		if (dif == 0) {
+		
+		} else if (max == r) {
+			hue = (g - b) / dif + ( (g < b) ? 6 : 0 );
+		} else if (max == g) {
+			hue = (b - r) / dif + 2;
+		} else {
+			hue = (r - g) / dif + 4;
+		}
+		hue /= 6;
+		
+		line.color = [UIColor colorWithHue:hue saturation:saturation brightness:lightness alpha:_lineAlpha];
+		//line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
+		#endif
 	} else {
 		line.color = [UIColor blackColor];
 	}
