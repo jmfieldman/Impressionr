@@ -20,7 +20,7 @@
 		_lineWidth            = 10;
 		_lineCount            = 20;
 		_lineLifetime         = 0.1;
-		_lineSpeed            = 100;
+		_lineSpeed            = 400;
 		_lineAlpha            = 0.2;
 		_lineAngleFieldWeight = 1;
 		
@@ -60,7 +60,7 @@
 		
 		/* Create lines */
 		_lines = [NSMutableArray array];
-		for (int i = 0; i < 400; i++) {
+		for (int i = 0; i < 100; i++) {
 			PaintLine *line = [[PaintLine alloc] init];
 			[self createNewLineParameters:line];
 			[_lines addObject:line];
@@ -296,8 +296,24 @@
 }
 
 
+- (void) trackFPS {
+	_frameCount++;
+	
+	NSTimeInterval curr = CFAbsoluteTimeGetCurrent();
+	NSTimeInterval diff = curr - _lastFPSCheck;
+	
+	if (diff > 1) {
+		_lastFPSCheck = curr;
+		NSLog(@"FPS: %d", _frameCount);
+		_frameCount = 0;
+	}
+}
+
+
 - (void)drawRect:(CGRect)rect {
 	if (!_bitmapContext) return;
+	
+	[self trackFPS];
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGImageRef cacheImage = CGBitmapContextCreateImage(_bitmapContext);

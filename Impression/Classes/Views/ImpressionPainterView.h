@@ -32,6 +32,10 @@
 	
 	/* Grain on top */
 	UIImageView   *_grainView;
+	
+	/* FPS tracking */
+	NSTimeInterval _lastFPSCheck;
+	int            _frameCount;
 }
 
 /* The image that we are painting onto the view */
