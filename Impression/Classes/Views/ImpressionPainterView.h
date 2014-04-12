@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "PaintLine.h"
 
+#define NOISE_GRID_SIZE 5
+
 @interface ImpressionPainterView : UIView {
 	CGContextRef  _bitmapContext;
 	int8_t       *_bitmapMemory;
@@ -24,19 +26,31 @@
 	/* Timing */
 	NSTimeInterval _lastUpdateTime;
 	BOOL           _isPainting;
+	
+	/* Perlin noise chart */
+	float          _noiseGrid[NOISE_GRID_SIZE][NOISE_GRID_SIZE];
+	
 }
 
 /* The image that we are painting onto the view */
 @property (nonatomic, strong) UIImage *image;
 
 /* The scale for length properties based on the resolution of the image */
-@property (nonatomic, assign) float imageDrawingScale;
+@property (nonatomic, readonly) float imageDrawingScale;
+
+/* The internal frame that the image is painted to based on aspect ratio */
+@property (nonatomic, readonly) CGRect imageDrawingRect;
 
 /* turn the active painting process on or off */
 @property (nonatomic, assign) BOOL painting;
 
 /* The time between repaints */
 @property (nonatomic, assign) float paintingInterval;
+
+/* --- Noise --- */
+
+/* How much the noise jumps each interval */
+@property (nonatomic, readonly) float noiseJitter;
 
 
 /* --- Stroke properties --- */

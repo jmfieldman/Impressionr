@@ -16,9 +16,44 @@
 		
 		_paintingInterval = 0.01;
 		
-		/* Set default attributes */
-		_lineWidth = 20;
+		/* Set hardcoded default attributes */
+		_lineWidth            = 20;
+		_lineCount            = 20;
+		_lineLifetime         = 1;
+		_lineSpeed            = 20;
+		_lineAlpha            = 0.5;
+		_lineAngleFieldWeight = 0.50;
 		
+		_noiseJitter          = 0.15;
+		
+		_colorOriginalProb    = 1;
+		_colorHue             = 0;
+		_colorSaturation      = 1;
+		_colorLightness       = 1;
+		_colorGrain           = 0.7;
+		
+		/* Fill noise */
+		_noiseGrid[0][0]                                 = 0;
+		_noiseGrid[NOISE_GRID_SIZE-1][0]                 = 0.25;
+		_noiseGrid[0][NOISE_GRID_SIZE-1]                 = 0.75;
+		_noiseGrid[NOISE_GRID_SIZE-1][NOISE_GRID_SIZE-1] = 0;
+		[self fillNoiseGridFromX1:0 y1:0 x2:NOISE_GRID_SIZE-1 y2:NOISE_GRID_SIZE-1 depth:0];
+		
+		/* DEBUG */
+		#if 0
+		NSMutableString *s = [NSMutableString string];
+		for (int y = 0; y < NOISE_GRID_SIZE; y++) {
+			for (int x = 0; x < NOISE_GRID_SIZE; x++) {
+				[s appendFormat:@"%1.3f ", _noiseGrid[x][y]];
+			}
+			[s appendString:@"\n"];
+		}
+		NSLog(@"Grid:\n%@\n", s);
+		
+		for (int i = 0; i < 10; i++) {
+			NSLog(@"val: %f", [self noiseValueForPoint:CGPointMake(0.025*i, 0.000*i)]);
+		}
+		#endif
 		
 		/* Create lines */
 		_lines = [NSMutableArray array];
@@ -27,6 +62,8 @@
 			[self createNewLineParameters:line];
 			[_lines addObject:line];
 		}
+		
+		
 		
 	}
 	return self;
@@ -62,6 +99,88 @@
 	CGContextRef originalContext = CGBitmapContextCreate(_originalMemory, _originalW, _originalH, 8, _originalW * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)(kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
 	CGContextDrawImage(originalContext, CGRectMake(0, 0, _originalW, _originalH), _image.CGImage);
 	CGContextRelease(originalContext);
+	
+	/* Recalc scaling */
+	[self recalculateScaling];
+}
+
+- (void) recalculateScaling {
+	float origToFrameW = _originalW / self.bounds.size.width;
+	float origToFrameH = _originalH / self.bounds.size.height;
+	
+	float shrink_ratio = 0;
+	
+	if (origToFrameW > origToFrameH) {
+		/* Wider; needs to squeeze in */
+		shrink_ratio = self.bounds.size.width / _originalW;
+	} else {
+		/* Higher; needs to squeeze down */
+		shrink_ratio = self.bounds.size.height / _originalH;
+	}
+	
+	float display_width  = _originalW * shrink_ratio;
+	float display_height = _originalH * shrink_ratio;
+	
+	_imageDrawingScale = 1 / shrink_ratio;
+	
+	_imageDrawingRect = CGRectMake((self.bounds.size.width  - display_width)/2,
+								   (self.bounds.size.height - display_height)/2,
+								   display_width,
+								   display_height);
+}
+
+- (void) fillNoiseGridFromX1:(int)x1 y1:(int)y1 x2:(int)x2 y2:(int)y2 depth:(int)depth {
+	if (x1 == x2 && y1 == y2) return;
+	
+	int mx = (x1 + x2) / 2;
+	int my = (y1 + y2) / 2;
+	
+	if (mx == x1 || mx == x2) return;
+	if (my == y1 || my == y2) return;
+	
+	float jitter = _noiseJitter / powf(2, depth);
+	
+	_noiseGrid[mx][y1] = ((_noiseGrid[x1][y1] + _noiseGrid[x2][y1]) / 2) + floatBetween(-jitter, jitter);
+	_noiseGrid[x1][my] = ((_noiseGrid[x1][y1] + _noiseGrid[x1][y2]) / 2) + floatBetween(-jitter, jitter);
+	_noiseGrid[mx][y2] = ((_noiseGrid[x1][y2] + _noiseGrid[x2][y2]) / 2) + floatBetween(-jitter, jitter);
+	_noiseGrid[x2][my] = ((_noiseGrid[x2][y1] + _noiseGrid[x2][y2]) / 2) + floatBetween(-jitter, jitter);
+	_noiseGrid[mx][my] = ((_noiseGrid[mx][y1] + _noiseGrid[mx][y2] + _noiseGrid[x1][my] + _noiseGrid[x2][my]) / 4) + floatBetween(-jitter, jitter);
+	
+	[self fillNoiseGridFromX1:mx y1:my x2:x1 y2:y1 depth:depth+1];
+	[self fillNoiseGridFromX1:mx y1:my x2:x1 y2:y2 depth:depth+1];
+	[self fillNoiseGridFromX1:mx y1:my x2:x2 y2:y1 depth:depth+1];
+	[self fillNoiseGridFromX1:mx y1:my x2:x2 y2:y2 depth:depth+1];
+}
+
+- (float) noiseValueForPoint:(CGPoint)point {
+	float scaledX = point.x * (NOISE_GRID_SIZE-1);
+	float scaledY = point.y * (NOISE_GRID_SIZE-1);
+	
+	int floorX = (int)scaledX;
+	int floorY = (int)scaledY;
+	
+	int ceilX  = floorX + 1;  if (ceilX >= NOISE_GRID_SIZE) ceilX--;
+	int ceilY  = floorY + 1;  if (ceilY >= NOISE_GRID_SIZE) ceilY--;
+	
+	float fX = scaledX - floorX;
+	float fY = scaledY - floorY;
+	float cX = ceilX - scaledX;
+	float cY = ceilY - scaledY;
+	
+	//float d00  = sqrt(fX * fX + fY * fY);
+	//float d10  = sqrt(cX * cX + fY * fY);
+	//float d01  = sqrt(fX * fX + cY * cY);
+	//float d11  = sqrt(fX * fX + fY * fY);
+	
+	//float totalDist = d00 + d01 + d10 + d11;
+	
+	//return (d00 / totalDist) * _noiseGrid[floorX][floorY] + ;
+	
+	return _noiseGrid[floorX][floorY] * (cX * cY) +
+		   _noiseGrid[ceilX][floorY]  * (fX * cY) +
+		   _noiseGrid[floorX][ceilY]  * (cX * fY) +
+		   _noiseGrid[ceilX][ceilY]   * (fX * fY);
+	
 }
 
 - (void) setPainting:(BOOL)painting {
@@ -80,8 +199,9 @@
 	line.currentPosition = CGPointMake(floatBetween(0, _originalW), floatBetween(0, _originalH));
 	line.speedVector = CGVectorMake(floatBetween(-200, 200), floatBetween(-200, 200));
 	line.speedVector = CGVectorMake(floatBetween(1000,1201), floatBetween(-50, 50));
-	line.lineWidth = _lineWidth;
-	line.lifeRemaining = floatBetween(0.05, 0.1);
+
+	line.lineWidth = _lineWidth * _imageDrawingScale;
+	line.lifeRemaining = _lineLifetime;
 	
 	/* Get color at point */
 	if (_originalMemory) {
@@ -93,17 +213,18 @@
 		float g = colorReference[1] / 255.0;
 		float b = colorReference[2] / 255.0;
 		
-		line.color = [UIColor colorWithRed:r green:g blue:b alpha:0.5];
+		line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
 	} else {
 		line.color = [UIColor blackColor];
 	}
 	
+	/*
 	static NSTimeInterval start = 0;
 	if (start == 0) start = CFAbsoluteTimeGetCurrent();
 	NSTimeInterval cur = CFAbsoluteTimeGetCurrent();
 	double elap = cur - start;
 	if (elap < 4) line.lineWidth = (5 - elap) * 20;
-	
+	*/
 	
 }
 
@@ -138,7 +259,7 @@
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	CGImageRef cacheImage = CGBitmapContextCreateImage(_bitmapContext);
-	CGContextDrawImage(context, self.bounds, cacheImage);
+	CGContextDrawImage(context, _imageDrawingRect, cacheImage);
 	CGImageRelease(cacheImage);
 }
 
