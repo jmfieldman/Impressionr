@@ -21,14 +21,14 @@
 		_lineCount            = 20;
 		_lineLifetime         = 0.1;
 		_lineSpeed            = 100;
-		_lineAlpha            = 0.5;
+		_lineAlpha            = 0.2;
 		_lineAngleFieldWeight = 1;
 		
 		_noiseJitter          = 0.5;
 		_noiseScale           = 1;
 		
 		_colorOriginalProb    = 1;
-		_colorHue             = 0;
+		_colorHue             = 0.8;
 		_colorSaturation      = 1;
 		_colorLightness       = 1;
 		_colorGrain           = 0.15;
@@ -60,7 +60,7 @@
 		
 		/* Create lines */
 		_lines = [NSMutableArray array];
-		for (int i = 0; i < 100; i++) {
+		for (int i = 0; i < 400; i++) {
 			PaintLine *line = [[PaintLine alloc] init];
 			[self createNewLineParameters:line];
 			[_lines addObject:line];
@@ -240,7 +240,22 @@
 		float g = colorReference[1] / 255.0;
 		float b = colorReference[2] / 255.0;
 		
-		line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
+		if (floatBetween(0, 1) <= _colorOriginalProb) {
+			/* Use original color */
+			line.color = [UIColor colorWithRed:r green:g blue:b alpha:_lineAlpha];
+		} else {
+			/* Hued in color */
+			float max = MAX(MAX(r, g), b);
+			float min = MIN(MIN(r, g), b);
+			
+			float sum = max + min;
+			float dif = max - min;
+			
+			float lightness  = sum / 2;
+			float saturation = (max == min) ? 0 : ( (lightness > 0.5) ? (dif / (2 - sum)) : (dif / sum) );
+			
+			line.color = [UIColor colorWithHue:_colorHue saturation:_colorSaturation * saturation brightness:_colorLightness * lightness alpha:_lineAlpha];
+		}
 	} else {
 		line.color = [UIColor blackColor];
 	}
