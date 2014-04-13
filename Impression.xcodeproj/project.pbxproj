@@ -11,6 +11,10 @@
 		35446F0018F9994B00E75A9D /* grain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446EFE18F9994B00E75A9D /* grain@2x.png */; };
 		35C9F39818F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */; };
 		35C9F39B18F9E04B00B023F4 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39A18F9E04B00B023F4 /* SettingsManager.m */; };
+		35C9F39E18FADBFC00B023F4 /* ButtonEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */; };
+		35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3A018FADC0900B023F4 /* MuseoSansRounded-300.otf */; };
+		35C9F3A418FADC0900B023F4 /* MuseoSansRounded-500.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3A118FADC0900B023F4 /* MuseoSansRounded-500.otf */; };
+		35C9F3A518FADC0900B023F4 /* MuseoSansRounded-700.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3A218FADC0900B023F4 /* MuseoSansRounded-700.otf */; };
 		35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7918F5927D0054C376 /* Foundation.framework */; };
 		35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */; };
 		35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7D18F5927D0054C376 /* UIKit.framework */; };
@@ -53,6 +57,11 @@
 		35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDirectionalPanGestureRecognizer.m; sourceTree = "<group>"; };
 		35C9F39918F9E04B00B023F4 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
 		35C9F39A18F9E04B00B023F4 /* SettingsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsManager.m; sourceTree = "<group>"; };
+		35C9F39C18FADBFC00B023F4 /* ButtonEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonEffects.h; sourceTree = "<group>"; };
+		35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonEffects.m; sourceTree = "<group>"; };
+		35C9F3A018FADC0900B023F4 /* MuseoSansRounded-300.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MuseoSansRounded-300.otf"; sourceTree = "<group>"; };
+		35C9F3A118FADC0900B023F4 /* MuseoSansRounded-500.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MuseoSansRounded-500.otf"; sourceTree = "<group>"; };
+		35C9F3A218FADC0900B023F4 /* MuseoSansRounded-700.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MuseoSansRounded-700.otf"; sourceTree = "<group>"; };
 		35D6FE7618F5927D0054C376 /* Impression.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Impression.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D6FE7918F5927D0054C376 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -116,6 +125,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		35C9F39F18FADC0900B023F4 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				35C9F3A018FADC0900B023F4 /* MuseoSansRounded-300.otf */,
+				35C9F3A118FADC0900B023F4 /* MuseoSansRounded-500.otf */,
+				35C9F3A218FADC0900B023F4 /* MuseoSansRounded-700.otf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		35D6FE6D18F5927D0054C376 = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +180,7 @@
 		35D6FE8018F5927D0054C376 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				35C9F39F18FADC0900B023F4 /* Fonts */,
 				35D6FEC518F595CB0054C376 /* Images */,
 				35D6FE8118F5927D0054C376 /* Impression-Info.plist */,
 				35D6FE8218F5927D0054C376 /* InfoPlist.strings */,
@@ -211,6 +231,8 @@
 		35D6FEAA18F592EB0054C376 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				35C9F39C18FADBFC00B023F4 /* ButtonEffects.h */,
+				35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */,
 				35D6FEAB18F592EB0054C376 /* EXDebug.h */,
 				35D6FEAC18F592EB0054C376 /* EXDebug.m */,
 				35D6FEAD18F592EB0054C376 /* EXRemoteLog.h */,
@@ -354,6 +376,9 @@
 			files = (
 				35D6FE8418F5927D0054C376 /* InfoPlist.strings in Resources */,
 				35446EFF18F9994B00E75A9D /* grain.png in Resources */,
+				35C9F3A518FADC0900B023F4 /* MuseoSansRounded-700.otf in Resources */,
+				35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */,
+				35C9F3A418FADC0900B023F4 /* MuseoSansRounded-500.otf in Resources */,
 				35446F0018F9994B00E75A9D /* grain@2x.png in Resources */,
 				35D6FE8C18F5927D0054C376 /* Images.xcassets in Resources */,
 				35D6FEC918F595CB0054C376 /* test_image1.jpg in Resources */,
@@ -379,6 +404,7 @@
 				35D6FE8A18F5927D0054C376 /* AppDelegate.m in Sources */,
 				35C9F39B18F9E04B00B023F4 /* SettingsManager.m in Sources */,
 				35D6FECF18F59FD60054C376 /* PaintLine.m in Sources */,
+				35C9F39E18FADBFC00B023F4 /* ButtonEffects.m in Sources */,
 				35D6FEC118F592EB0054C376 /* SKBounceAnimation.m in Sources */,
 				35D6FECC18F5961B0054C376 /* ImpressionPainterView.m in Sources */,
 				35D6FEC418F594370054C376 /* MainViewController.m in Sources */,
