@@ -88,24 +88,25 @@ SINGLETON_IMPL(MainViewController);
 		
 		float cornerRadius = 6;
 		float settingButtonBGAlpha = 0.75;
+		float settingButtonBGWhite = 0.1;
 				
 		/* Create settings buttons */
 		_lineSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_lineSettingsButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:settingButtonBGAlpha];
+		_lineSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_lineSettingsButton.layer.cornerRadius = cornerRadius;
 		[_lineSettingsButton setImage:[UIImage imageNamed:@"line_icon"] forState:UIControlStateNormal];
 		_lineSettingsButton.imageView.layer.cornerRadius = 4;
 		[self.view addSubview:_lineSettingsButton];
 		
 		_fieldSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_fieldSettingsButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:settingButtonBGAlpha];
+		_fieldSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_fieldSettingsButton.layer.cornerRadius = cornerRadius;
 		[_fieldSettingsButton setImage:[UIImage imageNamed:@"wave_icon"] forState:UIControlStateNormal];
 		_fieldSettingsButton.imageView.layer.cornerRadius = 4;
 		[self.view addSubview:_fieldSettingsButton];
 		
 		_colorSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		_colorSettingsButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:settingButtonBGAlpha];
+		_colorSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_colorSettingsButton.layer.cornerRadius = cornerRadius;
 		[_colorSettingsButton setImage:[UIImage imageNamed:@"color_icon"] forState:UIControlStateNormal];
 		_colorSettingsButton.imageView.layer.cornerRadius = 4;

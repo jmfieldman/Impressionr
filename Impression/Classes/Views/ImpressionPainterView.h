@@ -36,6 +36,9 @@
 	/* FPS tracking */
 	NSTimeInterval _lastFPSCheck;
 	int            _frameCount;
+	
+	/* Draw down original image first */
+	UIImage       *_originalImageToDraw;
 }
 
 /* The image that we are painting onto the view */

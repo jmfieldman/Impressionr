@@ -88,6 +88,7 @@
 
 - (void) setImage:(UIImage *)image {
 	_image = image;
+	_originalImageToDraw = image;
 	
 	/* Destroy existing bitmap context */
 	if (_bitmapContext) {
@@ -342,6 +343,17 @@
 }
 
 - (void) updatePainting {
+	
+	/* Do we need to paint down the original? */
+	if (_originalImageToDraw) {
+		CGContextSaveGState(_bitmapContext);
+		CGContextTranslateCTM(_bitmapContext, 0, _originalImageToDraw.size.height);
+		CGContextScaleCTM(_bitmapContext, 1.0, -1.0);
+		CGContextDrawImage(_bitmapContext, CGRectMake(0, 0, _originalImageToDraw.size.width, _originalImageToDraw.size.height), _originalImageToDraw.CGImage);
+		CGContextRestoreGState(_bitmapContext);
+		_originalImageToDraw = nil;
+	}
+	
 	/* Time cycle */
 	NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
 	NSTimeInterval timeDiff = currentTime - _lastUpdateTime;
@@ -384,7 +396,7 @@
 
 - (void)drawRect:(CGRect)rect {
 	if (!_bitmapContext) return;
-	
+		
 	[self trackFPS];
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
