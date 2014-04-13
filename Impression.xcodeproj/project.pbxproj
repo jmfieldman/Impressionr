@@ -27,6 +27,12 @@
 		35C9F3BB18FADCC600B023F4 /* swoosh2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3B218FADCC600B023F4 /* swoosh2.caf */; };
 		35C9F3BE18FADCE100B023F4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C9F3BC18FADCE100B023F4 /* AVFoundation.framework */; };
 		35C9F3C118FADCEE00B023F4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C9F3C018FADCEE00B023F4 /* SystemConfiguration.framework */; };
+		35C9F3C418FAE81500B023F4 /* color_icon~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3C218FAE81500B023F4 /* color_icon~iphone.png */; };
+		35C9F3C518FAE81500B023F4 /* color_icon@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3C318FAE81500B023F4 /* color_icon@2x~iphone.png */; };
+		35C9F3CA18FAE8CE00B023F4 /* line_icon@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3C618FAE8CE00B023F4 /* line_icon@2x~iphone.png */; };
+		35C9F3CB18FAE8CE00B023F4 /* line_icon~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3C718FAE8CE00B023F4 /* line_icon~iphone.png */; };
+		35C9F3CC18FAE8CE00B023F4 /* wave_icon@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3C818FAE8CE00B023F4 /* wave_icon@2x~iphone.png */; };
+		35C9F3CD18FAE8CE00B023F4 /* wave_icon~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3C918FAE8CE00B023F4 /* wave_icon~iphone.png */; };
 		35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7918F5927D0054C376 /* Foundation.framework */; };
 		35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */; };
 		35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7D18F5927D0054C376 /* UIKit.framework */; };
@@ -88,6 +94,12 @@
 		35C9F3BC18FADCE100B023F4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		35C9F3BD18FADCE100B023F4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		35C9F3C018FADCEE00B023F4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		35C9F3C218FAE81500B023F4 /* color_icon~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "color_icon~iphone.png"; sourceTree = "<group>"; };
+		35C9F3C318FAE81500B023F4 /* color_icon@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "color_icon@2x~iphone.png"; sourceTree = "<group>"; };
+		35C9F3C618FAE8CE00B023F4 /* line_icon@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line_icon@2x~iphone.png"; sourceTree = "<group>"; };
+		35C9F3C718FAE8CE00B023F4 /* line_icon~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "line_icon~iphone.png"; sourceTree = "<group>"; };
+		35C9F3C818FAE8CE00B023F4 /* wave_icon@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wave_icon@2x~iphone.png"; sourceTree = "<group>"; };
+		35C9F3C918FAE8CE00B023F4 /* wave_icon~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wave_icon~iphone.png"; sourceTree = "<group>"; };
 		35D6FE7618F5927D0054C376 /* Impression.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Impression.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D6FE7918F5927D0054C376 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -343,6 +355,12 @@
 		35D6FEC818F595CB0054C376 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				35C9F3C618FAE8CE00B023F4 /* line_icon@2x~iphone.png */,
+				35C9F3C718FAE8CE00B023F4 /* line_icon~iphone.png */,
+				35C9F3C818FAE8CE00B023F4 /* wave_icon@2x~iphone.png */,
+				35C9F3C918FAE8CE00B023F4 /* wave_icon~iphone.png */,
+				35C9F3C218FAE81500B023F4 /* color_icon~iphone.png */,
+				35C9F3C318FAE81500B023F4 /* color_icon@2x~iphone.png */,
 				35446EFD18F9994B00E75A9D /* grain.png */,
 				35446EFE18F9994B00E75A9D /* grain@2x.png */,
 			);
@@ -424,17 +442,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C9F3CC18FAE8CE00B023F4 /* wave_icon@2x~iphone.png in Resources */,
 				35C9F3BB18FADCC600B023F4 /* swoosh2.caf in Resources */,
 				35D6FE8418F5927D0054C376 /* InfoPlist.strings in Resources */,
+				35C9F3C518FAE81500B023F4 /* color_icon@2x~iphone.png in Resources */,
 				35446EFF18F9994B00E75A9D /* grain.png in Resources */,
 				35C9F3B518FADCC600B023F4 /* button_up.caf in Resources */,
+				35C9F3CA18FAE8CE00B023F4 /* line_icon@2x~iphone.png in Resources */,
 				35C9F3B918FADCC600B023F4 /* drop.caf in Resources */,
 				35C9F3B418FADCC600B023F4 /* button_down.caf in Resources */,
+				35C9F3C418FAE81500B023F4 /* color_icon~iphone.png in Resources */,
+				35C9F3CD18FAE8CE00B023F4 /* wave_icon~iphone.png in Resources */,
 				35C9F3BA18FADCC600B023F4 /* swoosh.caf in Resources */,
 				35C9F3B318FADCC600B023F4 /* button_cancel.caf in Resources */,
 				35C9F3A518FADC0900B023F4 /* MuseoSansRounded-700.otf in Resources */,
 				35C9F3B618FADCC600B023F4 /* ching.caf in Resources */,
 				35C9F3B818FADCC600B023F4 /* drag2.caf in Resources */,
+				35C9F3CB18FAE8CE00B023F4 /* line_icon~iphone.png in Resources */,
 				35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */,
 				35C9F3A418FADC0900B023F4 /* MuseoSansRounded-500.otf in Resources */,
 				35446F0018F9994B00E75A9D /* grain@2x.png in Resources */,

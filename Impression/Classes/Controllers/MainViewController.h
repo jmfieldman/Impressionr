@@ -17,6 +17,16 @@
 	
 	/* Touch handler */
 	UIView *_gesturePad;
+	
+	/* Controls */
+	UIButton *_lineSettingsButton;
+	UIButton *_fieldSettingsButton;
+	UIButton *_colorSettingsButton;
+	
+	/* Dimensions */
+	CGRect _lineSettingButtonFrame[2];
+	CGRect _fieldSettingButtonFrame[2];
+	CGRect _colorSettingButtonFrame[2];
 }
 
 SINGLETON_INTR(MainViewController);

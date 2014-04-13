@@ -143,6 +143,9 @@
 								   (self.bounds.size.height - display_height)/2,
 								   display_width,
 								   display_height);
+	
+	/* Adjust grain */
+	_grainView.frame = _imageDrawingRect;
 }
 
 - (void) fillNoiseGridFromX1:(int)x1 y1:(int)y1 x2:(int)x2 y2:(int)y2 depth:(int)depth {

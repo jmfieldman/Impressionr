@@ -31,6 +31,8 @@
  
 */
 
+#define GESTURES_ENABLED 0
+
 @implementation MainViewController
 
 SINGLETON_IMPL(MainViewController);
@@ -41,9 +43,11 @@ SINGLETON_IMPL(MainViewController);
 		self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 		self.view.backgroundColor = [UIColor redColor];
 		
+		#if GESTURES_ENABLED
 		_gesturePad = [[UIView alloc] initWithFrame:self.view.bounds];
 		_gesturePad.backgroundColor = [UIColor clearColor];
 		[self.view addSubview:_gesturePad];
+		#endif
 		
 		_paintView = [[ImpressionPainterView alloc] initWithFrame:self.view.bounds];
 		_paintView.image = [UIImage imageNamed:@"test_image1.jpg"];
@@ -52,7 +56,7 @@ SINGLETON_IMPL(MainViewController);
 		_paintView.userInteractionEnabled = NO;
 		[self.view addSubview:_paintView];
 		
-		
+		#if GESTURES_ENABLED /* This was just a glorious disaster. */
 		/* Register gesture handlers */
 		UIDirectionalPanGestureRecognizer *onePanVert = [[UIDirectionalPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleOnePan:)];
 		onePanVert.minimumNumberOfTouches = onePanVert.maximumNumberOfTouches = 1;
@@ -75,13 +79,65 @@ SINGLETON_IMPL(MainViewController);
 		
 		UIPinchGestureRecognizer *twoPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTwoPinch:)];
 		[_gesturePad addGestureRecognizer:twoPinch];
-		
+		#endif
+						
 		/* Register for settings */
 		[[SettingsManager sharedInstance] addDelegate:self];
+		
+		/* ----- UI Layout ------ */
+		
+		float cornerRadius = 6;
+		float settingButtonBGAlpha = 0.75;
+				
+		/* Create settings buttons */
+		_lineSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_lineSettingsButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:settingButtonBGAlpha];
+		_lineSettingsButton.layer.cornerRadius = cornerRadius;
+		[_lineSettingsButton setImage:[UIImage imageNamed:@"line_icon"] forState:UIControlStateNormal];
+		_lineSettingsButton.imageView.layer.cornerRadius = 4;
+		[self.view addSubview:_lineSettingsButton];
+		
+		_fieldSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_fieldSettingsButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:settingButtonBGAlpha];
+		_fieldSettingsButton.layer.cornerRadius = cornerRadius;
+		[_fieldSettingsButton setImage:[UIImage imageNamed:@"wave_icon"] forState:UIControlStateNormal];
+		_fieldSettingsButton.imageView.layer.cornerRadius = 4;
+		[self.view addSubview:_fieldSettingsButton];
+		
+		_colorSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_colorSettingsButton.backgroundColor = [UIColor colorWithWhite:0.2 alpha:settingButtonBGAlpha];
+		_colorSettingsButton.layer.cornerRadius = cornerRadius;
+		[_colorSettingsButton setImage:[UIImage imageNamed:@"color_icon"] forState:UIControlStateNormal];
+		_colorSettingsButton.imageView.layer.cornerRadius = 4;
+		_colorSettingsButton.imageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+		[self.view addSubview:_colorSettingsButton];
+		
+		[self setControlFrames:UIInterfaceOrientationPortrait];
 	}
 	return self;
 }
 
+- (void) setControlFrames:(UIInterfaceOrientation)orientation {
+	//BOOL portrait = (orientation == UIInterfaceOrientationPortrait);
+	
+	float settingButtonSize = 50;
+	float settingButtonOffset = settingButtonSize + 5;
+	float settingButtonGroupX = self.view.bounds.size.width - settingButtonOffset * 3;
+	float settingButtonY = self.view.bounds.size.height - settingButtonOffset;
+	
+	/* Painting view */
+	_paintView.frame = self.view.bounds;
+	[_paintView recalculateScaling];
+	
+	/* Control buttons */
+	_lineSettingsButton.frame = CGRectMake(settingButtonGroupX, settingButtonY, settingButtonSize, settingButtonSize);
+	_fieldSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*1, settingButtonY, settingButtonSize, settingButtonSize);
+	_colorSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*2, settingButtonY, settingButtonSize, settingButtonSize);
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
+	[self setControlFrames:interfaceOrientation];
+}
 
 #pragma mark UIGestureRecognizerDelegate methods
 
@@ -146,15 +202,14 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) settingAngleFieldScaleChangedTo:(float)slider actual:(float)scale {
-	
+	_paintView.noiseScale = scale;
 }
 
 - (void) settingAngleFieldWeightChangedTo:(float)slider actual:(float)weight {
-	
+	_paintView.lineAngleFieldWeight = weight;
 }
 
 - (void) settingTintStrengthChangedTo:(float)slider actual:(float)strength {
-	NSLog(@"set strength: %f", strength);
 	_paintView.colorTintStrength = strength;
 }
 
@@ -163,11 +218,11 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) settingSaturationChangedTo:(float)slider actual:(float)saturation {
-	
+	_paintView.colorSaturation = saturation;
 }
 
 - (void) settingGrainOpacityChangedTo:(float)slider actual:(float)grain {
-	
+	_paintView.colorGrain = grain;
 }
 
 

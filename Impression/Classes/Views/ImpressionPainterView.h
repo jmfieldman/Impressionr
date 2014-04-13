@@ -99,4 +99,6 @@
 @property (nonatomic, assign) float colorGrain;
 
 
+- (void) recalculateScaling;
+
 @end
