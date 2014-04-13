@@ -110,7 +110,6 @@ SINGLETON_IMPL(MainViewController);
 		_colorSettingsButton.layer.cornerRadius = cornerRadius;
 		[_colorSettingsButton setImage:[UIImage imageNamed:@"color_icon"] forState:UIControlStateNormal];
 		_colorSettingsButton.imageView.layer.cornerRadius = 4;
-		_colorSettingsButton.imageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
 		[self.view addSubview:_colorSettingsButton];
 		
 		[self setControlFrames:UIInterfaceOrientationPortrait];
