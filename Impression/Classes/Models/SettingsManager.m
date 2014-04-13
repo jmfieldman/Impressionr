@@ -21,7 +21,7 @@ SINGLETON_IMPL(SettingsManager);
 		/* Load defaults */
 		_defaults = [NSUserDefaults standardUserDefaults];
 		_lineWidth = [_defaults objectForKey:@"lineWidth"] ? [_defaults floatForKey:@"lineWidth"] : 0.05;
-		_lineCount = [_defaults objectForKey:@"lineCount"] ? [_defaults floatForKey:@"lineCount"] : 0.05;
+		_lineCount = [_defaults objectForKey:@"lineCount"] ? [_defaults floatForKey:@"lineCount"] : 0.50;
 		_lineAlpha = [_defaults objectForKey:@"lineAlpha"] ? [_defaults floatForKey:@"lineAlpha"] : 0.85;
 		_lineSpeed = [_defaults objectForKey:@"lineSpeed"] ? [_defaults floatForKey:@"lineSpeed"] : 0.35;
 		
@@ -94,7 +94,7 @@ SINGLETON_IMPL(SettingsManager);
 - (int) actualLineCount {
 	#define LINE_COUNT_MIN 10
 	#define LINE_COUNT_MAX 200
-	return (int)(LINE_COUNT_MIN + (LINE_COUNT_MAX - LINE_COUNT_MIN) * _lineCount);
+	return (int)(LINE_COUNT_MIN + (LINE_COUNT_MAX - LINE_COUNT_MIN) * powf(_lineCount, 1.3));
 }
 
 - (float) actualLineWidth {

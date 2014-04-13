@@ -111,6 +111,8 @@ SINGLETON_IMPL(MainViewController);
 		[self.view addSubview:_colorSettingsButton];
 		
 		/* Menus */
+		float menuWidth = 200;
+		float universalPadding = 8;
 		
 		_lineSettingsMenu = [[UIView alloc] initWithFrame:self.view.bounds];
 		_lineSettingsMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
@@ -118,14 +120,128 @@ SINGLETON_IMPL(MainViewController);
 		[self.view addSubview:_lineSettingsMenu];
 		
 		/* Sliders */
+		float labelH = 24;
+		float labelY = universalPadding;
+		
+		float sliderX = universalPadding;
+		float sliderY = labelH + universalPadding - 5;
+		float sliderW = menuWidth - universalPadding*2;
+		float sliderH = 40;
+		float sliderYOffset = 60;
 
-		_lineWidthSlider = [[UISlider alloc] initWithFrame:CGRectMake(10, 10, 180, 40)];
+		UIColor *labelColor = [UIColor whiteColor];
+		UIFont *infoFont = [UIFont fontWithName:@"MuseoSansRounded-700" size:18];
+		
+		int menuIndex = 0;
+						
+		_lineCountInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_lineCountInfo.backgroundColor = [UIColor clearColor];
+		_lineCountInfo.textColor = labelColor;
+		_lineCountInfo.textAlignment = NSTextAlignmentRight;
+		_lineCountInfo.font = infoFont;
+		[_lineSettingsMenu addSubview:_lineCountInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Line Count";
+			[_lineSettingsMenu addSubview:settingLabel];
+		}
+		
+		_lineCountSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_lineCountSlider.continuous = YES;
+		[_lineCountSlider addTarget:self action:@selector(sliderLineCount:) forControlEvents:UIControlEventValueChanged];
+		[_lineCountSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_lineCountSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_lineCountSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_lineSettingsMenu addSubview:_lineCountSlider];
+		
+		menuIndex++;
+		
+		_lineWidthInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_lineWidthInfo.backgroundColor = [UIColor clearColor];
+		_lineWidthInfo.textColor = labelColor;
+		_lineWidthInfo.textAlignment = NSTextAlignmentRight;
+		_lineWidthInfo.font = infoFont;
+		[_lineSettingsMenu addSubview:_lineWidthInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Line Width";
+			[_lineSettingsMenu addSubview:settingLabel];
+		}
+		
+		_lineWidthSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
 		_lineWidthSlider.continuous = YES;
 		[_lineWidthSlider addTarget:self action:@selector(sliderLineWidth:) forControlEvents:UIControlEventValueChanged];
 		[_lineWidthSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
 		[_lineWidthSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
 		[_lineWidthSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
 		[_lineSettingsMenu addSubview:_lineWidthSlider];
+		
+		menuIndex++;
+		
+		_lineSpeedInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_lineSpeedInfo.backgroundColor = [UIColor clearColor];
+		_lineSpeedInfo.textColor = labelColor;
+		_lineSpeedInfo.textAlignment = NSTextAlignmentRight;
+		_lineSpeedInfo.font = infoFont;
+		[_lineSettingsMenu addSubview:_lineSpeedInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Line Speed";
+			[_lineSettingsMenu addSubview:settingLabel];
+		}
+		
+		_lineSpeedSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_lineSpeedSlider.continuous = YES;
+		[_lineSpeedSlider addTarget:self action:@selector(sliderLineSpeed:) forControlEvents:UIControlEventValueChanged];
+		[_lineSpeedSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_lineSpeedSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_lineSpeedSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_lineSettingsMenu addSubview:_lineSpeedSlider];
+		
+		menuIndex++;
+		
+		_lineAlphaInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_lineAlphaInfo.backgroundColor = [UIColor clearColor];
+		_lineAlphaInfo.textColor = labelColor;
+		_lineAlphaInfo.textAlignment = NSTextAlignmentRight;
+		_lineAlphaInfo.font = infoFont;
+		[_lineSettingsMenu addSubview:_lineAlphaInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Line Alpha";
+			[_lineSettingsMenu addSubview:settingLabel];
+		}
+		
+		_lineAlphaSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_lineAlphaSlider.continuous = YES;
+		[_lineAlphaSlider addTarget:self action:@selector(sliderLineAlpha:) forControlEvents:UIControlEventValueChanged];
+		[_lineAlphaSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_lineAlphaSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_lineAlphaSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_lineSettingsMenu addSubview:_lineAlphaSlider];
+		
+		menuIndex++;
+
 		
 		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
@@ -158,7 +274,7 @@ SINGLETON_IMPL(MainViewController);
 	float menuWidth = 200;
 	float menuX = self.view.bounds.size.width - menuWidth - universalPadding;
 	
-	float lineSettingsMenuHeight = 200;
+	float lineSettingsMenuHeight = 260;
 	float lineSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - lineSettingsMenuHeight;
 	
 	_lineSettingsMenu.frame = CGRectMake(menuX, lineSettingsMenuY, menuWidth, lineSettingsMenuHeight);
@@ -216,24 +332,43 @@ SINGLETON_IMPL(MainViewController);
 	[SettingsManager sharedInstance].lineWidth = sender.value;
 }
 
+- (void) sliderLineCount:(UISlider*)sender {
+	[SettingsManager sharedInstance].lineCount = sender.value;
+}
+
+- (void) sliderLineSpeed:(UISlider*)sender {
+	[SettingsManager sharedInstance].lineSpeed = sender.value;
+}
+
+- (void) sliderLineAlpha:(UISlider*)sender {
+	[SettingsManager sharedInstance].lineAlpha = sender.value;
+}
+
 #pragma mark SettingsManagerDelegate methods
 
 
 - (void) settingLineWidthChangedTo:(float)slider actual:(float)width {
 	_paintView.lineWidth = width;
 	_lineWidthSlider.value = slider;
+	_lineWidthInfo.text = [NSString stringWithFormat:@"%d", (int)width];
 }
 
 - (void) settingLineSpeedChangedTo:(float)slider actual:(float)speed {
 	_paintView.lineSpeed = speed;
+	_lineSpeedSlider.value = slider;
+	_lineSpeedInfo.text = [NSString stringWithFormat:@"%d", (int)(speed)];
 }
 
 - (void) settingLineCountChangedTo:(float)slider actual:(int)count {
 	_paintView.lineCount = count;
+	_lineCountSlider.value = slider;
+	_lineCountInfo.text = [NSString stringWithFormat:@"%d", count];
 }
 
 - (void) settingLineAlphaChangedTo:(float)slider actual:(float)alpha {
 	_paintView.lineAlpha = alpha;
+	_lineAlphaSlider.value = slider;
+	_lineAlphaInfo.text = [NSString stringWithFormat:@"%d%%", (int)(alpha * 100)];
 }
 
 - (void) settingAngleFieldScaleChangedTo:(float)slider actual:(float)scale {

@@ -28,6 +28,15 @@
 	
 	/* Sliders */
 	UISlider *_lineWidthSlider;
+	UISlider *_lineCountSlider;
+	UISlider *_lineSpeedSlider;
+	UISlider *_lineAlphaSlider;
+	
+	/* Info views */
+	UILabel  *_lineWidthInfo;
+	UILabel  *_lineCountInfo;
+	UILabel  *_lineSpeedInfo;
+	UILabel  *_lineAlphaInfo;
 	
 	/* Dimensions */
 	CGRect _lineSettingButtonFrame[2];
