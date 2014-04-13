@@ -64,7 +64,7 @@
 /* What scale to use of the noise grid */
 @property (nonatomic, assign) float noiseScale;
 
-/* The noise offset (so waves can rotate) */
+/* The noise offset (so waves can rotate) - should be 0-1 */
 @property (nonatomic, assign) float noiseOffset;
 
 /* --- Stroke properties --- */
@@ -103,5 +103,6 @@
 
 
 - (void) recalculateScaling;
+- (void) resetNoiseGrid;
 
 @end

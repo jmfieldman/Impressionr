@@ -80,8 +80,15 @@ SINGLETON_IMPL(MainViewController);
 		UIPinchGestureRecognizer *twoPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTwoPinch:)];
 		[_gesturePad addGestureRecognizer:twoPinch];
 		#endif
-			
+				
 		/* ----- UI Layout ------ */
+		
+		/* Cancel Button */
+		
+		_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_cancelButton.frame = self.view.bounds;
+		[_cancelButton addTarget:self action:@selector(pressedBackgroundCancel:) forControlEvents:UIControlEventTouchDown];
+		[self.view addSubview:_cancelButton];
 		
 		float cornerRadius = 8;
 		float settingButtonBGAlpha = 0.75;
@@ -93,6 +100,7 @@ SINGLETON_IMPL(MainViewController);
 		_lineSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_lineSettingsButton.layer.cornerRadius = cornerRadius;
 		[_lineSettingsButton setImage:[UIImage imageNamed:@"line_icon"] forState:UIControlStateNormal];
+		[_lineSettingsButton addTarget:self action:@selector(pressedLineSettingsButton:) forControlEvents:UIControlEventTouchDown];
 		_lineSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_lineSettingsButton];
 		
@@ -100,6 +108,7 @@ SINGLETON_IMPL(MainViewController);
 		_fieldSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_fieldSettingsButton.layer.cornerRadius = cornerRadius;
 		[_fieldSettingsButton setImage:[UIImage imageNamed:@"wave_icon"] forState:UIControlStateNormal];
+		[_fieldSettingsButton addTarget:self action:@selector(pressedFieldSettingsButton:) forControlEvents:UIControlEventTouchDown];
 		_fieldSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_fieldSettingsButton];
 		
@@ -117,7 +126,14 @@ SINGLETON_IMPL(MainViewController);
 		_lineSettingsMenu = [[UIView alloc] initWithFrame:self.view.bounds];
 		_lineSettingsMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_lineSettingsMenu.layer.cornerRadius = cornerRadius;
+		_lineSettingsMenu.alpha = 0;
 		[self.view addSubview:_lineSettingsMenu];
+		
+		_fieldSettingsMenu = [[UIView alloc] initWithFrame:self.view.bounds];
+		_fieldSettingsMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_fieldSettingsMenu.layer.cornerRadius = cornerRadius;
+		_fieldSettingsMenu.alpha = 0;
+		[self.view addSubview:_fieldSettingsMenu];
 		
 		/* Sliders */
 		float labelH = 24;
@@ -131,6 +147,8 @@ SINGLETON_IMPL(MainViewController);
 
 		UIColor *labelColor = [UIColor whiteColor];
 		UIFont *infoFont = [UIFont fontWithName:@"MuseoSansRounded-700" size:18];
+		
+		/* -- Line Settings -- */
 		
 		int menuIndex = 0;
 						
@@ -241,7 +259,101 @@ SINGLETON_IMPL(MainViewController);
 		[_lineSettingsMenu addSubview:_lineAlphaSlider];
 		
 		menuIndex++;
+		
+		/* -- Field Settings -- */
 
+		menuIndex = 0;
+		
+		_fieldWeightInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_fieldWeightInfo.backgroundColor = [UIColor clearColor];
+		_fieldWeightInfo.textColor = labelColor;
+		_fieldWeightInfo.textAlignment = NSTextAlignmentRight;
+		_fieldWeightInfo.font = infoFont;
+		[_fieldSettingsMenu addSubview:_fieldWeightInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Swirl Weight";
+			[_fieldSettingsMenu addSubview:settingLabel];
+		}
+		
+		_fieldWeightSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_fieldWeightSlider.continuous = YES;
+		[_fieldWeightSlider addTarget:self action:@selector(sliderAngleWeight:) forControlEvents:UIControlEventValueChanged];
+		[_fieldWeightSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_fieldWeightSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_fieldWeightSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_fieldSettingsMenu addSubview:_fieldWeightSlider];
+
+		menuIndex++;
+		
+		_fieldOffsetInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_fieldOffsetInfo.backgroundColor = [UIColor clearColor];
+		_fieldOffsetInfo.textColor = labelColor;
+		_fieldOffsetInfo.textAlignment = NSTextAlignmentRight;
+		_fieldOffsetInfo.font = infoFont;
+		[_fieldSettingsMenu addSubview:_fieldOffsetInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Angle Offset";
+			[_fieldSettingsMenu addSubview:settingLabel];
+		}
+		
+		_fieldOffsetSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_fieldOffsetSlider.continuous = YES;
+		[_fieldOffsetSlider addTarget:self action:@selector(sliderAngleOffset:) forControlEvents:UIControlEventValueChanged];
+		[_fieldOffsetSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_fieldOffsetSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_fieldOffsetSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_fieldSettingsMenu addSubview:_fieldOffsetSlider];
+		
+		menuIndex++;
+		
+		_fieldScaleInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_fieldScaleInfo.backgroundColor = [UIColor clearColor];
+		_fieldScaleInfo.textColor = labelColor;
+		_fieldScaleInfo.textAlignment = NSTextAlignmentRight;
+		_fieldScaleInfo.font = infoFont;
+		[_fieldSettingsMenu addSubview:_fieldScaleInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Swirl Scale";
+			[_fieldSettingsMenu addSubview:settingLabel];
+		}
+		
+		_fieldScaleSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_fieldScaleSlider.continuous = YES;
+		[_fieldScaleSlider addTarget:self action:@selector(sliderAngleScale:) forControlEvents:UIControlEventValueChanged];
+		[_fieldScaleSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_fieldScaleSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_fieldScaleSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_fieldSettingsMenu addSubview:_fieldScaleSlider];
+		
+		menuIndex++;
+		
+		_fieldResetButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_fieldResetButton.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_fieldResetButton.backgroundColor = [UIColor whiteColor];
+		_fieldResetButton.layer.cornerRadius = sliderH / 2;
+		[_fieldResetButton setTitle:@"Reset Swirl Pattern" forState:UIControlStateNormal];
+		_fieldResetButton.titleLabel.font = infoFont;
+		[_fieldResetButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_fieldResetButton addTarget:self action:@selector(pressedSwirlReset:) forControlEvents:UIControlEventTouchDown];
+		[_fieldSettingsMenu addSubview:_fieldResetButton];
 		
 		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
@@ -277,11 +389,93 @@ SINGLETON_IMPL(MainViewController);
 	float lineSettingsMenuHeight = 260;
 	float lineSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - lineSettingsMenuHeight;
 	
-	_lineSettingsMenu.frame = CGRectMake(menuX, lineSettingsMenuY, menuWidth, lineSettingsMenuHeight);
+	float fieldSettingsMenuHeight = 260;
+	float fieldSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - lineSettingsMenuHeight;
+	
+	_lineSettingsMenu.frame  = CGRectMake(menuX, lineSettingsMenuY,  menuWidth, lineSettingsMenuHeight);
+	_fieldSettingsMenu.frame = CGRectMake(menuX, fieldSettingsMenuY, menuWidth, fieldSettingsMenuHeight);
+	
+	/* Adjust cancel button */
+	_cancelButton.frame = self.view.bounds;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
 	[self setControlFrames:interfaceOrientation];
+}
+
+- (void) pressedBackgroundCancel:(id)sender {
+	[self hideCurrentMenu];
+}
+
+- (float) hideCurrentMenu {
+	if (!_currentlyDisplayedMenu) return 0;
+	[_currentlyDisplayedMenu.layer removeAnimationForKey:@"zoom"];
+	_currentlyDisplayedMenu.transform = CGAffineTransformIdentity;
+	[UIView animateWithDuration:0.25
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
+						 _currentlyDisplayedMenu.transform = CGAffineTransformMakeScale(0.8, 0.8);
+						 _currentlyDisplayedMenu.alpha = 0;
+					 } completion:^(BOOL finished) { _currentlyDisplayedMenu.transform = CGAffineTransformIdentity; }];
+
+	_currentlyDisplayedMenu = nil;
+	
+	return 0.075;
+}
+
+- (void) popInView:(UIView*)view {
+	SKBounceAnimation *bounceAnimation = [SKBounceAnimation animationWithKeyPath:@"transform"];
+	bounceAnimation.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.8, 0.8, 1)];
+	bounceAnimation.toValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+	bounceAnimation.duration = 0.4f;
+	bounceAnimation.removedOnCompletion = NO;
+	bounceAnimation.fillMode = kCAFillModeForwards;
+	bounceAnimation.numberOfBounces = 3;
+	bounceAnimation.stiffness = SKBounceAnimationStiffnessLight;
+	bounceAnimation.beginTime = CACurrentMediaTime();
+	[view.layer addAnimation:bounceAnimation forKey:@"zoom"];
+	
+	[UIView animateWithDuration:0.25
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
+						 view.alpha = 1;
+					 } completion:nil];
+
+}
+
+- (void) animatePop:(UIView*)view {
+	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+	anim.fromValue = @(1);
+	anim.toValue = @(1.05);
+	anim.duration = 0.075;
+	anim.beginTime = CACurrentMediaTime();
+	anim.removedOnCompletion = NO;
+	anim.fillMode = kCAFillModeForwards;
+	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+	anim.autoreverses = YES;
+	[view.layer addAnimation:anim forKey:@"scale"];
+}
+
+- (void) pressedSwirlReset:(id)sender {
+	[self animatePop:_fieldResetButton];
+	[_paintView resetNoiseGrid];
+	
+}
+
+- (void) pressedLineSettingsButton:(id)sender {
+	if (_currentlyDisplayedMenu == _lineSettingsMenu) return;
+		
+	[self performSelector:@selector(popInView:) withObject:_lineSettingsMenu afterDelay:[self hideCurrentMenu]];
+	_currentlyDisplayedMenu = _lineSettingsMenu;
+}
+
+- (void) pressedFieldSettingsButton:(id)sender {
+	if (_currentlyDisplayedMenu == _fieldSettingsMenu) return;
+	
+	[self performSelector:@selector(popInView:) withObject:_fieldSettingsMenu afterDelay:[self hideCurrentMenu]];
+	_currentlyDisplayedMenu = _fieldSettingsMenu;
 }
 
 #pragma mark UIGestureRecognizerDelegate methods
@@ -344,6 +538,18 @@ SINGLETON_IMPL(MainViewController);
 	[SettingsManager sharedInstance].lineAlpha = sender.value;
 }
 
+- (void) sliderAngleWeight:(UISlider*)sender {
+	[SettingsManager sharedInstance].angleFieldWeight = sender.value;
+}
+
+- (void) sliderAngleOffset:(UISlider*)sender {
+	[SettingsManager sharedInstance].angleFieldOffset = sender.value;
+}
+
+- (void) sliderAngleScale:(UISlider*)sender {
+	[SettingsManager sharedInstance].angleFieldScale = sender.value;
+}
+
 #pragma mark SettingsManagerDelegate methods
 
 
@@ -373,10 +579,20 @@ SINGLETON_IMPL(MainViewController);
 
 - (void) settingAngleFieldScaleChangedTo:(float)slider actual:(float)scale {
 	_paintView.noiseScale = scale;
+	_fieldScaleSlider.value = slider;
+	_fieldScaleInfo.text = [NSString stringWithFormat:@"%d%%", (int)(scale * 100)];
 }
 
 - (void) settingAngleFieldWeightChangedTo:(float)slider actual:(float)weight {
-	_paintView.lineAngleFieldWeight = weight;
+	_paintView.lineAngleFieldWeight = slider; NSLog(@"FUCK: %f", slider);
+	_fieldWeightSlider.value = slider;
+	_fieldWeightInfo.text = [NSString stringWithFormat:@"%d%%", (int)(weight * 100)];
+}
+
+- (void) settingAngleFieldOffsetChangedTo:(float)slider actual:(float)offset {
+	_paintView.noiseOffset = slider;
+	_fieldOffsetSlider.value = slider;
+	_fieldOffsetInfo.text = [NSString stringWithFormat:@"%d°", (int)(slider * 360)];
 }
 
 - (void) settingTintStrengthChangedTo:(float)slider actual:(float)strength {

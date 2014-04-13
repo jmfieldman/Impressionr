@@ -37,11 +37,7 @@
 		_imageDrawingScale    = 1;
 				
 		/* Fill noise */
-		_noiseGrid[0][0]                                 = 0;
-		_noiseGrid[NOISE_GRID_SIZE-1][0]                 = 0.25;
-		_noiseGrid[0][NOISE_GRID_SIZE-1]                 = 0.75;
-		_noiseGrid[NOISE_GRID_SIZE-1][NOISE_GRID_SIZE-1] = 0;
-		[self fillNoiseGridFromX1:0 y1:0 x2:NOISE_GRID_SIZE-1 y2:NOISE_GRID_SIZE-1 depth:0];
+		[self resetNoiseGrid];
 		
 		/* DEBUG */
 		#if 1
@@ -73,6 +69,15 @@
 		
 	}
 	return self;
+}
+
+- (void) resetNoiseGrid {
+	_noiseJitter                                     = floatBetween(0.5, 0.7);
+	_noiseGrid[0][0]                                 = floatBetween(0, 1);
+	_noiseGrid[NOISE_GRID_SIZE-1][0]                 = floatBetween(0, 1);
+	_noiseGrid[0][NOISE_GRID_SIZE-1]                 = floatBetween(0, 1);
+	_noiseGrid[NOISE_GRID_SIZE-1][NOISE_GRID_SIZE-1] = floatBetween(0, 1);
+	[self fillNoiseGridFromX1:0 y1:0 x2:NOISE_GRID_SIZE-1 y2:NOISE_GRID_SIZE-1 depth:0];
 }
 
 - (void) setLineCount:(int)lineCount {
@@ -233,10 +238,10 @@
 	} else {
 	
 		/* The noise grid will give us the noise angle at the particular x/y coord */
-		float angle = (2 * M_PI) * [self noiseValueForPoint:CGPointMake(_noiseScale * line.currentPosition.x / _originalW, _noiseScale * line.currentPosition.y / _originalH)];
-		
+		float angle = [self noiseValueForPoint:CGPointMake(_noiseScale * line.currentPosition.x / _originalW, _noiseScale * line.currentPosition.y / _originalH)];
+
 		/* And we modulate it by the angle scale */
-		angle *= _lineAngleFieldWeight;
+		angle *= (2 * M_PI) * _lineAngleFieldWeight;
 		
 		/* Calculate velocity */
 		line.speedVector = CGVectorMake(cosf(angle) * _lineSpeed * _imageDrawingScale, sinf(angle) * _lineSpeed * _imageDrawingScale);

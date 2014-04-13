@@ -27,6 +27,13 @@ SINGLETON_IMPL(SettingsManager);
 		
 		_tintStrength = [_defaults objectForKey:@"tintStrength"] ? [_defaults floatForKey:@"tintStrength"] : 0;
 		_tintHue      = [_defaults objectForKey:@"tintHue"]      ? [_defaults floatForKey:@"tintHue"]      : 0;
+		_grainOpacity = [_defaults objectForKey:@"grainOpactiy"] ? [_defaults floatForKey:@"grainOpactiy"] : 0.5;
+		_saturation   = [_defaults objectForKey:@"saturation"]   ? [_defaults floatForKey:@"saturation"]   : 1;
+		
+		_angleFieldWeight = [_defaults objectForKey:@"fieldWeight"] ? [_defaults floatForKey:@"fieldWeight"] : 1;
+		_angleFieldScale  = [_defaults objectForKey:@"fieldScale"]  ? [_defaults floatForKey:@"fieldScale"]  : 1;
+		_angleFieldOffset = [_defaults objectForKey:@"fieldOffset"] ? [_defaults floatForKey:@"fieldOffset"] : 0;
+		
 	}
 	return self;
 }
@@ -34,37 +41,78 @@ SINGLETON_IMPL(SettingsManager);
 - (void) setLineCount:(float)lineCount {
 	_lineCount = lineCount;
 	FIX_RANGE(_lineCount);
+	[_defaults setFloat:_lineCount forKey:@"lineCount"];
 	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingLineCountChangedTo:_lineCount actual:[self actualLineCount]];
 }
 
 - (void) setLineWidth:(float)lineWidth {
 	_lineWidth = lineWidth;
 	FIX_RANGE(_lineWidth);
+	[_defaults setFloat:_lineWidth forKey:@"lineWidth"];
 	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingLineWidthChangedTo:_lineWidth actual:[self actualLineWidth]];
 }
 
 - (void) setLineSpeed:(float)lineSpeed {
 	_lineSpeed = lineSpeed;
 	FIX_RANGE(_lineSpeed);
+	[_defaults setFloat:_lineSpeed forKey:@"lineSpeed"];
 	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingLineSpeedChangedTo:_lineSpeed actual:[self actualLineSpeed]];
 }
 
 - (void) setLineAlpha:(float)lineAlpha {
 	_lineAlpha = lineAlpha;
 	FIX_RANGE(_lineAlpha);
+	[_defaults setFloat:_lineAlpha forKey:@"lineAlpha"];
 	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingLineAlphaChangedTo:_lineAlpha actual:[self actualLineAlpha]];
 }
 
 - (void) setTintHue:(float)tintHue {
 	_tintHue = tintHue;
 	FIX_RANGE(_tintHue);
+	[_defaults setFloat:_tintHue forKey:@"tintHue"];
 	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingTintHueChangedTo:_tintHue actual:_tintHue];
 }
 
 - (void) setTintStrength:(float)tintStrength {
 	_tintStrength = tintStrength;
 	FIX_RANGE(_tintStrength);
+	[_defaults setFloat:_tintStrength forKey:@"tintStrength"];
 	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingTintStrengthChangedTo:_tintStrength actual:_tintStrength];
+}
+
+- (void) setGrainOpacity:(float)grainOpacity {
+	_grainOpacity = grainOpacity;
+	FIX_RANGE(_grainOpacity);
+	[_defaults setFloat:_grainOpacity forKey:@"grainOpactiy"];
+	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingGrainOpacityChangedTo:_grainOpacity actual:_grainOpacity];
+}
+
+- (void) setSaturation:(float)saturation {
+	_saturation = saturation;
+	FIX_RANGE(_saturation);
+	[_defaults setFloat:_saturation forKey:@"saturation"];
+	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingSaturationChangedTo:_saturation actual:_saturation];
+}
+
+- (void) setAngleFieldOffset:(float)angleFieldOffset {
+	_angleFieldOffset = angleFieldOffset;
+	FIX_RANGE(_angleFieldOffset);
+	[_defaults setFloat:_angleFieldOffset forKey:@"fieldOffset"];
+	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingAngleFieldOffsetChangedTo:_angleFieldOffset actual:[self actualAngleFieldOffset]];
+}
+
+- (void) setAngleFieldWeight:(float)angleFieldWeight {
+	_angleFieldWeight = angleFieldWeight;
+	FIX_RANGE(_angleFieldWeight);
+	[_defaults setFloat:_angleFieldWeight forKey:@"fieldWeight"];
+	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingAngleFieldWeightChangedTo:_angleFieldWeight actual:_angleFieldWeight];
+}
+
+- (void) setAngleFieldScale:(float)angleFieldScale {
+	_angleFieldScale = angleFieldScale;
+	FIX_RANGE(_angleFieldScale);
+	[_defaults setFloat:_angleFieldScale forKey:@"fieldScale"];
+	for (id<SettingsManagerDelegate> delegate in _delegates) [delegate settingAngleFieldScaleChangedTo:_angleFieldScale actual:_angleFieldScale];
 }
 
 
@@ -76,8 +124,14 @@ SINGLETON_IMPL(SettingsManager);
 		[delegate settingLineAlphaChangedTo:_lineAlpha actual:[self actualLineAlpha]];
 		[delegate settingLineSpeedChangedTo:_lineSpeed actual:[self actualLineSpeed]];
 
+		[delegate settingAngleFieldOffsetChangedTo:_angleFieldOffset actual:[self actualAngleFieldOffset]];
+		[delegate settingAngleFieldScaleChangedTo:_angleFieldScale   actual:_angleFieldScale];
+		[delegate settingAngleFieldWeightChangedTo:_angleFieldWeight actual:_angleFieldWeight];
+		
 		[delegate settingTintStrengthChangedTo:_tintStrength actual:_tintStrength];
 		[delegate settingTintHueChangedTo:_tintHue actual:_tintHue];
+		[delegate settingGrainOpacityChangedTo:_grainOpacity actual:_grainOpacity];
+		[delegate settingSaturationChangedTo:_saturation actual:_saturation];
 	}
 }
 
@@ -116,5 +170,8 @@ SINGLETON_IMPL(SettingsManager);
 	return (LINE_SPEED_MIN + (LINE_SPEED_MAX - LINE_SPEED_MIN) * _lineSpeed);
 }
 
+- (float) actualAngleFieldOffset {
+	return _angleFieldOffset * 2 * M_PI;
+}
 
 @end

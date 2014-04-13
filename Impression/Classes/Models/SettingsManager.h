@@ -16,6 +16,7 @@
 
 - (void) settingAngleFieldScaleChangedTo:(float)slider actual:(float)scale;
 - (void) settingAngleFieldWeightChangedTo:(float)slider actual:(float)weight;
+- (void) settingAngleFieldOffsetChangedTo:(float)slider actual:(float)offset;
 
 - (void) settingTintStrengthChangedTo:(float)slider actual:(float)strength;
 - (void) settingTintHueChangedTo:(float)slider actual:(float)hue;
@@ -36,6 +37,7 @@
 @property (nonatomic, assign) float lineAlpha;
 @property (nonatomic, assign) float angleFieldScale;
 @property (nonatomic, assign) float angleFieldWeight;
+@property (nonatomic, assign) float angleFieldOffset;
 @property (nonatomic, assign) float tintStrength;
 @property (nonatomic, assign) float tintHue;
 @property (nonatomic, assign) float grainOpacity;
