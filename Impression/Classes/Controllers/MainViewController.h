@@ -23,6 +23,12 @@
 	UIButton *_fieldSettingsButton;
 	UIButton *_colorSettingsButton;
 	
+	/* Menus */
+	UIView   *_lineSettingsMenu;
+	
+	/* Sliders */
+	UISlider *_lineWidthSlider;
+	
 	/* Dimensions */
 	CGRect _lineSettingButtonFrame[2];
 	CGRect _fieldSettingButtonFrame[2];

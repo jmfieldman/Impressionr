@@ -386,9 +386,9 @@
 	NSTimeInterval curr = CFAbsoluteTimeGetCurrent();
 	NSTimeInterval diff = curr - _lastFPSCheck;
 	
-	if (diff > 1) {
+	if (diff > 3) {
 		_lastFPSCheck = curr;
-		NSLog(@"FPS: %d", _frameCount);
+		NSLog(@"FPS: %f", (float)(_frameCount / diff));
 		_frameCount = 0;
 	}
 }

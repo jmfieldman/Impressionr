@@ -80,39 +80,58 @@ SINGLETON_IMPL(MainViewController);
 		UIPinchGestureRecognizer *twoPinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTwoPinch:)];
 		[_gesturePad addGestureRecognizer:twoPinch];
 		#endif
-						
-		/* Register for settings */
-		[[SettingsManager sharedInstance] addDelegate:self];
-		
+			
 		/* ----- UI Layout ------ */
 		
-		float cornerRadius = 6;
+		float cornerRadius = 8;
 		float settingButtonBGAlpha = 0.75;
 		float settingButtonBGWhite = 0.1;
 				
 		/* Create settings buttons */
+
 		_lineSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_lineSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_lineSettingsButton.layer.cornerRadius = cornerRadius;
 		[_lineSettingsButton setImage:[UIImage imageNamed:@"line_icon"] forState:UIControlStateNormal];
-		_lineSettingsButton.imageView.layer.cornerRadius = 4;
+		_lineSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_lineSettingsButton];
 		
 		_fieldSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_fieldSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_fieldSettingsButton.layer.cornerRadius = cornerRadius;
 		[_fieldSettingsButton setImage:[UIImage imageNamed:@"wave_icon"] forState:UIControlStateNormal];
-		_fieldSettingsButton.imageView.layer.cornerRadius = 4;
+		_fieldSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_fieldSettingsButton];
 		
 		_colorSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_colorSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_colorSettingsButton.layer.cornerRadius = cornerRadius;
 		[_colorSettingsButton setImage:[UIImage imageNamed:@"color_icon"] forState:UIControlStateNormal];
-		_colorSettingsButton.imageView.layer.cornerRadius = 4;
+		_colorSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_colorSettingsButton];
 		
+		/* Menus */
+		
+		_lineSettingsMenu = [[UIView alloc] initWithFrame:self.view.bounds];
+		_lineSettingsMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_lineSettingsMenu.layer.cornerRadius = cornerRadius;
+		[self.view addSubview:_lineSettingsMenu];
+		
+		/* Sliders */
+
+		_lineWidthSlider = [[UISlider alloc] initWithFrame:CGRectMake(10, 10, 180, 40)];
+		_lineWidthSlider.continuous = YES;
+		[_lineWidthSlider addTarget:self action:@selector(sliderLineWidth:) forControlEvents:UIControlEventValueChanged];
+		[_lineWidthSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_lineWidthSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_lineWidthSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_lineSettingsMenu addSubview:_lineWidthSlider];
+		
+		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
+		
+		/* Register for settings */
+		[[SettingsManager sharedInstance] addDelegate:self];
 	}
 	return self;
 }
@@ -120,8 +139,9 @@ SINGLETON_IMPL(MainViewController);
 - (void) setControlFrames:(UIInterfaceOrientation)orientation {
 	//BOOL portrait = (orientation == UIInterfaceOrientationPortrait);
 	
-	float settingButtonSize = 50;
-	float settingButtonOffset = settingButtonSize + 5;
+	float settingButtonSize = 48;
+	float universalPadding = 5;
+	float settingButtonOffset = settingButtonSize + universalPadding;
 	float settingButtonGroupX = self.view.bounds.size.width - settingButtonOffset * 3;
 	float settingButtonY = self.view.bounds.size.height - settingButtonOffset;
 	
@@ -133,6 +153,15 @@ SINGLETON_IMPL(MainViewController);
 	_lineSettingsButton.frame = CGRectMake(settingButtonGroupX, settingButtonY, settingButtonSize, settingButtonSize);
 	_fieldSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*1, settingButtonY, settingButtonSize, settingButtonSize);
 	_colorSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*2, settingButtonY, settingButtonSize, settingButtonSize);
+	
+	
+	float menuWidth = 200;
+	float menuX = self.view.bounds.size.width - menuWidth - universalPadding;
+	
+	float lineSettingsMenuHeight = 200;
+	float lineSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - lineSettingsMenuHeight;
+	
+	_lineSettingsMenu.frame = CGRectMake(menuX, lineSettingsMenuY, menuWidth, lineSettingsMenuHeight);
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
@@ -181,12 +210,18 @@ SINGLETON_IMPL(MainViewController);
 	pinch.scale = 1;
 }
 
+#pragma mark Slider Touch handlers
+
+- (void) sliderLineWidth:(UISlider*)sender {
+	[SettingsManager sharedInstance].lineWidth = sender.value;
+}
 
 #pragma mark SettingsManagerDelegate methods
 
 
 - (void) settingLineWidthChangedTo:(float)slider actual:(float)width {
 	_paintView.lineWidth = width;
+	_lineWidthSlider.value = slider;
 }
 
 - (void) settingLineSpeedChangedTo:(float)slider actual:(float)speed {
