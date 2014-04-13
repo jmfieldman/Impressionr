@@ -15,6 +15,18 @@
 		35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3A018FADC0900B023F4 /* MuseoSansRounded-300.otf */; };
 		35C9F3A418FADC0900B023F4 /* MuseoSansRounded-500.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3A118FADC0900B023F4 /* MuseoSansRounded-500.otf */; };
 		35C9F3A518FADC0900B023F4 /* MuseoSansRounded-700.otf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3A218FADC0900B023F4 /* MuseoSansRounded-700.otf */; };
+		35C9F3A818FADC6B00B023F4 /* PreloadedSFX.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F3A718FADC6B00B023F4 /* PreloadedSFX.m */; };
+		35C9F3B318FADCC600B023F4 /* button_cancel.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3AA18FADCC600B023F4 /* button_cancel.caf */; };
+		35C9F3B418FADCC600B023F4 /* button_down.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3AB18FADCC600B023F4 /* button_down.caf */; };
+		35C9F3B518FADCC600B023F4 /* button_up.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3AC18FADCC600B023F4 /* button_up.caf */; };
+		35C9F3B618FADCC600B023F4 /* ching.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3AD18FADCC600B023F4 /* ching.caf */; };
+		35C9F3B718FADCC600B023F4 /* drag1.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3AE18FADCC600B023F4 /* drag1.caf */; };
+		35C9F3B818FADCC600B023F4 /* drag2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3AF18FADCC600B023F4 /* drag2.caf */; };
+		35C9F3B918FADCC600B023F4 /* drop.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3B018FADCC600B023F4 /* drop.caf */; };
+		35C9F3BA18FADCC600B023F4 /* swoosh.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3B118FADCC600B023F4 /* swoosh.caf */; };
+		35C9F3BB18FADCC600B023F4 /* swoosh2.caf in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3B218FADCC600B023F4 /* swoosh2.caf */; };
+		35C9F3BE18FADCE100B023F4 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C9F3BC18FADCE100B023F4 /* AVFoundation.framework */; };
+		35C9F3C118FADCEE00B023F4 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35C9F3C018FADCEE00B023F4 /* SystemConfiguration.framework */; };
 		35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7918F5927D0054C376 /* Foundation.framework */; };
 		35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */; };
 		35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7D18F5927D0054C376 /* UIKit.framework */; };
@@ -62,6 +74,20 @@
 		35C9F3A018FADC0900B023F4 /* MuseoSansRounded-300.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MuseoSansRounded-300.otf"; sourceTree = "<group>"; };
 		35C9F3A118FADC0900B023F4 /* MuseoSansRounded-500.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MuseoSansRounded-500.otf"; sourceTree = "<group>"; };
 		35C9F3A218FADC0900B023F4 /* MuseoSansRounded-700.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MuseoSansRounded-700.otf"; sourceTree = "<group>"; };
+		35C9F3A618FADC6B00B023F4 /* PreloadedSFX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreloadedSFX.h; sourceTree = "<group>"; };
+		35C9F3A718FADC6B00B023F4 /* PreloadedSFX.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreloadedSFX.m; sourceTree = "<group>"; };
+		35C9F3AA18FADCC600B023F4 /* button_cancel.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button_cancel.caf; sourceTree = "<group>"; };
+		35C9F3AB18FADCC600B023F4 /* button_down.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button_down.caf; sourceTree = "<group>"; };
+		35C9F3AC18FADCC600B023F4 /* button_up.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = button_up.caf; sourceTree = "<group>"; };
+		35C9F3AD18FADCC600B023F4 /* ching.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = ching.caf; sourceTree = "<group>"; };
+		35C9F3AE18FADCC600B023F4 /* drag1.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = drag1.caf; sourceTree = "<group>"; };
+		35C9F3AF18FADCC600B023F4 /* drag2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = drag2.caf; sourceTree = "<group>"; };
+		35C9F3B018FADCC600B023F4 /* drop.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = drop.caf; sourceTree = "<group>"; };
+		35C9F3B118FADCC600B023F4 /* swoosh.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swoosh.caf; sourceTree = "<group>"; };
+		35C9F3B218FADCC600B023F4 /* swoosh2.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = swoosh2.caf; sourceTree = "<group>"; };
+		35C9F3BC18FADCE100B023F4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		35C9F3BD18FADCE100B023F4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		35C9F3C018FADCEE00B023F4 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		35D6FE7618F5927D0054C376 /* Impression.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Impression.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D6FE7918F5927D0054C376 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -106,6 +132,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C9F3C118FADCEE00B023F4 /* SystemConfiguration.framework in Frameworks */,
+				35C9F3BE18FADCE100B023F4 /* AVFoundation.framework in Frameworks */,
 				35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */,
 				35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */,
 				35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */,
@@ -135,6 +163,22 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		35C9F3A918FADCC600B023F4 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				35C9F3AA18FADCC600B023F4 /* button_cancel.caf */,
+				35C9F3AB18FADCC600B023F4 /* button_down.caf */,
+				35C9F3AC18FADCC600B023F4 /* button_up.caf */,
+				35C9F3AD18FADCC600B023F4 /* ching.caf */,
+				35C9F3AE18FADCC600B023F4 /* drag1.caf */,
+				35C9F3AF18FADCC600B023F4 /* drag2.caf */,
+				35C9F3B018FADCC600B023F4 /* drop.caf */,
+				35C9F3B118FADCC600B023F4 /* swoosh.caf */,
+				35C9F3B218FADCC600B023F4 /* swoosh2.caf */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
 		35D6FE6D18F5927D0054C376 = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +201,9 @@
 		35D6FE7818F5927D0054C376 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35C9F3C018FADCEE00B023F4 /* SystemConfiguration.framework */,
+				35C9F3BC18FADCE100B023F4 /* AVFoundation.framework */,
+				35C9F3BD18FADCE100B023F4 /* Security.framework */,
 				35D6FE7918F5927D0054C376 /* Foundation.framework */,
 				35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */,
 				35D6FE7D18F5927D0054C376 /* UIKit.framework */,
@@ -180,6 +227,7 @@
 		35D6FE8018F5927D0054C376 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				35C9F3A918FADCC600B023F4 /* Audio */,
 				35C9F39F18FADC0900B023F4 /* Fonts */,
 				35D6FEC518F595CB0054C376 /* Images */,
 				35D6FE8118F5927D0054C376 /* Impression-Info.plist */,
@@ -231,6 +279,8 @@
 		35D6FEAA18F592EB0054C376 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				35C9F3A618FADC6B00B023F4 /* PreloadedSFX.h */,
+				35C9F3A718FADC6B00B023F4 /* PreloadedSFX.m */,
 				35C9F39C18FADBFC00B023F4 /* ButtonEffects.h */,
 				35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */,
 				35D6FEAB18F592EB0054C376 /* EXDebug.h */,
@@ -374,12 +424,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C9F3BB18FADCC600B023F4 /* swoosh2.caf in Resources */,
 				35D6FE8418F5927D0054C376 /* InfoPlist.strings in Resources */,
 				35446EFF18F9994B00E75A9D /* grain.png in Resources */,
+				35C9F3B518FADCC600B023F4 /* button_up.caf in Resources */,
+				35C9F3B918FADCC600B023F4 /* drop.caf in Resources */,
+				35C9F3B418FADCC600B023F4 /* button_down.caf in Resources */,
+				35C9F3BA18FADCC600B023F4 /* swoosh.caf in Resources */,
+				35C9F3B318FADCC600B023F4 /* button_cancel.caf in Resources */,
 				35C9F3A518FADC0900B023F4 /* MuseoSansRounded-700.otf in Resources */,
+				35C9F3B618FADCC600B023F4 /* ching.caf in Resources */,
+				35C9F3B818FADCC600B023F4 /* drag2.caf in Resources */,
 				35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */,
 				35C9F3A418FADC0900B023F4 /* MuseoSansRounded-500.otf in Resources */,
 				35446F0018F9994B00E75A9D /* grain@2x.png in Resources */,
+				35C9F3B718FADCC600B023F4 /* drag1.caf in Resources */,
 				35D6FE8C18F5927D0054C376 /* Images.xcassets in Resources */,
 				35D6FEC918F595CB0054C376 /* test_image1.jpg in Resources */,
 			);
@@ -410,6 +469,7 @@
 				35D6FEC418F594370054C376 /* MainViewController.m in Sources */,
 				35D6FEBD18F592EB0054C376 /* MathHelper.m in Sources */,
 				35D6FEBB18F592EB0054C376 /* EXDebug.m in Sources */,
+				35C9F3A818FADC6B00B023F4 /* PreloadedSFX.m in Sources */,
 				35D6FEBF18F592EB0054C376 /* PersistentDictionary.m in Sources */,
 				35D6FE8618F5927D0054C376 /* main.m in Sources */,
 				35C9F39818F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m in Sources */,
