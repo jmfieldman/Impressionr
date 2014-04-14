@@ -190,7 +190,7 @@
 
 - (UIImage*)renderedImage {
 	
-	NSLog(@"making rendered image %d %d", _originalW, _originalH);
+	//NSLog(@"making rendered image %d %d", _originalW, _originalH);
 	
 	UIGraphicsBeginImageContextWithOptions(CGSizeMake(_originalW, _originalH), YES, 0.0);
 	

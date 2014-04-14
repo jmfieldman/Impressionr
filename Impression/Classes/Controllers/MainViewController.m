@@ -679,18 +679,21 @@ SINGLETON_IMPL(MainViewController);
 		
 		menuIndex++;
 		
-		_saveToInstagram = [UIButton buttonWithType:UIButtonTypeCustom];
-		_saveToInstagram.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
-		_saveToInstagram.backgroundColor = [UIColor whiteColor];
-		_saveToInstagram.layer.cornerRadius = sliderH / 2;
-		[_saveToInstagram setTitle:@"Instagram" forState:UIControlStateNormal];
-		_saveToInstagram.titleLabel.font = infoFont;
-		[_saveToInstagram setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		[_saveToInstagram addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
-		[_saveMenu addSubview:_saveToInstagram];
-		_saveMenuHeight += sliderYOffset;
-		
-		menuIndex++;
+		NSURL *instagramURL = [NSURL URLWithString:@"instagram://app"];
+		if ([[UIApplication sharedApplication] canOpenURL:instagramURL]) {
+			_saveToInstagram = [UIButton buttonWithType:UIButtonTypeCustom];
+			_saveToInstagram.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+			_saveToInstagram.backgroundColor = [UIColor whiteColor];
+			_saveToInstagram.layer.cornerRadius = sliderH / 2;
+			[_saveToInstagram setTitle:@"Instagram" forState:UIControlStateNormal];
+			_saveToInstagram.titleLabel.font = infoFont;
+			[_saveToInstagram setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+			[_saveToInstagram addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+			[_saveMenu addSubview:_saveToInstagram];
+			_saveMenuHeight += sliderYOffset;
+			
+			menuIndex++;
+		}
 		
 		_saveToOther = [UIButton buttonWithType:UIButtonTypeCustom];
 		_saveToOther.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
