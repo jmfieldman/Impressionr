@@ -24,6 +24,7 @@
 	uint8_t      *_originalMemory;
 	NSInteger     _originalW;
 	NSInteger     _originalH;
+	UIImageView  *_originalImageView;
 	
 	/* Lines */
 	NSMutableArray *_lines;
@@ -63,6 +64,9 @@
 
 /* The time between repaints */
 @property (nonatomic, assign) float paintingInterval;
+
+/* Show the original overlay? */
+@property (nonatomic, assign) BOOL overlayOriginal;
 
 /* --- Noise --- */
 

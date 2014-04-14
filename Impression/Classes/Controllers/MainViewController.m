@@ -143,6 +143,15 @@ SINGLETON_IMPL(MainViewController);
 		_playPauseButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_playPauseButton];
 		
+		_originalButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_originalButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_originalButton.layer.cornerRadius = cornerRadius;
+		[_originalButton setImage:[UIImage imageNamed:@"original"] forState:UIControlStateNormal];
+		[_originalButton addTarget:self action:@selector(pressedOriginalButton:) forControlEvents:UIControlEventTouchDown];
+		[_originalButton addTarget:self action:@selector(releasedOriginalButton:) forControlEvents:UIControlEventTouchUpInside|UIControlEventTouchUpOutside|UIControlEventTouchCancel];
+		_originalButton.imageView.layer.cornerRadius = 3;
+		[self.view addSubview:_originalButton];
+		
 		/* Menus */
 		float menuWidth = 200;
 		float universalPadding = 8;
@@ -532,11 +541,12 @@ SINGLETON_IMPL(MainViewController);
 	_fpsLabelContainer.frame = CGRectMake(self.view.bounds.size.width - _fpsLabelContainer.bounds.size.width - universalPadding, _fpsLabelContainer.frame.origin.y, _fpsLabelContainer.bounds.size.width, _fpsLabelContainer.bounds.size.height);
 	
 	/* Control buttons */
-	_lineSettingsButton.frame = CGRectMake(settingButtonGroupX, settingButtonY, settingButtonSize, settingButtonSize);
+	_lineSettingsButton.frame  = CGRectMake(settingButtonGroupX, settingButtonY, settingButtonSize, settingButtonSize);
 	_fieldSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*1, settingButtonY, settingButtonSize, settingButtonSize);
 	_colorSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*2, settingButtonY, settingButtonSize, settingButtonSize);
 	
 	_playPauseButton.frame = CGRectMake(universalPadding, settingButtonY, settingButtonSize, settingButtonSize);
+	_originalButton.frame  = CGRectMake(universalPadding + settingButtonOffset*1, settingButtonY, settingButtonSize, settingButtonSize);
 	
 	float menuWidth = 200;
 	float menuX = self.view.bounds.size.width - menuWidth - universalPadding;
@@ -651,6 +661,14 @@ SINGLETON_IMPL(MainViewController);
 	_paintView.painting = !_paintView.painting;
 	
 	[_playPauseButton setImage:[UIImage imageNamed:_paintView.painting ? @"pause" : @"play"] forState:UIControlStateNormal];
+}
+
+- (void) pressedOriginalButton:(id)sender {
+	_paintView.overlayOriginal = YES;
+}
+
+- (void) releasedOriginalButton:(id)sender {
+	_paintView.overlayOriginal = NO;
 }
 
 #pragma mark UIGestureRecognizerDelegate methods

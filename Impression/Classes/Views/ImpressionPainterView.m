@@ -64,6 +64,11 @@
 		_grainView.alpha = _colorGrain;
 		[self addSubview:_grainView];
 		
+		/* Add original image overlay */
+		_originalImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+		_originalImageView.alpha = 0;
+		[self addSubview:_originalImageView];
+		
 		/* Clip grain to my dimensions */
 		self.clipsToBounds = YES;
 		
@@ -99,6 +104,7 @@
 - (void) setImage:(UIImage *)image {
 	_image = image;
 	_originalImageToDraw = image;
+	_originalImageView.image = image;
 	
 	/* Destroy existing bitmap context */
 	if (_bitmapContext) {
@@ -155,8 +161,22 @@
 								   display_width,
 								   display_height);
 	
+	/* Adjust original image view overlay */
+	_originalImageView.frame = _imageDrawingRect;
+	
 	/* Adjust grain */
 	_grainView.frame = _imageDrawingRect;
+}
+
+- (void) setOverlayOriginal:(BOOL)overlayOriginal {
+	_overlayOriginal = overlayOriginal;
+	
+	[UIView animateWithDuration:0.25
+						  delay:0
+						options:UIViewAnimationOptionCurveEaseInOut
+					 animations:^{
+						 _originalImageView.alpha = _overlayOriginal ? 1 : 0;
+					 } completion:nil];
 }
 
 - (void) fillNoiseGridFromX1:(int)x1 y1:(int)y1 x2:(int)x2 y2:(int)y2 depth:(int)depth {
