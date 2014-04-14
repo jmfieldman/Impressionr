@@ -795,7 +795,7 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) settingAngleFieldWeightChangedTo:(float)slider actual:(float)weight {
-	_paintView.lineAngleFieldWeight = slider; NSLog(@"FUCK: %f", slider);
+	_paintView.lineAngleFieldWeight = slider;
 	_fieldWeightSlider.value = slider;
 	_fieldWeightInfo.text = [NSString stringWithFormat:@"%d%%", (int)(weight * 100)];
 }
