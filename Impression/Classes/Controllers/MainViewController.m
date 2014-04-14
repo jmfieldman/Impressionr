@@ -566,7 +566,7 @@ SINGLETON_IMPL(MainViewController);
 			menuIndex++;
 		}
 		
-		if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+		if (0 && [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
 			_loadFromRoll = [UIButton buttonWithType:UIButtonTypeCustom];
 			_loadFromRoll.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
 			_loadFromRoll.backgroundColor = [UIColor whiteColor];
@@ -600,7 +600,7 @@ SINGLETON_IMPL(MainViewController);
 			_loadFromCamera.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
 			_loadFromCamera.backgroundColor = [UIColor whiteColor];
 			_loadFromCamera.layer.cornerRadius = sliderH / 2;
-			[_loadFromCamera setTitle:@"Take New Photo" forState:UIControlStateNormal];
+			[_loadFromCamera setTitle:@"Take Camera Photo" forState:UIControlStateNormal];
 			_loadFromCamera.titleLabel.font = infoFont;
 			[_loadFromCamera setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 			[_loadFromCamera addTarget:self action:@selector(pressedLoadButton:) forControlEvents:UIControlEventTouchDown];
@@ -816,6 +816,10 @@ SINGLETON_IMPL(MainViewController);
 		
 	} else {
 		/* Clipboard */
+		UIImage *clipped = [UIPasteboard generalPasteboard].image;
+		if (clipped) {
+			_paintView.image = [self normalizedImage:clipped];
+		}
 	}
 }
 

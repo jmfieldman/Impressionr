@@ -108,6 +108,12 @@
 	_clearCount = 4;
 	
 	NSLog(@"Setting image of size: %f %f", image.size.width, image.size.height);
+	int allowedImageWidth  = image.size.width;
+	int allowedImageHeight = image.size.height;
+	while (allowedImageHeight > _largestImageDimension || allowedImageWidth > _largestImageDimension) {
+		allowedImageWidth  /= 2;
+		allowedImageHeight /= 2;
+	}
 	
 	/* Destroy existing bitmap context */
 	if (_bitmapContext) {
@@ -120,8 +126,8 @@
 	}
 	
 	/* Create new one */
-	_bitmapMemory  = malloc(image.size.width * image.size.height * 4);
-	_bitmapContext = CGBitmapContextCreate(_bitmapMemory, image.size.width, image.size.height, 8, image.size.width * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGImageAlphaNoneSkipLast);
+	_bitmapMemory  = malloc(allowedImageWidth * allowedImageHeight * 4);
+	_bitmapContext = CGBitmapContextCreate(_bitmapMemory, allowedImageWidth, allowedImageHeight, 8, allowedImageWidth * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)kCGImageAlphaNoneSkipLast);
 	
 	/* Now create the memory chunk for the original memory */
 	if (_originalMemory) {
@@ -129,8 +135,8 @@
 	}
 	
 	/* Now save original image data into original memory */
-	_originalW = image.size.width;
-	_originalH = image.size.height;
+	_originalW = allowedImageWidth;
+	_originalH = allowedImageHeight;
 	_originalMemory = malloc(_originalW * _originalH * 4);
 	CGContextRef originalContext = CGBitmapContextCreate(_originalMemory, _originalW, _originalH, 8, _originalW * 4, CGColorSpaceCreateDeviceRGB(), (CGBitmapInfo)(kCGImageAlphaPremultipliedLast | kCGBitmapByteOrder32Big));
 	CGContextDrawImage(originalContext, CGRectMake(0, 0, _originalW, _originalH), _image.CGImage);
