@@ -97,18 +97,33 @@ SINGLETON_IMPL(MainViewController);
 		float settingButtonBGWhite = 0.1;
 		
 		/* FPS Display */
-		_fpsLabelContainer = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 60, 5, 60, 24)];
+		_fpsLabelContainer = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 100, 5, 100, 48)];
 		_fpsLabelContainer.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_fpsLabelContainer.layer.cornerRadius = cornerRadius;
 		[self.view addSubview:_fpsLabelContainer];
 		
-		_fpsLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, _fpsLabelContainer.bounds.size.width - 10, _fpsLabelContainer.bounds.size.height - 10)];
+		_fpsLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 17, _fpsLabelContainer.bounds.size.width - 10, _fpsLabelContainer.bounds.size.height - 10)];
 		_fpsLabel.backgroundColor = [UIColor clearColor];
 		_fpsLabel.textColor = [UIColor whiteColor];
 		_fpsLabel.font = [UIFont fontWithName:@"MuseoSansRounded-700" size:12];
 		_fpsLabel.textAlignment = NSTextAlignmentCenter;
 		[_fpsLabelContainer addSubview:_fpsLabel];
 		
+		UILabel *apptitle = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, _fpsLabelContainer.bounds.size.width - 10, 16)];
+		apptitle.backgroundColor = [UIColor clearColor];
+		apptitle.textColor = [UIColor whiteColor];
+		apptitle.font = [UIFont fontWithName:@"MuseoSansRounded-700" size:12];
+		apptitle.text = @"IMPRESSION";
+		apptitle.textAlignment = NSTextAlignmentCenter;
+		[_fpsLabelContainer addSubview:apptitle];
+		
+		UILabel *appauthor = [[UILabel alloc] initWithFrame:CGRectMake(5, 15, _fpsLabelContainer.bounds.size.width - 10, 16)];
+		appauthor.backgroundColor = [UIColor clearColor];
+		appauthor.textColor = [UIColor whiteColor];
+		appauthor.font = [UIFont fontWithName:@"MuseoSansRounded-300" size:7.25];
+		appauthor.text = @"BY JASON FIELDMAN";
+		appauthor.textAlignment = NSTextAlignmentCenter;
+		[_fpsLabelContainer addSubview:appauthor];
 		
 		/* Create settings buttons */
 
@@ -610,6 +625,87 @@ SINGLETON_IMPL(MainViewController);
 			menuIndex++;
 		}
 		
+		/* -- Save Settings -- */
+		
+		sliderY = 44;
+		sliderYOffset = sliderH + universalPadding + 3;
+		menuIndex = 0;
+		
+		UILabel *saveTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40)];
+		saveTitle.backgroundColor = [UIColor clearColor];
+		saveTitle.textColor = [UIColor whiteColor];
+		saveTitle.text = @"Save/Post To";
+		saveTitle.font = infoFont;
+		saveTitle.textAlignment = NSTextAlignmentCenter;
+		[_saveMenu addSubview:saveTitle];
+		_saveMenuHeight = sliderY;		
+		
+		_saveToAlbum = [UIButton buttonWithType:UIButtonTypeCustom];
+		_saveToAlbum.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_saveToAlbum.backgroundColor = [UIColor whiteColor];
+		_saveToAlbum.layer.cornerRadius = sliderH / 2;
+		[_saveToAlbum setTitle:@"Photo Album" forState:UIControlStateNormal];
+		_saveToAlbum.titleLabel.font = infoFont;
+		[_saveToAlbum setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_saveToAlbum addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_saveMenu addSubview:_saveToAlbum];
+		_saveMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		_saveToClip = [UIButton buttonWithType:UIButtonTypeCustom];
+		_saveToClip.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_saveToClip.backgroundColor = [UIColor whiteColor];
+		_saveToClip.layer.cornerRadius = sliderH / 2;
+		[_saveToClip setTitle:@"Clipboard" forState:UIControlStateNormal];
+		_saveToClip.titleLabel.font = infoFont;
+		[_saveToClip setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_saveToClip addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_saveMenu addSubview:_saveToClip];
+		_saveMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		_saveToFacebook = [UIButton buttonWithType:UIButtonTypeCustom];
+		_saveToFacebook.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_saveToFacebook.backgroundColor = [UIColor whiteColor];
+		_saveToFacebook.layer.cornerRadius = sliderH / 2;
+		[_saveToFacebook setTitle:@"Facebook" forState:UIControlStateNormal];
+		_saveToFacebook.titleLabel.font = infoFont;
+		[_saveToFacebook setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_saveToFacebook addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_saveMenu addSubview:_saveToFacebook];
+		_saveMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		_saveToInstagram = [UIButton buttonWithType:UIButtonTypeCustom];
+		_saveToInstagram.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_saveToInstagram.backgroundColor = [UIColor whiteColor];
+		_saveToInstagram.layer.cornerRadius = sliderH / 2;
+		[_saveToInstagram setTitle:@"Instagram" forState:UIControlStateNormal];
+		_saveToInstagram.titleLabel.font = infoFont;
+		[_saveToInstagram setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_saveToInstagram addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_saveMenu addSubview:_saveToInstagram];
+		_saveMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		_saveToOther = [UIButton buttonWithType:UIButtonTypeCustom];
+		_saveToOther.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_saveToOther.backgroundColor = [UIColor whiteColor];
+		_saveToOther.layer.cornerRadius = sliderH / 2;
+		[_saveToOther setTitle:@"Other" forState:UIControlStateNormal];
+		_saveToOther.titleLabel.font = infoFont;
+		[_saveToOther setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_saveToOther addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_saveMenu addSubview:_saveToOther];
+		_saveMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		
 		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
 		
@@ -822,6 +918,49 @@ SINGLETON_IMPL(MainViewController);
 			_paintView.image = [self normalizedImage:clipped];
 		}
 	}
+}
+
+- (void) pressedSaveButton:(UIButton*)sender {
+	[self popInView:sender];
+	[self hideCurrentMenu];
+	
+	if (sender == _saveToClip) {
+		[UIPasteboard generalPasteboard].image = _paintView.renderedImage;
+	} else if (sender == _saveToAlbum) {
+		UIImageWriteToSavedPhotosAlbum(_paintView.renderedImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+	} else if (sender == _saveToFacebook) {
+		SLComposeViewController *composer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+		[composer addImage:_paintView.renderedImage];
+		[composer setInitialText:@"Created with the Impression iOS app!"];
+		[self presentViewController:composer animated:YES completion:nil];
+	} else if (sender == _saveToInstagram) {
+		/* Create the file */
+		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+		NSString *imgFilePath = [paths[0] stringByAppendingPathComponent:@"upload.igo"];
+		NSData *imgData = UIImageJPEGRepresentation(_paintView.image, 0.9);
+		[imgData writeToFile:imgFilePath atomically:YES];
+		
+		static __strong UIDocumentInteractionController *documentInteractionController = nil;
+		documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:imgFilePath]];
+		documentInteractionController.UTI = @"com.instagram.exclusivegram";
+		//documentInteractionController.annotation = [NSDictionary dictionaryWithObject:@"Created with the Impression iOS app!" forKey:@"InstagramCaption"];
+		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
+	} else if (sender == _saveToOther) {
+		/* Create the file */
+		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+		NSString *imgFilePath = [paths[0] stringByAppendingPathComponent:@"upload.jpg"];
+		NSData *imgData = UIImageJPEGRepresentation(_paintView.image, 0.9);
+		[imgData writeToFile:imgFilePath atomically:YES];
+		
+		static __strong UIDocumentInteractionController *documentInteractionController = nil;
+		documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:imgFilePath]];
+		//documentInteractionController.annotation = [NSDictionary dictionaryWithObject:@"Created with the Impression iOS app!" forKey:@"InstagramCaption"];
+		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
+	}
+}
+
+- (void) image:(UIImage *)image didFinishSavingWithError:(NSError*)error contextInfo:(void *)contextInfo {
+	
 }
 
 #pragma mark UIImagePickerViewControllerDelegate methods

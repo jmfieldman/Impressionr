@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		35446EFF18F9994B00E75A9D /* grain.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446EFD18F9994B00E75A9D /* grain.png */; };
 		35446F0018F9994B00E75A9D /* grain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446EFE18F9994B00E75A9D /* grain@2x.png */; };
+		35446F0218FC384900E75A9D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35446F0118FC384900E75A9D /* Social.framework */; };
+		35446F0418FC385000E75A9D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35446F0318FC385000E75A9D /* StoreKit.framework */; };
 		35C9F39818F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */; };
 		35C9F39B18F9E04B00B023F4 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39A18F9E04B00B023F4 /* SettingsManager.m */; };
 		35C9F39E18FADBFC00B023F4 /* ButtonEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */; };
@@ -87,6 +89,8 @@
 /* Begin PBXFileReference section */
 		35446EFD18F9994B00E75A9D /* grain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grain.png; sourceTree = "<group>"; };
 		35446EFE18F9994B00E75A9D /* grain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grain@2x.png"; sourceTree = "<group>"; };
+		35446F0118FC384900E75A9D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		35446F0318FC385000E75A9D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		35C9F39618F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDirectionalPanGestureRecognizer.h; sourceTree = "<group>"; };
 		35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDirectionalPanGestureRecognizer.m; sourceTree = "<group>"; };
 		35C9F39918F9E04B00B023F4 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
@@ -176,6 +180,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35446F0418FC385000E75A9D /* StoreKit.framework in Frameworks */,
+				35446F0218FC384900E75A9D /* Social.framework in Frameworks */,
 				35C9F3C118FADCEE00B023F4 /* SystemConfiguration.framework in Frameworks */,
 				35C9F3BE18FADCE100B023F4 /* AVFoundation.framework in Frameworks */,
 				35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */,
@@ -245,6 +251,8 @@
 		35D6FE7818F5927D0054C376 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				35446F0318FC385000E75A9D /* StoreKit.framework */,
+				35446F0118FC384900E75A9D /* Social.framework */,
 				35C9F3C018FADCEE00B023F4 /* SystemConfiguration.framework */,
 				35C9F3BC18FADCE100B023F4 /* AVFoundation.framework */,
 				35C9F3BD18FADCE100B023F4 /* Security.framework */,
@@ -462,6 +470,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "Jason Fieldman";
 				TargetAttributes = {
+					35D6FE7518F5927D0054C376 = {
+						DevelopmentTeam = GGY9Q9R73R;
+					};
 					35D6FE9018F5927D0054C376 = {
 						TestTargetID = 35D6FE7518F5927D0054C376;
 					};
@@ -679,10 +690,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Impression/Impression-Prefix.pch";
 				INFOPLIST_FILE = "Impression/Impression-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -692,10 +706,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Impression/Impression-Prefix.pch";
 				INFOPLIST_FILE = "Impression/Impression-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

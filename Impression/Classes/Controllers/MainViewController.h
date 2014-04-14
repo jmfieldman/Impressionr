@@ -67,9 +67,10 @@
 	UIButton *_loadFromClip;
 	
 	UIButton *_saveToAlbum;
+	UIButton *_saveToClip;
 	UIButton *_saveToFacebook;
 	UIButton *_saveToInstagram;
-	UIButton *_saveToTwitter;
+	UIButton *_saveToOther;
 	
 	/* Info views */
 	UILabel  *_lineWidthInfo;

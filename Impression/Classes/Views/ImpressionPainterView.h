@@ -57,6 +57,9 @@
 /* The image that we are painting onto the view */
 @property (nonatomic, strong) UIImage *image;
 
+/* The currently rendered image */
+@property (nonatomic, readonly) UIImage *renderedImage;
+
 /* The scale for length properties based on the resolution of the image */
 @property (nonatomic, readonly) float imageDrawingScale;
 
