@@ -131,6 +131,7 @@ SINGLETON_IMPL(MainViewController);
 		_colorSettingsButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_colorSettingsButton.layer.cornerRadius = cornerRadius;
 		[_colorSettingsButton setImage:[UIImage imageNamed:@"color_icon"] forState:UIControlStateNormal];
+		[_colorSettingsButton addTarget:self action:@selector(pressedColorSettingsButton:) forControlEvents:UIControlEventTouchDown];
 		_colorSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_colorSettingsButton];
 		
@@ -149,6 +150,12 @@ SINGLETON_IMPL(MainViewController);
 		_fieldSettingsMenu.layer.cornerRadius = cornerRadius;
 		_fieldSettingsMenu.alpha = 0;
 		[self.view addSubview:_fieldSettingsMenu];
+		
+		_colorSettingsMenu = [[UIView alloc] initWithFrame:self.view.bounds];
+		_colorSettingsMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_colorSettingsMenu.layer.cornerRadius = cornerRadius;
+		_colorSettingsMenu.alpha = 0;
+		[self.view addSubview:_colorSettingsMenu];
 		
 		/* Sliders */
 		float labelH = 24;
@@ -369,6 +376,121 @@ SINGLETON_IMPL(MainViewController);
 		[_fieldResetButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 		[_fieldResetButton addTarget:self action:@selector(pressedSwirlReset:) forControlEvents:UIControlEventTouchDown];
 		[_fieldSettingsMenu addSubview:_fieldResetButton];
+				
+		/* -- Color Settings -- */
+		
+		menuIndex = 0;
+		
+		_colorHueInfo = [[UIView alloc] initWithFrame:CGRectMake(menuWidth - 70, labelY + (sliderYOffset * menuIndex) + 2, 60, labelH - 4)];
+		//_colorHueInfo = [[UIView alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_colorHueInfo.layer.borderWidth = 4;
+		_colorHueInfo.layer.borderColor = [UIColor whiteColor].CGColor;
+		_colorHueInfo.layer.cornerRadius = _colorHueInfo.frame.size.height / 2;
+		_colorHueInfo.backgroundColor = [UIColor clearColor];
+		[_colorSettingsMenu addSubview:_colorHueInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Tint Hue";
+			[_colorSettingsMenu addSubview:settingLabel];
+		}
+		
+		_colorHueSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_colorHueSlider.continuous = YES;
+		[_colorHueSlider addTarget:self action:@selector(sliderTintHue:) forControlEvents:UIControlEventValueChanged];
+		[_colorHueSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_colorHueSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_colorHueSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_colorSettingsMenu addSubview:_colorHueSlider];
+		
+		menuIndex++;
+		
+		_colorStrengthInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_colorStrengthInfo.backgroundColor = [UIColor clearColor];
+		_colorStrengthInfo.textColor = labelColor;
+		_colorStrengthInfo.textAlignment = NSTextAlignmentRight;
+		_colorStrengthInfo.font = infoFont;
+		[_colorSettingsMenu addSubview:_colorStrengthInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Tint Strength";
+			[_colorSettingsMenu addSubview:settingLabel];
+		}
+		
+		_colorStrengthSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_colorStrengthSlider.continuous = YES;
+		[_colorStrengthSlider addTarget:self action:@selector(sliderTintStrength:) forControlEvents:UIControlEventValueChanged];
+		[_colorStrengthSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_colorStrengthSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_colorStrengthSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_colorSettingsMenu addSubview:_colorStrengthSlider];
+		
+		menuIndex++;
+		
+		_colorSaturationInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_colorSaturationInfo.backgroundColor = [UIColor clearColor];
+		_colorSaturationInfo.textColor = labelColor;
+		_colorSaturationInfo.textAlignment = NSTextAlignmentRight;
+		_colorSaturationInfo.font = infoFont;
+		[_colorSettingsMenu addSubview:_colorSaturationInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Saturation";
+			[_colorSettingsMenu addSubview:settingLabel];
+		}
+		
+		_colorSaturationSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_colorSaturationSlider.continuous = YES;
+		[_colorSaturationSlider addTarget:self action:@selector(sliderSaturation:) forControlEvents:UIControlEventValueChanged];
+		[_colorSaturationSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_colorSaturationSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_colorSaturationSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_colorSettingsMenu addSubview:_colorSaturationSlider];
+		
+		menuIndex++;
+		
+		_colorGrainInfo = [[UILabel alloc] initWithFrame:CGRectMake(sliderX, labelY + (sliderYOffset * menuIndex), sliderW - 5, labelH)];
+		_colorGrainInfo.backgroundColor = [UIColor clearColor];
+		_colorGrainInfo.textColor = labelColor;
+		_colorGrainInfo.textAlignment = NSTextAlignmentRight;
+		_colorGrainInfo.font = infoFont;
+		[_colorSettingsMenu addSubview:_colorGrainInfo];
+		
+		{
+			UILabel *settingLabel = [[UILabel alloc] initWithFrame:CGRectMake(universalPadding + 5, labelY + (sliderYOffset * menuIndex), sliderW, labelH)];
+			settingLabel.backgroundColor = [UIColor clearColor];
+			settingLabel.textColor = labelColor;
+			settingLabel.textAlignment = NSTextAlignmentLeft;
+			settingLabel.font = infoFont;
+			settingLabel.text = @"Grain Opacity";
+			[_colorSettingsMenu addSubview:settingLabel];
+		}
+		
+		_colorGrainSlider = [[UISlider alloc] initWithFrame:CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex), sliderW, sliderH)];
+		_colorGrainSlider.continuous = YES;
+		[_colorGrainSlider addTarget:self action:@selector(sliderGrainOpacity:) forControlEvents:UIControlEventValueChanged];
+		[_colorGrainSlider setMinimumTrackImage:[[UIImage imageNamed:@"slider_track_min"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 9, 0, 0)] forState:UIControlStateNormal];
+		[_colorGrainSlider setMaximumTrackImage:[[UIImage imageNamed:@"slider_track_max"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 9)] forState:UIControlStateNormal];
+		[_colorGrainSlider setThumbImage:[UIImage imageNamed:@"slider_thumb"] forState:UIControlStateNormal];
+		[_colorSettingsMenu addSubview:_colorGrainSlider];
+		
+		menuIndex++;
+
+		
 		
 		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
@@ -414,10 +536,14 @@ SINGLETON_IMPL(MainViewController);
 	float lineSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - lineSettingsMenuHeight;
 	
 	float fieldSettingsMenuHeight = 260;
-	float fieldSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - lineSettingsMenuHeight;
+	float fieldSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - fieldSettingsMenuHeight;
+	
+	float colorSettingsMenuHeight = 260;
+	float colorSettingsMenuY      = self.view.bounds.size.height - universalPadding * 2 - settingButtonSize - colorSettingsMenuHeight;
 	
 	_lineSettingsMenu.frame  = CGRectMake(menuX, lineSettingsMenuY,  menuWidth, lineSettingsMenuHeight);
 	_fieldSettingsMenu.frame = CGRectMake(menuX, fieldSettingsMenuY, menuWidth, fieldSettingsMenuHeight);
+	_colorSettingsMenu.frame = CGRectMake(menuX, colorSettingsMenuY, menuWidth, colorSettingsMenuHeight);
 	
 	/* Adjust cancel button */
 	_cancelButton.frame = self.view.bounds;
@@ -502,6 +628,13 @@ SINGLETON_IMPL(MainViewController);
 	_currentlyDisplayedMenu = _fieldSettingsMenu;
 }
 
+- (void) pressedColorSettingsButton:(id)sender {
+	if (_currentlyDisplayedMenu == _colorSettingsMenu) return;
+	
+	[self performSelector:@selector(popInView:) withObject:_colorSettingsMenu afterDelay:[self hideCurrentMenu]];
+	_currentlyDisplayedMenu = _colorSettingsMenu;
+}
+
 #pragma mark UIGestureRecognizerDelegate methods
 
 - (void) handleOnePan:(UIDirectionalPanGestureRecognizer*)pan {
@@ -574,6 +707,24 @@ SINGLETON_IMPL(MainViewController);
 	[SettingsManager sharedInstance].angleFieldScale = sender.value;
 }
 
+- (void) sliderTintStrength:(UISlider*)sender {
+	[SettingsManager sharedInstance].tintStrength = sender.value;
+}
+
+- (void) sliderTintHue:(UISlider*)sender {
+	[SettingsManager sharedInstance].tintHue = sender.value;
+}
+
+- (void) sliderSaturation:(UISlider*)sender {
+	[SettingsManager sharedInstance].saturation = sender.value;
+}
+
+- (void) sliderGrainOpacity:(UISlider*)sender {
+	[SettingsManager sharedInstance].grainOpacity = sender.value;
+}
+
+
+
 #pragma mark SettingsManagerDelegate methods
 
 
@@ -621,18 +772,26 @@ SINGLETON_IMPL(MainViewController);
 
 - (void) settingTintStrengthChangedTo:(float)slider actual:(float)strength {
 	_paintView.colorTintStrength = strength;
+	_colorStrengthSlider.value = slider;
+	_colorStrengthInfo.text = [NSString stringWithFormat:@"%d%%", (int)(strength * 100)];
 }
 
 - (void) settingTintHueChangedTo:(float)slider actual:(float)hue {
 	_paintView.colorHue = hue;
+	_colorHueSlider.value = slider;
+	_colorHueInfo.backgroundColor = [UIColor colorWithHue:hue saturation:1 brightness:1 alpha:1];
 }
 
 - (void) settingSaturationChangedTo:(float)slider actual:(float)saturation {
 	_paintView.colorSaturation = saturation;
+	_colorSaturationSlider.value = slider;
+	_colorSaturationInfo.text = [NSString stringWithFormat:@"%d%%", (int)(saturation * 100)];
 }
 
 - (void) settingGrainOpacityChangedTo:(float)slider actual:(float)grain {
 	_paintView.colorGrain = grain;
+	_colorGrainSlider.value = slider;
+	_colorGrainInfo.text = [NSString stringWithFormat:@"%d%%", (int)(slider * 100)];
 }
 
 #pragma mark FPSDelegate methods

@@ -91,6 +91,11 @@
 	_lineCount = lineCount;
 }
 
+- (void) setColorGrain:(float)colorGrain {
+	_colorGrain = colorGrain;
+	_grainView.alpha = _colorGrain * 0.35;
+}
+
 - (void) setImage:(UIImage *)image {
 	_image = image;
 	_originalImageToDraw = image;

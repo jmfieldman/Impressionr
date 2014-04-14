@@ -34,6 +34,7 @@
 	UIView   *_currentlyDisplayedMenu;
 	UIView   *_lineSettingsMenu;
 	UIView   *_fieldSettingsMenu;
+	UIView   *_colorSettingsMenu;
 	
 	/* Sliders */
 	UISlider *_lineWidthSlider;
@@ -45,6 +46,11 @@
 	UISlider *_fieldOffsetSlider;
 	UISlider *_fieldScaleSlider;
 	UIButton *_fieldResetButton;
+	
+	UISlider *_colorStrengthSlider;
+	UISlider *_colorHueSlider;
+	UISlider *_colorSaturationSlider;
+	UISlider *_colorGrainSlider;
 		
 	/* Info views */
 	UILabel  *_lineWidthInfo;
@@ -56,6 +62,10 @@
 	UILabel  *_fieldOffsetInfo;
 	UILabel  *_fieldScaleInfo;
 	
+	UILabel  *_colorStrengthInfo;
+	UIView   *_colorHueInfo;
+	UILabel  *_colorSaturationInfo;
+	UILabel  *_colorGrainInfo;
 	
 	/* Dimensions */
 	CGRect _lineSettingButtonFrame[2];
