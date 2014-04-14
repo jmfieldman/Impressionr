@@ -405,6 +405,7 @@
 	[self trackFPS];
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
 	CGImageRef cacheImage = CGBitmapContextCreateImage(_bitmapContext);
 	CGContextDrawImage(context, _imageDrawingRect, cacheImage);
 	CGImageRelease(cacheImage);
