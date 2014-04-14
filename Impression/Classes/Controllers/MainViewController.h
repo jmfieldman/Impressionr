@@ -24,6 +24,8 @@
 	UIButton *_colorSettingsButton;
 	UIButton *_playPauseButton;
 	UIButton *_originalButton;
+	UIButton *_loadButton;
+	UIButton *_saveButton;
 	
 	/* But cancel button behind all UI */
 	UIButton *_cancelButton;

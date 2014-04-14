@@ -152,6 +152,22 @@ SINGLETON_IMPL(MainViewController);
 		_originalButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_originalButton];
 		
+		_loadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_loadButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_loadButton.layer.cornerRadius = cornerRadius;
+		[_loadButton setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
+		[_loadButton addTarget:self action:@selector(pressedOriginalButton:) forControlEvents:UIControlEventTouchDown];
+		_loadButton.imageView.layer.cornerRadius = 3;
+		[self.view addSubview:_loadButton];
+		
+		_saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_saveButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_saveButton.layer.cornerRadius = cornerRadius;
+		[_saveButton setImage:[UIImage imageNamed:@"save"] forState:UIControlStateNormal];
+		[_saveButton addTarget:self action:@selector(pressedOriginalButton:) forControlEvents:UIControlEventTouchDown];
+		_saveButton.imageView.layer.cornerRadius = 3;
+		[self.view addSubview:_saveButton];
+		
 		/* Menus */
 		float menuWidth = 200;
 		float universalPadding = 8;
@@ -547,6 +563,9 @@ SINGLETON_IMPL(MainViewController);
 	
 	_playPauseButton.frame = CGRectMake(universalPadding, settingButtonY, settingButtonSize, settingButtonSize);
 	_originalButton.frame  = CGRectMake(universalPadding + settingButtonOffset*1, settingButtonY, settingButtonSize, settingButtonSize);
+	
+	_loadButton.frame = CGRectMake(universalPadding, universalPadding, settingButtonSize, settingButtonSize);
+	_saveButton.frame = CGRectMake(universalPadding + settingButtonOffset*1, universalPadding, settingButtonSize, settingButtonSize);
 	
 	float menuWidth = 200;
 	float menuX = self.view.bounds.size.width - menuWidth - universalPadding;
