@@ -54,6 +54,7 @@ SINGLETON_IMPL(MainViewController);
 		_paintView.painting = YES;
 		_paintView.opaque = YES;
 		_paintView.userInteractionEnabled = NO;
+		_paintView.fpsDelegate = self;
 		[self.view addSubview:_paintView];
 		
 		#if GESTURES_ENABLED /* This was just a glorious disaster. */
@@ -82,7 +83,7 @@ SINGLETON_IMPL(MainViewController);
 		#endif
 				
 		/* ----- UI Layout ------ */
-		
+				
 		/* Cancel Button */
 		
 		_cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -93,7 +94,21 @@ SINGLETON_IMPL(MainViewController);
 		float cornerRadius = 8;
 		float settingButtonBGAlpha = 0.75;
 		float settingButtonBGWhite = 0.1;
-				
+		
+		/* FPS Display */
+		_fpsLabelContainer = [[UIView alloc] initWithFrame:CGRectMake(self.view.bounds.size.width - 60, 5, 60, 24)];
+		_fpsLabelContainer.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_fpsLabelContainer.layer.cornerRadius = cornerRadius;
+		[self.view addSubview:_fpsLabelContainer];
+		
+		_fpsLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, 5, _fpsLabelContainer.bounds.size.width - 10, _fpsLabelContainer.bounds.size.height - 10)];
+		_fpsLabel.backgroundColor = [UIColor clearColor];
+		_fpsLabel.textColor = [UIColor whiteColor];
+		_fpsLabel.font = [UIFont fontWithName:@"MuseoSansRounded-700" size:12];
+		_fpsLabel.textAlignment = NSTextAlignmentCenter;
+		[_fpsLabelContainer addSubview:_fpsLabel];
+		
+		
 		/* Create settings buttons */
 
 		_lineSettingsButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -364,6 +379,12 @@ SINGLETON_IMPL(MainViewController);
 	return self;
 }
 
+/* We don't want a status bar */
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+
 - (void) setControlFrames:(UIInterfaceOrientation)orientation {
 	//BOOL portrait = (orientation == UIInterfaceOrientationPortrait);
 	
@@ -376,6 +397,9 @@ SINGLETON_IMPL(MainViewController);
 	/* Painting view */
 	_paintView.frame = self.view.bounds;
 	[_paintView recalculateScaling];
+	
+	/* FPS */
+	_fpsLabelContainer.frame = CGRectMake(self.view.bounds.size.width - _fpsLabelContainer.bounds.size.width - universalPadding, _fpsLabelContainer.frame.origin.y, _fpsLabelContainer.bounds.size.width, _fpsLabelContainer.bounds.size.height);
 	
 	/* Control buttons */
 	_lineSettingsButton.frame = CGRectMake(settingButtonGroupX, settingButtonY, settingButtonSize, settingButtonSize);
@@ -609,6 +633,12 @@ SINGLETON_IMPL(MainViewController);
 
 - (void) settingGrainOpacityChangedTo:(float)slider actual:(float)grain {
 	_paintView.colorGrain = grain;
+}
+
+#pragma mark FPSDelegate methods
+
+- (void) newFPS:(int)fps {
+	_fpsLabel.text = [NSString stringWithFormat:@"%d FPS", fps];
 }
 
 

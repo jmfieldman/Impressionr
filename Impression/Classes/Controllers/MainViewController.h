@@ -11,7 +11,7 @@
 #import "UIDirectionalPanGestureRecognizer.h"
 #import "SettingsManager.h"
 
-@interface MainViewController : UIViewController <SettingsManagerDelegate> {
+@interface MainViewController : UIViewController <SettingsManagerDelegate, FPSDelegate> {
 	/* Painting view */
 	ImpressionPainterView *_paintView;
 	
@@ -25,6 +25,10 @@
 	
 	/* But cancel button behind all UI */
 	UIButton *_cancelButton;
+	
+	/* FPS Display */
+	UIView   *_fpsLabelContainer;
+	UILabel  *_fpsLabel;
 	
 	/* Menus */
 	UIView   *_currentlyDisplayedMenu;

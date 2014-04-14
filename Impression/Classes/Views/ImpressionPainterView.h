@@ -11,6 +11,11 @@
 
 #define NOISE_GRID_SIZE 5
 
+@protocol FPSDelegate <NSObject>
+- (void) newFPS:(int)fps;
+@end
+
+
 @interface ImpressionPainterView : UIView {
 	CGContextRef  _bitmapContext;
 	int8_t       *_bitmapMemory;
@@ -40,6 +45,9 @@
 	/* Draw down original image first */
 	UIImage       *_originalImageToDraw;
 }
+
+/* FPS Delegate */
+@property (nonatomic, weak) id<FPSDelegate> fpsDelegate;
 
 /* The image that we are painting onto the view */
 @property (nonatomic, strong) UIImage *image;
