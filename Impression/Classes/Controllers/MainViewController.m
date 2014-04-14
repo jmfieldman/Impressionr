@@ -156,7 +156,7 @@ SINGLETON_IMPL(MainViewController);
 		_loadButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_loadButton.layer.cornerRadius = cornerRadius;
 		[_loadButton setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
-		[_loadButton addTarget:self action:@selector(pressedOriginalButton:) forControlEvents:UIControlEventTouchDown];
+		[_loadButton addTarget:self action:@selector(pressedLoadMenuButton:) forControlEvents:UIControlEventTouchDown];
 		_loadButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_loadButton];
 		
@@ -164,7 +164,7 @@ SINGLETON_IMPL(MainViewController);
 		_saveButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
 		_saveButton.layer.cornerRadius = cornerRadius;
 		[_saveButton setImage:[UIImage imageNamed:@"save"] forState:UIControlStateNormal];
-		[_saveButton addTarget:self action:@selector(pressedOriginalButton:) forControlEvents:UIControlEventTouchDown];
+		[_saveButton addTarget:self action:@selector(pressedSaveMenuButton:) forControlEvents:UIControlEventTouchDown];
 		_saveButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_saveButton];
 		
@@ -189,6 +189,18 @@ SINGLETON_IMPL(MainViewController);
 		_colorSettingsMenu.layer.cornerRadius = cornerRadius;
 		_colorSettingsMenu.alpha = 0;
 		[self.view addSubview:_colorSettingsMenu];
+		
+		_loadMenu = [[UIView alloc] initWithFrame:self.view.bounds];
+		_loadMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_loadMenu.layer.cornerRadius = cornerRadius;
+		_loadMenu.alpha = 0;
+		[self.view addSubview:_loadMenu];
+
+		_saveMenu = [[UIView alloc] initWithFrame:self.view.bounds];
+		_saveMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_saveMenu.layer.cornerRadius = cornerRadius;
+		_saveMenu.alpha = 0;
+		[self.view addSubview:_saveMenu];
 		
 		/* Sliders */
 		float labelH = 24;
@@ -583,6 +595,12 @@ SINGLETON_IMPL(MainViewController);
 	_fieldSettingsMenu.frame = CGRectMake(menuX, fieldSettingsMenuY, menuWidth, fieldSettingsMenuHeight);
 	_colorSettingsMenu.frame = CGRectMake(menuX, colorSettingsMenuY, menuWidth, colorSettingsMenuHeight);
 	
+	float loadMenuHeight = 260;
+	float saveMenuHeight = 260;
+	
+	_loadMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, loadMenuHeight);
+	_saveMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, saveMenuHeight);
+	
 	/* Adjust cancel button */
 	_cancelButton.frame = self.view.bounds;
 }
@@ -674,6 +692,20 @@ SINGLETON_IMPL(MainViewController);
 	
 	[self performSelector:@selector(popInView:) withObject:_colorSettingsMenu afterDelay:[self hideCurrentMenu]];
 	_currentlyDisplayedMenu = _colorSettingsMenu;
+}
+
+- (void) pressedLoadMenuButton:(id)sender {
+	if (_currentlyDisplayedMenu == _loadMenu) { [self hideCurrentMenu]; return; }
+	
+	[self performSelector:@selector(popInView:) withObject:_loadMenu afterDelay:[self hideCurrentMenu]];
+	_currentlyDisplayedMenu = _loadMenu;
+}
+
+- (void) pressedSaveMenuButton:(id)sender {
+	if (_currentlyDisplayedMenu == _saveMenu) { [self hideCurrentMenu]; return; }
+	
+	[self performSelector:@selector(popInView:) withObject:_saveMenu afterDelay:[self hideCurrentMenu]];
+	_currentlyDisplayedMenu = _saveMenu;
 }
 
 - (void) pressedPlayPauseButton:(id)sender {

@@ -39,6 +39,8 @@
 	UIView   *_lineSettingsMenu;
 	UIView   *_fieldSettingsMenu;
 	UIView   *_colorSettingsMenu;
+	UIView   *_loadMenu;
+	UIView   *_saveMenu;
 	
 	/* Sliders */
 	UISlider *_lineWidthSlider;
@@ -56,6 +58,15 @@
 	UISlider *_colorSaturationSlider;
 	UISlider *_colorGrainSlider;
 		
+	UIButton *_loadFromAlbum;
+	UIButton *_loadFromCamera;
+	UIButton *_loadFromClip;
+	
+	UIButton *_saveToAlbum;
+	UIButton *_saveToFacebook;
+	UIButton *_saveToInstagram;
+	UIButton *_saveToTwitter;
+	
 	/* Info views */
 	UILabel  *_lineWidthInfo;
 	UILabel  *_lineCountInfo;
