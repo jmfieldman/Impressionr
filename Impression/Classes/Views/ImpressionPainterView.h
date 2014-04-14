@@ -45,10 +45,14 @@
 	
 	/* Draw down original image first */
 	UIImage       *_originalImageToDraw;
+	int            _clearCount;
 }
 
 /* FPS Delegate */
 @property (nonatomic, weak) id<FPSDelegate> fpsDelegate;
+
+/* Max file size */
+@property (nonatomic, assign) float largestImageDimension;
 
 /* The image that we are painting onto the view */
 @property (nonatomic, strong) UIImage *image;

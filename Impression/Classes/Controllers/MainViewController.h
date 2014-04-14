@@ -11,7 +11,7 @@
 #import "UIDirectionalPanGestureRecognizer.h"
 #import "SettingsManager.h"
 
-@interface MainViewController : UIViewController <SettingsManagerDelegate, FPSDelegate> {
+@interface MainViewController : UIViewController <SettingsManagerDelegate, FPSDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 	/* Painting view */
 	ImpressionPainterView *_paintView;
 	
@@ -42,6 +42,9 @@
 	UIView   *_loadMenu;
 	UIView   *_saveMenu;
 	
+	float     _loadMenuHeight;
+	float     _saveMenuHeight;
+	
 	/* Sliders */
 	UISlider *_lineWidthSlider;
 	UISlider *_lineCountSlider;
@@ -59,6 +62,7 @@
 	UISlider *_colorGrainSlider;
 		
 	UIButton *_loadFromAlbum;
+	UIButton *_loadFromRoll;
 	UIButton *_loadFromCamera;
 	UIButton *_loadFromClip;
 	

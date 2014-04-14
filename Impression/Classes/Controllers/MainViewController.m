@@ -50,11 +50,12 @@ SINGLETON_IMPL(MainViewController);
 		#endif
 		
 		_paintView = [[ImpressionPainterView alloc] initWithFrame:self.view.bounds];
+		_paintView.largestImageDimension = 2000;
 		_paintView.image = [UIImage imageNamed:@"test_image1.jpg"];
 		_paintView.painting = YES;
 		_paintView.opaque = YES;
 		_paintView.userInteractionEnabled = NO;
-		_paintView.fpsDelegate = self;
+		_paintView.fpsDelegate = self;		
 		[self.view addSubview:_paintView];
 		
 		#if GESTURES_ENABLED /* This was just a glorious disaster. */
@@ -535,7 +536,79 @@ SINGLETON_IMPL(MainViewController);
 		
 		menuIndex++;
 
+		/* -- Load Settings -- */
 		
+		sliderY = 44;
+		sliderYOffset = sliderH + universalPadding + 3;
+		menuIndex = 0;
+		
+		UILabel *loadTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40)];
+		loadTitle.backgroundColor = [UIColor clearColor];
+		loadTitle.textColor = [UIColor whiteColor];
+		loadTitle.text = @"Load From";
+		loadTitle.font = infoFont;
+		loadTitle.textAlignment = NSTextAlignmentCenter;
+		[_loadMenu addSubview:loadTitle];
+		_loadMenuHeight = sliderY;
+		
+		if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+			_loadFromAlbum = [UIButton buttonWithType:UIButtonTypeCustom];
+			_loadFromAlbum.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+			_loadFromAlbum.backgroundColor = [UIColor whiteColor];
+			_loadFromAlbum.layer.cornerRadius = sliderH / 2;
+			[_loadFromAlbum setTitle:@"Photo Album" forState:UIControlStateNormal];
+			_loadFromAlbum.titleLabel.font = infoFont;
+			[_loadFromAlbum setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+			[_loadFromAlbum addTarget:self action:@selector(pressedLoadButton:) forControlEvents:UIControlEventTouchDown];
+			[_loadMenu addSubview:_loadFromAlbum];
+			_loadMenuHeight += sliderYOffset;
+			
+			menuIndex++;
+		}
+		
+		if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+			_loadFromRoll = [UIButton buttonWithType:UIButtonTypeCustom];
+			_loadFromRoll.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+			_loadFromRoll.backgroundColor = [UIColor whiteColor];
+			_loadFromRoll.layer.cornerRadius = sliderH / 2;
+			[_loadFromRoll setTitle:@"Camera Roll" forState:UIControlStateNormal];
+			_loadFromRoll.titleLabel.font = infoFont;
+			[_loadFromRoll setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+			[_loadFromRoll addTarget:self action:@selector(pressedLoadButton:) forControlEvents:UIControlEventTouchDown];
+			[_loadMenu addSubview:_loadFromRoll];
+			_loadMenuHeight += sliderYOffset;
+			
+			menuIndex++;
+		}
+		
+		_loadFromClip = [UIButton buttonWithType:UIButtonTypeCustom];
+		_loadFromClip.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_loadFromClip.backgroundColor = [UIColor whiteColor];
+		_loadFromClip.layer.cornerRadius = sliderH / 2;
+		[_loadFromClip setTitle:@"Clipboard" forState:UIControlStateNormal];
+		_loadFromClip.titleLabel.font = infoFont;
+		[_loadFromClip setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_loadFromClip addTarget:self action:@selector(pressedLoadButton:) forControlEvents:UIControlEventTouchDown];
+		[_loadMenu addSubview:_loadFromClip];
+		[self updateClipboardButtonColor];
+		_loadMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+			_loadFromCamera = [UIButton buttonWithType:UIButtonTypeCustom];
+			_loadFromCamera.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+			_loadFromCamera.backgroundColor = [UIColor whiteColor];
+			_loadFromCamera.layer.cornerRadius = sliderH / 2;
+			[_loadFromCamera setTitle:@"Take New Photo" forState:UIControlStateNormal];
+			_loadFromCamera.titleLabel.font = infoFont;
+			[_loadFromCamera setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+			[_loadFromCamera addTarget:self action:@selector(pressedLoadButton:) forControlEvents:UIControlEventTouchDown];
+			[_loadMenu addSubview:_loadFromCamera];
+			_loadMenuHeight += sliderYOffset;
+			
+			menuIndex++;
+		}
 		
 		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
@@ -551,6 +624,11 @@ SINGLETON_IMPL(MainViewController);
     return YES;
 }
 
+- (void) updateClipboardButtonColor {
+	BOOL photoAvailable = [UIPasteboard generalPasteboard].image != nil;
+	[_loadFromClip setTitleColor:(photoAvailable ? [UIColor blackColor] : [UIColor grayColor]) forState:UIControlStateNormal];
+	_loadFromClip.userInteractionEnabled = photoAvailable;
+}
 
 - (void) setControlFrames:(UIInterfaceOrientation)orientation {
 	//BOOL portrait = (orientation == UIInterfaceOrientationPortrait);
@@ -595,11 +673,8 @@ SINGLETON_IMPL(MainViewController);
 	_fieldSettingsMenu.frame = CGRectMake(menuX, fieldSettingsMenuY, menuWidth, fieldSettingsMenuHeight);
 	_colorSettingsMenu.frame = CGRectMake(menuX, colorSettingsMenuY, menuWidth, colorSettingsMenuHeight);
 	
-	float loadMenuHeight = 260;
-	float saveMenuHeight = 260;
-	
-	_loadMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, loadMenuHeight);
-	_saveMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, saveMenuHeight);
+	_loadMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, _loadMenuHeight);
+	_saveMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, _saveMenuHeight);
 	
 	/* Adjust cancel button */
 	_cancelButton.frame = self.view.bounds;
@@ -720,6 +795,53 @@ SINGLETON_IMPL(MainViewController);
 
 - (void) releasedOriginalButton:(id)sender {
 	_paintView.overlayOriginal = NO;
+}
+
+- (void) pressedLoadButton:(UIButton*)sender {
+	[self popInView:sender];
+	
+	if (sender != _loadFromClip) {
+		/* Load from picker */
+		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+		picker.allowsEditing = NO;
+		if (sender == _loadFromCamera)
+			picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+		if (sender == _loadFromAlbum)
+			picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+		if (sender == _loadFromRoll)
+			picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+		
+		picker.delegate = self;
+		[self presentViewController:picker animated:YES completion:nil];
+		
+	} else {
+		/* Clipboard */
+	}
+}
+
+#pragma mark UIImagePickerViewControllerDelegate methods
+
+- (UIImage*) normalizedImage:(UIImage*)ofImage {
+	if (ofImage.imageOrientation == UIImageOrientationUp) return ofImage;
+	
+    UIGraphicsBeginImageContextWithOptions(ofImage.size, NO, ofImage.scale);
+    [ofImage drawInRect:(CGRect){0, 0, ofImage.size}];
+    UIImage *normalizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return normalizedImage;
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	[self dismissViewControllerAnimated:YES completion:nil];
+	
+	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+	if (image) {
+		_paintView.image = [self normalizedImage:image];
+	}
 }
 
 #pragma mark UIGestureRecognizerDelegate methods

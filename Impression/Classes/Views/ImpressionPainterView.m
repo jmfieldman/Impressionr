@@ -40,7 +40,7 @@
 		[self resetNoiseGrid];
 		
 		/* DEBUG */
-		#if 1
+		#if 0
 		NSMutableString *s = [NSMutableString string];
 		for (int y = 0; y < NOISE_GRID_SIZE; y++) {
 			for (int x = 0; x < NOISE_GRID_SIZE; x++) {
@@ -105,6 +105,9 @@
 	_image = image;
 	_originalImageToDraw = image;
 	_originalImageView.image = image;
+	_clearCount = 4;
+	
+	NSLog(@"Setting image of size: %f %f", image.size.width, image.size.height);
 	
 	/* Destroy existing bitmap context */
 	if (_bitmapContext) {
@@ -432,6 +435,7 @@
 	[self trackFPS];
 	
 	CGContextRef context = UIGraphicsGetCurrentContext();
+	if (_clearCount) { CGContextClearRect(context, rect); _clearCount--; }
 	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
 	CGImageRef cacheImage = CGBitmapContextCreateImage(_bitmapContext);
 	CGContextDrawImage(context, _imageDrawingRect, cacheImage);
