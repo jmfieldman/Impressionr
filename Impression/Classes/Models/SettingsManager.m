@@ -152,9 +152,9 @@ SINGLETON_IMPL(SettingsManager);
 }
 
 - (float) actualLineWidth {
-	#define LINE_WIDTH_MIN 2.0
+	#define LINE_WIDTH_MIN 1.0
 	#define LINE_WIDTH_MAX 40.0
-	return (LINE_WIDTH_MIN + (LINE_WIDTH_MAX - LINE_WIDTH_MIN) * _lineWidth);
+	return (LINE_WIDTH_MIN + (LINE_WIDTH_MAX - LINE_WIDTH_MIN) * powf(_lineWidth, 1.6));
 }
 
 - (float) actualLineAlpha {

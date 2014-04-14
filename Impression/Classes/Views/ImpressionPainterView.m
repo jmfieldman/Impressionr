@@ -214,9 +214,10 @@
 }
 
 - (void) setPainting:(BOOL)painting {
-	if (!_painting && painting) {
+	if (painting) {
 		/* Time to start! */
 		_lastUpdateTime = CFAbsoluteTimeGetCurrent();
+		[NSObject cancelPreviousPerformRequestsWithTarget:self];
 		[self performSelector:@selector(updatePainting) withObject:nil afterDelay:_paintingInterval];
 	}
 	

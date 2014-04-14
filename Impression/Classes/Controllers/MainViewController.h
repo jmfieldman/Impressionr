@@ -22,6 +22,7 @@
 	UIButton *_lineSettingsButton;
 	UIButton *_fieldSettingsButton;
 	UIButton *_colorSettingsButton;
+	UIButton *_playPauseButton;
 	
 	/* But cancel button behind all UI */
 	UIButton *_cancelButton;

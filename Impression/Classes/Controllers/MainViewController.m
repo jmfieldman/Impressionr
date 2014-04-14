@@ -135,6 +135,14 @@ SINGLETON_IMPL(MainViewController);
 		_colorSettingsButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_colorSettingsButton];
 		
+		_playPauseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_playPauseButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_playPauseButton.layer.cornerRadius = cornerRadius;
+		[_playPauseButton setImage:[UIImage imageNamed:@"pause"] forState:UIControlStateNormal];
+		[_playPauseButton addTarget:self action:@selector(pressedPlayPauseButton:) forControlEvents:UIControlEventTouchDown];
+		_playPauseButton.imageView.layer.cornerRadius = 3;
+		[self.view addSubview:_playPauseButton];
+		
 		/* Menus */
 		float menuWidth = 200;
 		float universalPadding = 8;
@@ -528,6 +536,7 @@ SINGLETON_IMPL(MainViewController);
 	_fieldSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*1, settingButtonY, settingButtonSize, settingButtonSize);
 	_colorSettingsButton.frame = CGRectMake(settingButtonGroupX + settingButtonOffset*2, settingButtonY, settingButtonSize, settingButtonSize);
 	
+	_playPauseButton.frame = CGRectMake(universalPadding, settingButtonY, settingButtonSize, settingButtonSize);
 	
 	float menuWidth = 200;
 	float menuX = self.view.bounds.size.width - menuWidth - universalPadding;
@@ -618,24 +627,30 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedLineSettingsButton:(id)sender {
-	if (_currentlyDisplayedMenu == _lineSettingsMenu) return;
+	if (_currentlyDisplayedMenu == _lineSettingsMenu) { [self hideCurrentMenu]; return; }
 		
 	[self performSelector:@selector(popInView:) withObject:_lineSettingsMenu afterDelay:[self hideCurrentMenu]];
 	_currentlyDisplayedMenu = _lineSettingsMenu;
 }
 
 - (void) pressedFieldSettingsButton:(id)sender {
-	if (_currentlyDisplayedMenu == _fieldSettingsMenu) return;
+	if (_currentlyDisplayedMenu == _fieldSettingsMenu) { [self hideCurrentMenu]; return; }
 	
 	[self performSelector:@selector(popInView:) withObject:_fieldSettingsMenu afterDelay:[self hideCurrentMenu]];
 	_currentlyDisplayedMenu = _fieldSettingsMenu;
 }
 
 - (void) pressedColorSettingsButton:(id)sender {
-	if (_currentlyDisplayedMenu == _colorSettingsMenu) return;
+	if (_currentlyDisplayedMenu == _colorSettingsMenu) { [self hideCurrentMenu]; return; }
 	
 	[self performSelector:@selector(popInView:) withObject:_colorSettingsMenu afterDelay:[self hideCurrentMenu]];
 	_currentlyDisplayedMenu = _colorSettingsMenu;
+}
+
+- (void) pressedPlayPauseButton:(id)sender {
+	_paintView.painting = !_paintView.painting;
+	
+	[_playPauseButton setImage:[UIImage imageNamed:_paintView.painting ? @"pause" : @"play"] forState:UIControlStateNormal];
 }
 
 #pragma mark UIGestureRecognizerDelegate methods
