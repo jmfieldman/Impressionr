@@ -799,6 +799,7 @@ SINGLETON_IMPL(MainViewController);
 
 - (void) pressedLoadButton:(UIButton*)sender {
 	[self popInView:sender];
+	[self hideCurrentMenu];
 	
 	if (sender != _loadFromClip) {
 		/* Load from picker */
