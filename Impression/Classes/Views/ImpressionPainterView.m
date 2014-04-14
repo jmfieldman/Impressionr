@@ -188,6 +188,26 @@
 					 } completion:nil];
 }
 
+- (UIImage*)renderedImage {
+	
+	NSLog(@"making rendered image %d %d", _originalW, _originalH);
+	
+	UIGraphicsBeginImageContextWithOptions(CGSizeMake(_originalW, _originalH), YES, 0.0);
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	CGContextSetInterpolationQuality(context, kCGInterpolationNone);
+	CGImageRef cacheImage = CGBitmapContextCreateImage(_bitmapContext);
+	CGContextDrawImage(context, CGRectMake(0, 0, _originalW, _originalH), cacheImage);
+	CGImageRelease(cacheImage);
+	
+	[_grainView drawViewHierarchyInRect:CGRectMake(0, 0, _originalW, _originalH) afterScreenUpdates:NO];
+	
+	UIImage *final = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return final;
+}
+
 - (void) fillNoiseGridFromX1:(int)x1 y1:(int)y1 x2:(int)x2 y2:(int)y2 depth:(int)depth {
 	if (x1 == x2 && y1 == y2) return;
 	

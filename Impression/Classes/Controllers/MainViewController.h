@@ -41,6 +41,7 @@
 	UIView   *_colorSettingsMenu;
 	UIView   *_loadMenu;
 	UIView   *_saveMenu;
+	UIView   *_savePurchaseMenu;
 	
 	float     _loadMenuHeight;
 	float     _saveMenuHeight;
@@ -71,6 +72,9 @@
 	UIButton *_saveToFacebook;
 	UIButton *_saveToInstagram;
 	UIButton *_saveToOther;
+	
+	UIButton *_buyProButton;
+	UIButton *_restorePurchaseButton;
 	
 	/* Info views */
 	UILabel  *_lineWidthInfo;
