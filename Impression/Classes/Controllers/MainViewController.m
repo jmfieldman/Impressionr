@@ -559,15 +559,18 @@ SINGLETON_IMPL(MainViewController);
 
 - (float) hideCurrentMenu {
 	if (!_currentlyDisplayedMenu) return 0;
+	
 	[_currentlyDisplayedMenu.layer removeAnimationForKey:@"zoom"];
 	_currentlyDisplayedMenu.transform = CGAffineTransformIdentity;
+	
+	UIView *tempCurrentView = _currentlyDisplayedMenu;
 	[UIView animateWithDuration:0.25
 						  delay:0
 						options:UIViewAnimationOptionCurveEaseInOut
 					 animations:^{
-						 _currentlyDisplayedMenu.transform = CGAffineTransformMakeScale(0.8, 0.8);
-						 _currentlyDisplayedMenu.alpha = 0;
-					 } completion:^(BOOL finished) { _currentlyDisplayedMenu.transform = CGAffineTransformIdentity; }];
+						 tempCurrentView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+						 tempCurrentView.alpha = 0;
+					 } completion:^(BOOL finished) { tempCurrentView.transform = CGAffineTransformIdentity; }];
 
 	_currentlyDisplayedMenu = nil;
 	
