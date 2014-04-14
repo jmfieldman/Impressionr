@@ -107,7 +107,7 @@
 	_originalImageView.image = image;
 	_clearCount = 4;
 	
-	NSLog(@"Setting image of size: %f %f", image.size.width, image.size.height);
+	//NSLog(@"Setting image of size: %f %f", image.size.width, image.size.height);
 	int allowedImageWidth  = image.size.width;
 	int allowedImageHeight = image.size.height;
 	while (allowedImageHeight > _largestImageDimension || allowedImageWidth > _largestImageDimension) {
