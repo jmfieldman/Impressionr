@@ -45,6 +45,7 @@
 	
 	float     _loadMenuHeight;
 	float     _saveMenuHeight;
+	float     _proMenuHeight;
 	
 	/* Sliders */
 	UISlider *_lineWidthSlider;

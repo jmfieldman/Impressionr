@@ -218,6 +218,12 @@ SINGLETON_IMPL(MainViewController);
 		_saveMenu.alpha = 0;
 		[self.view addSubview:_saveMenu];
 		
+		_savePurchaseMenu = [[UIView alloc] initWithFrame:self.view.bounds];
+		_savePurchaseMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_savePurchaseMenu.layer.cornerRadius = cornerRadius;
+		_savePurchaseMenu.alpha = 0;
+		[self.view addSubview:_savePurchaseMenu];
+		
 		/* Sliders */
 		float labelH = 24;
 		float labelY = universalPadding;
@@ -708,6 +714,33 @@ SINGLETON_IMPL(MainViewController);
 		
 		menuIndex++;
 		
+		/* -- Save Purchase Menu -- */
+		
+		sliderY = 44;
+		sliderYOffset = sliderH + universalPadding + 3;
+		menuIndex = 0;
+		
+		UILabel *savePurchaseTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40)];
+		savePurchaseTitle.backgroundColor = [UIColor clearColor];
+		savePurchaseTitle.textColor = [UIColor whiteColor];
+		savePurchaseTitle.text = @"Save/Post To";
+		savePurchaseTitle.font = infoFont;
+		savePurchaseTitle.textAlignment = NSTextAlignmentCenter;
+		[_savePurchaseMenu addSubview:saveTitle];
+		_proMenuHeight = sliderY;
+		
+		_buyProButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_buyProButton.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_buyProButton.backgroundColor = [UIColor whiteColor];
+		_buyProButton.layer.cornerRadius = sliderH / 2;
+		[_buyProButton setTitle:@"Photo Album" forState:UIControlStateNormal];
+		_buyProButton.titleLabel.font = infoFont;
+		[_buyProButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_buyProButton addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_savePurchaseMenu addSubview:_buyProButton];
+		_proMenuHeight += sliderYOffset;
+		
+		menuIndex++;
 		
 		/* Set frames */
 		[self setControlFrames:UIInterfaceOrientationPortrait];
