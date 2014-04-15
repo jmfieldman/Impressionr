@@ -100,4 +100,6 @@
 
 SINGLETON_INTR(MainViewController);
 
+- (void) updateClipboardButtonColor;
+
 @end
