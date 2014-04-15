@@ -777,6 +777,9 @@ SINGLETON_IMPL(MainViewController);
 		
 		/* Register for settings */
 		[[SettingsManager sharedInstance] addDelegate:self];
+		
+		/* Initialize in-app purchase */
+		[[StoreManager sharedInstance] updatePurchaseInfo];
 	}
 	return self;
 }
@@ -933,10 +936,11 @@ SINGLETON_IMPL(MainViewController);
 - (void) pressedSwirlReset:(id)sender {
 	[self animatePop:_fieldResetButton];
 	[_paintView resetNoiseGrid];
-	
+	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 }
 
 - (void) pressedLineSettingsButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 	if (_currentlyDisplayedMenu == _lineSettingsMenu) { [self hideCurrentMenu]; return; }
 		
 	[self performSelector:@selector(popInView:) withObject:_lineSettingsMenu afterDelay:[self hideCurrentMenu]];
@@ -944,6 +948,7 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedFieldSettingsButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 	if (_currentlyDisplayedMenu == _fieldSettingsMenu) { [self hideCurrentMenu]; return; }
 	
 	[self performSelector:@selector(popInView:) withObject:_fieldSettingsMenu afterDelay:[self hideCurrentMenu]];
@@ -951,6 +956,7 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedColorSettingsButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 	if (_currentlyDisplayedMenu == _colorSettingsMenu) { [self hideCurrentMenu]; return; }
 	
 	[self performSelector:@selector(popInView:) withObject:_colorSettingsMenu afterDelay:[self hideCurrentMenu]];
@@ -958,6 +964,7 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedLoadMenuButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 	if (_currentlyDisplayedMenu == _loadMenu) { [self hideCurrentMenu]; return; }
 	
 	[self performSelector:@selector(popInView:) withObject:_loadMenu afterDelay:[self hideCurrentMenu]];
@@ -965,6 +972,7 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedSaveMenuButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 	if ([StoreManager sharedInstance].saveMenuPurchased) {
 		/* Show save menu */
 		if (_currentlyDisplayedMenu == _saveMenu) { [self hideCurrentMenu]; return; }
@@ -982,22 +990,26 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedPlayPauseButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 	_paintView.painting = !_paintView.painting;
 	
 	[_playPauseButton setImage:[UIImage imageNamed:_paintView.painting ? @"pause" : @"play"] forState:UIControlStateNormal];
 }
 
 - (void) pressedOriginalButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 	_paintView.overlayOriginal = YES;
 }
 
 - (void) releasedOriginalButton:(id)sender {
+	[PreloadedSFX playSFX:PLSFX_BUTTON_UP];
 	_paintView.overlayOriginal = NO;
 }
 
 - (void) pressedLoadButton:(UIButton*)sender {
 	[self popInView:sender];
 	[self hideCurrentMenu];
+	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 	
 	if (sender != _loadFromClip) {
 		/* Load from picker */
@@ -1025,6 +1037,7 @@ SINGLETON_IMPL(MainViewController);
 - (void) pressedSaveButton:(UIButton*)sender {
 	[self popInView:sender];
 	[self hideCurrentMenu];
+	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 	
 	if (sender == _saveToClip) {
 		[UIPasteboard generalPasteboard].image = _paintView.renderedImage;
@@ -1076,6 +1089,7 @@ SINGLETON_IMPL(MainViewController);
 
 - (void) pressedPurchaseButton:(id)sender {
 	[self showModalMessage:@"Hello"];
+	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 }
 
 #pragma mark UIImagePickerViewControllerDelegate methods

@@ -83,7 +83,7 @@ SINGLETON_IMPL(ButtonEffectsExpander);
 }
 
 - (void) playCancel:(id)sender {
-	[PreloadedSFX playSFX:PLSFX_BUTTON_CANCEL];
+	[PreloadedSFX playSFX:PLSFX_BUTTON_MENU];
 }
 
 @end

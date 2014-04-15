@@ -11,11 +11,7 @@
 typedef enum PreloadedSFXType {
 	PLSFX_BUTTON_DOWN              = 0,
 	PLSFX_BUTTON_UP,	
-	PLSFX_BUTTON_CANCEL,
-	PLSFX_DRAG1,
-	PLSFX_DRAG2,
-	PLSFX_DROP,
-	PLSFX_CHING,
+	PLSFX_BUTTON_MENU,
 	
 	PLSFX_COUNT,
 } PreloadedSFXType_t;

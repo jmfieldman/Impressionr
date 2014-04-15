@@ -19,11 +19,9 @@ static int            s_instance[PLSFX_COUNT];
 static NSString *s_filenames[PLSFX_COUNT] = {
 	@"button_down.caf",
 	@"button_up.caf",
+	//@"button_down.caf",
 	@"button_cancel.caf",
-	@"drag1.caf",
-	@"drag2.caf",
-	@"drop.caf",
-	@"ching.caf",
+	
 };
 
 @implementation PreloadedSFX
