@@ -114,8 +114,9 @@ SINGLETON_IMPL(MainViewController);
 		apptitle.backgroundColor = [UIColor clearColor];
 		apptitle.textColor = [UIColor whiteColor];
 		apptitle.font = [UIFont fontWithName:@"MuseoSansRounded-700" size:12];
-		apptitle.text = @"IMPRESSION";
+		apptitle.text = @"IMPRESSIONR";
 		apptitle.textAlignment = NSTextAlignmentCenter;
+		apptitle.transform = CGAffineTransformMakeScale(0.9, 1);
 		[_fpsLabelContainer addSubview:apptitle];
 		
 		UILabel *appauthor = [[UILabel alloc] initWithFrame:CGRectMake(5, 15, _fpsLabelContainer.bounds.size.width - 10, 16)];
