@@ -15,7 +15,9 @@
 	
 	/* Helper init */
 	InitializeMathHelper();
-	
+
+	/* Initialize sfx */
+	[PreloadedSFX initializePreloadedSFX];
 	
 	self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 	// Override point for customization after application launch.
