@@ -34,6 +34,8 @@
 
 #define GESTURES_ENABLED 0
 
+static BOOL s_isIPAD = NO;
+
 @implementation MainViewController
 
 SINGLETON_IMPL(MainViewController);
@@ -41,7 +43,13 @@ SINGLETON_IMPL(MainViewController);
 - (id)init {
 	if ((self = [super init])) {
 		
-		self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+		s_isIPAD = [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad;
+		
+		if (s_isIPAD && ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeLeft || [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationLandscapeRight) ) {
+			self.view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width)];
+		} else {
+			self.view = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+		}
 		self.view.backgroundColor = [UIColor redColor];
 		
 		#if GESTURES_ENABLED
@@ -51,7 +59,7 @@ SINGLETON_IMPL(MainViewController);
 		#endif
 		
 		_paintView = [[ImpressionPainterView alloc] initWithFrame:self.view.bounds];
-		_paintView.largestImageDimension = 2000;
+		_paintView.largestImageDimension = s_isIPAD ? 2600 : 2000;
 		_paintView.image = [UIImage imageNamed:@"test_image1.jpg"];
 		_paintView.painting = YES;
 		_paintView.opaque = YES;
@@ -93,7 +101,7 @@ SINGLETON_IMPL(MainViewController);
 		[_cancelButton addTarget:self action:@selector(pressedBackgroundCancel:) forControlEvents:UIControlEventTouchDown];
 		[self.view addSubview:_cancelButton];
 		
-		float cornerRadius = 8;
+		float cornerRadius = s_isIPAD ? 12 : 8;
 		float settingButtonBGAlpha = 0.75;
 		float settingButtonBGWhite = 0.1;
 		
@@ -188,7 +196,7 @@ SINGLETON_IMPL(MainViewController);
 		
 		/* Menus */
 		float menuWidth = 200;
-		float universalPadding = 8;
+		float universalPadding = s_isIPAD ? 12 : 8;
 		
 		_lineSettingsMenu = [[UIView alloc] initWithFrame:self.view.bounds];
 		_lineSettingsMenu.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
@@ -800,8 +808,8 @@ SINGLETON_IMPL(MainViewController);
 - (void) setControlFrames:(UIInterfaceOrientation)orientation {
 	//BOOL portrait = (orientation == UIInterfaceOrientationPortrait);
 	
-	float settingButtonSize = 48;
-	float universalPadding = 5;
+	float settingButtonSize = s_isIPAD ? 72 : 48;
+	float universalPadding = s_isIPAD ? 8 : 5;
 	float settingButtonOffset = settingButtonSize + universalPadding;
 	float settingButtonGroupX = self.view.bounds.size.width - settingButtonOffset * 3;
 	float settingButtonY = self.view.bounds.size.height - settingButtonOffset;

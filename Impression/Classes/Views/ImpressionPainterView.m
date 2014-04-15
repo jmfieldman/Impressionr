@@ -417,6 +417,8 @@
 		_originalImageToDraw = nil;
 	} else {
 		
+		CGContextSetInterpolationQuality(_bitmapContext, kCGInterpolationNone);
+		
 		/* Time cycle */
 		NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
 		NSTimeInterval timeDiff = currentTime - _lastUpdateTime;
