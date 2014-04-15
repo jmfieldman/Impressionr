@@ -1036,6 +1036,12 @@ SINGLETON_IMPL(MainViewController);
 		if (sender == _loadFromRoll)
 			picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
 		
+		if (sender == _loadFromCamera) {
+			[Flurry logEvent:@"Load_from_Camera"];
+		} else {
+			[Flurry logEvent:@"Load_from_Album"];
+		}
+		
 		picker.delegate = self;
 		[self presentViewController:picker animated:YES completion:nil];
 		
@@ -1044,6 +1050,7 @@ SINGLETON_IMPL(MainViewController);
 		UIImage *clipped = [UIPasteboard generalPasteboard].image;
 		if (clipped) {
 			_paintView.image = [self normalizedImage:clipped];
+			[Flurry logEvent:@"Load_from_Clipboard"];
 		}
 	}
 }
@@ -1056,13 +1063,16 @@ SINGLETON_IMPL(MainViewController);
 	if (sender == _saveToClip) {
 		[UIPasteboard generalPasteboard].image = _paintView.renderedImage;
 		[self showModalMessage:@"Image copied!"];
+		[Flurry logEvent:@"Save_to_Clipboard"];
 	} else if (sender == _saveToAlbum) {
 		UIImageWriteToSavedPhotosAlbum(_paintView.renderedImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
+		[Flurry logEvent:@"Save_to_Album"];
 	} else if (sender == _saveToFacebook) {
 		SLComposeViewController *composer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
 		[composer addImage:_paintView.renderedImage];
 		[composer setInitialText:@"Created with the Impression iOS app! http://appstore.com/impressionr"];
 		[self presentViewController:composer animated:YES completion:nil];
+		[Flurry logEvent:@"Save_to_Facebook"];
 	} else if (sender == _saveToInstagram) {
 		/* Create the file */
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -1077,6 +1087,8 @@ SINGLETON_IMPL(MainViewController);
 		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
 		
 		if (!response) [self showModalMessage:@"Instagram not installed."];
+		
+		[Flurry logEvent:@"Save_to_Instagram"];
 	} else if (sender == _saveToOther) {
 		/* Create the file */
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -1090,6 +1102,7 @@ SINGLETON_IMPL(MainViewController);
 		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
 		
 		if (!response) [self showModalMessage:@"No supported apps installed."];
+		[Flurry logEvent:@"Save_to_Other"];
 	}
 }
 
@@ -1109,9 +1122,11 @@ SINGLETON_IMPL(MainViewController);
 	if (sender == _buyProButton) {
 		[self showModalMessage:@"Contacting App Store"];
 		[[StoreManager sharedInstance] initiatePurchase];
+		[Flurry logEvent:@"Initiated_Purchase"];
 	} else {
 		[self showModalMessage:@"Contacting App Store"];
 		[[StoreManager sharedInstance] restorePurchase];
+		[Flurry logEvent:@"Initiated_Restore"];
 	}
 }
 

@@ -47,6 +47,9 @@ SINGLETON_IMPL(StoreManager);
 
 
 - (void) updatePurchaseInfo {
+	/* Don't need to do this if already purchased */
+	if (self.saveMenuPurchased) return;
+	
 	SKProductsRequest *productsRequest;
 	NSSet *productIdentifiers = [NSSet setWithObjects:
 								 @"IMPR_SAVEMENU",
@@ -112,6 +115,7 @@ SINGLETON_IMPL(StoreManager);
 			EXLog(PURCHASE, ERR, @"> Transaction complete");
 			[[MainViewController sharedInstance] showModalMessage:@"Save Menu Unlocked!"];
 			self.saveMenuPurchased = YES;
+			[Flurry logEvent:@"Purchase_Successful"];
 				
 		} else if (transaction.transactionState == SKPaymentTransactionStateFailed) {
 				
@@ -140,6 +144,7 @@ SINGLETON_IMPL(StoreManager);
 
 	[[MainViewController sharedInstance] showModalMessage:@"Purchase Restored!"];
 	self.saveMenuPurchased = YES;
+	[Flurry logEvent:@"Restore_Successful"];
 }
 
 
