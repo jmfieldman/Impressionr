@@ -40,6 +40,28 @@ static BOOL s_isIPAD = NO;
 
 SINGLETON_IMPL(MainViewController);
 
+- (UIImage*) currentImage {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+	NSString *imgFilePath = [paths[0] stringByAppendingPathComponent:@"current.png"];
+	UIImage *img = nil;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:imgFilePath]) {
+		img = [UIImage imageWithContentsOfFile:imgFilePath];
+	}
+	if (!img) {
+		if (s_isIPAD) return [UIImage imageNamed:@"test_ipad.jpg"];
+		if ([UIScreen mainScreen].bounds.size.height > 481) return [UIImage imageNamed:@"test_image1.jpg"];
+		return [UIImage imageNamed:@"test_image_960.jpg"];
+	}
+	return img;
+}
+
+- (void) saveImageAsCurrent:(UIImage*)img {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+	NSString *imgFilePath = [paths[0] stringByAppendingPathComponent:@"current.png"];
+	NSData *imgData = UIImagePNGRepresentation(img);
+	[imgData writeToFile:imgFilePath atomically:YES];
+}
+
 - (id)init {
 	if ((self = [super init])) {
 		
@@ -60,7 +82,7 @@ SINGLETON_IMPL(MainViewController);
 		
 		_paintView = [[ImpressionPainterView alloc] initWithFrame:self.view.bounds];
 		_paintView.largestImageDimension = s_isIPAD ? 2600 : 2000;
-		_paintView.image = [UIImage imageNamed:@"test_image1.jpg"];
+		_paintView.image = [self currentImage];
 		_paintView.painting = YES;
 		_paintView.opaque = YES;
 		_paintView.userInteractionEnabled = NO;
@@ -1058,6 +1080,7 @@ SINGLETON_IMPL(MainViewController);
 		UIImage *clipped = [UIPasteboard generalPasteboard].image;
 		if (clipped) {
 			_paintView.image = [self normalizedImage:clipped];
+			[self saveImageAsCurrent:_paintView.image];
 			[Flurry logEvent:@"Load_from_Clipboard"];
 		}
 	}
@@ -1160,6 +1183,7 @@ SINGLETON_IMPL(MainViewController);
 	UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
 	if (image) {
 		_paintView.image = [self normalizedImage:image];
+		[self saveImageAsCurrent:_paintView.image];
 	}
 }
 

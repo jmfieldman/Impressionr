@@ -20,10 +20,10 @@ SINGLETON_IMPL(SettingsManager);
 		
 		/* Load defaults */
 		_defaults = [NSUserDefaults standardUserDefaults];
-		_lineWidth = [_defaults objectForKey:@"lineWidth"] ? [_defaults floatForKey:@"lineWidth"] : 0.05;
-		_lineCount = [_defaults objectForKey:@"lineCount"] ? [_defaults floatForKey:@"lineCount"] : 0.50;
+		_lineWidth = [_defaults objectForKey:@"lineWidth"] ? [_defaults floatForKey:@"lineWidth"] : 0.15;
+		_lineCount = [_defaults objectForKey:@"lineCount"] ? [_defaults floatForKey:@"lineCount"] : 0.70;
 		_lineAlpha = [_defaults objectForKey:@"lineAlpha"] ? [_defaults floatForKey:@"lineAlpha"] : 0.85;
-		_lineSpeed = [_defaults objectForKey:@"lineSpeed"] ? [_defaults floatForKey:@"lineSpeed"] : 0.35;
+		_lineSpeed = [_defaults objectForKey:@"lineSpeed"] ? [_defaults floatForKey:@"lineSpeed"] : 0.25;
 		
 		_tintStrength = [_defaults objectForKey:@"tintStrength"] ? [_defaults floatForKey:@"tintStrength"] : 0;
 		_tintHue      = [_defaults objectForKey:@"tintHue"]      ? [_defaults floatForKey:@"tintHue"]      : 0;
