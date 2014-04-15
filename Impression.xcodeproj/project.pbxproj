@@ -75,6 +75,7 @@
 		35D6FEC918F595CB0054C376 /* test_image1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 35D6FEC718F595CB0054C376 /* test_image1.jpg */; };
 		35D6FECC18F5961B0054C376 /* ImpressionPainterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6FECB18F5961B0054C376 /* ImpressionPainterView.m */; };
 		35D6FECF18F59FD60054C376 /* PaintLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 35D6FECE18F59FD60054C376 /* PaintLine.m */; };
+		35D8725818FDC07A008D6385 /* libFlurry_4.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D8725718FDC07A008D6385 /* libFlurry_4.4.0.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +177,8 @@
 		35D6FECB18F5961B0054C376 /* ImpressionPainterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImpressionPainterView.m; sourceTree = "<group>"; };
 		35D6FECD18F59FD60054C376 /* PaintLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintLine.h; sourceTree = "<group>"; };
 		35D6FECE18F59FD60054C376 /* PaintLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintLine.m; sourceTree = "<group>"; };
+		35D8725618FDC07A008D6385 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		35D8725718FDC07A008D6385 /* libFlurry_4.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_4.4.0.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +192,7 @@
 				35C9F3BE18FADCE100B023F4 /* AVFoundation.framework in Frameworks */,
 				35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */,
 				35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */,
+				35D8725818FDC07A008D6385 /* libFlurry_4.4.0.a in Frameworks */,
 				35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +274,7 @@
 		35D6FE7F18F5927D0054C376 /* Impression */ = {
 			isa = PBXGroup;
 			children = (
+				35D8725418FDC07A008D6385 /* External */,
 				35D6FEA818F592EB0054C376 /* Classes */,
 				35D6FE8818F5927D0054C376 /* AppDelegate.h */,
 				35D6FE8918F5927D0054C376 /* AppDelegate.m */,
@@ -426,6 +431,23 @@
 				35446EFE18F9994B00E75A9D /* grain@2x.png */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		35D8725418FDC07A008D6385 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				35D8725518FDC07A008D6385 /* Flurry */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		35D8725518FDC07A008D6385 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				35D8725618FDC07A008D6385 /* Flurry.h */,
+				35D8725718FDC07A008D6385 /* libFlurry_4.4.0.a */,
+			);
+			path = Flurry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -701,6 +723,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Impression/Impression-Prefix.pch";
 				INFOPLIST_FILE = "Impression/Impression-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Impression/External/Flurry",
+				);
 				OTHER_CFLAGS = "-DEXDEBUGENABLED";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -718,6 +744,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Impression/Impression-Prefix.pch";
 				INFOPLIST_FILE = "Impression/Impression-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Impression/External/Flurry",
+				);
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

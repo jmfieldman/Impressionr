@@ -26,4 +26,5 @@
 	#import "SKBounceAnimation.h"
 	#import "PreloadedSFX.h"
 	#import "ButtonEffects.h"
+	#import "Flurry.h"
 #endif
