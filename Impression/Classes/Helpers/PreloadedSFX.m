@@ -17,9 +17,11 @@ static AVAudioPlayer *s_players[PLSFX_COUNT][FX_INSTANCES];
 static int            s_instance[PLSFX_COUNT];
 
 static NSString *s_filenames[PLSFX_COUNT] = {
-	@"button_down.caf",
-	@"button_up.caf",
 	//@"button_down.caf",
+	//@"button_up.caf",
+	//@"button_down.caf",
+	@"button_cancel.caf",
+	@"button_cancel.caf",
 	@"button_cancel.caf",
 	
 };
@@ -44,7 +46,7 @@ static NSString *s_filenames[PLSFX_COUNT] = {
 		for (int n = 0; n < FX_INSTANCES; n++) {
 			s_players[i][n] = [[AVAudioPlayer alloc] initWithData:data error:nil];
 			[s_players[i][n] prepareToPlay];
-			s_players[i][n].volume = 1;
+			s_players[i][n].volume = 0.2;
 		}
 	}
 }

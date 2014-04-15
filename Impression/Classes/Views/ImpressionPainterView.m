@@ -57,7 +57,7 @@
 		
 		/* Create lines */
 		_lines = [NSMutableArray array];
-		self.lineCount = 20;
+		self.lineCount = 0;
 		
 		/* Add grain */
 		_grainView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grain"]];
@@ -144,6 +144,9 @@
 	
 	/* Recalc scaling */
 	[self recalculateScaling];
+	
+	/* Needs to redraw */
+	[self updatePainting];
 }
 
 - (void) recalculateScaling {
@@ -412,23 +415,23 @@
 		CGContextDrawImage(_bitmapContext, CGRectMake(0, 0, _originalImageToDraw.size.width, _originalImageToDraw.size.height), _originalImageToDraw.CGImage);
 		CGContextRestoreGState(_bitmapContext);
 		_originalImageToDraw = nil;
-	}
-	
-	/* Time cycle */
-	NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
-	NSTimeInterval timeDiff = currentTime - _lastUpdateTime;
-	_lastUpdateTime = currentTime;
-	
-	/* Update all of the lines */
-	for (int i = 0; i < _lineCount; i++) {
-		PaintLine *line = _lines[i];
-		NSTimeInterval remainingTime = timeDiff;
-		while ( (remainingTime = [line paintInContext:_bitmapContext forTimeDuration:remainingTime]) > 0) {
-			/* New line! */
-			[self createNewLineParameters:line];
+	} else {
+		
+		/* Time cycle */
+		NSTimeInterval currentTime = CFAbsoluteTimeGetCurrent();
+		NSTimeInterval timeDiff = currentTime - _lastUpdateTime;
+		_lastUpdateTime = currentTime;
+		
+		/* Update all of the lines */
+		for (int i = 0; i < _lineCount; i++) {
+			PaintLine *line = _lines[i];
+			NSTimeInterval remainingTime = timeDiff;
+			while ( (remainingTime = [line paintInContext:_bitmapContext forTimeDuration:remainingTime]) > 0) {
+				/* New line! */
+				[self createNewLineParameters:line];
+			}
 		}
 	}
-	
 	
 	/* Need to redraw */
 	[self setNeedsDisplay];

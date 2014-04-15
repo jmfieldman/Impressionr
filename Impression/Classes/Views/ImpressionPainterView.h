@@ -123,5 +123,6 @@
 
 - (void) recalculateScaling;
 - (void) resetNoiseGrid;
+- (void) updatePainting;
 
 @end

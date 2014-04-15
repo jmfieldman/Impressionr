@@ -105,5 +105,8 @@
 SINGLETON_INTR(MainViewController);
 
 - (void) updateClipboardButtonColor;
+- (void) showModalMessage:(NSString*)message;
+
+- (void) setPurchasePrice:(NSString*)price;
 
 @end

@@ -752,8 +752,9 @@ SINGLETON_IMPL(MainViewController);
 		_buyProButton.layer.cornerRadius = sliderH / 2;
 		[_buyProButton setTitle:@"Unlock" forState:UIControlStateNormal];
 		_buyProButton.titleLabel.font = infoFont;
-		[_buyProButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_buyProButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 		[_buyProButton addTarget:self action:@selector(pressedPurchaseButton:) forControlEvents:UIControlEventTouchDown];
+		_buyProButton.userInteractionEnabled = NO;
 		[_savePurchaseMenu addSubview:_buyProButton];
 		_proMenuHeight += sliderYOffset;
 		
@@ -780,6 +781,7 @@ SINGLETON_IMPL(MainViewController);
 		
 		/* Initialize in-app purchase */
 		[[StoreManager sharedInstance] updatePurchaseInfo];
+
 	}
 	return self;
 }
@@ -846,12 +848,18 @@ SINGLETON_IMPL(MainViewController);
 	_cancelButton.frame = self.view.bounds;
 }
 
+- (void) setPurchasePrice:(NSString*)price {
+	[_buyProButton setTitle:[NSString stringWithFormat:@"Unlock (%@)", price] forState:UIControlStateNormal];
+	[_buyProButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	_buyProButton.userInteractionEnabled = YES;
+}
+
 - (void) showModalMessage:(NSString*)message {
 	/* Check message size */
 	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:_modalMessageLabel.font, NSFontAttributeName, nil];
     CGSize labelsize = [[[NSAttributedString alloc] initWithString:message attributes:attributes] size];
 	
-	_modalMessageView.frame = CGRectMake(0, 0, ceil(labelsize.width) + 14, ceil(labelsize.height) + 14);
+	_modalMessageView.frame = CGRectMake(0, 0, ceil(labelsize.width) + 24, ceil(labelsize.height) + 14);
 	_modalMessageLabel.frame = _modalMessageView.frame;
 	_modalMessageView.center = self.view.center;
 	
@@ -860,6 +868,8 @@ SINGLETON_IMPL(MainViewController);
 	[self popInView:_modalMessageView];
 	
 	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+		[_modalMessageLabel.layer removeAnimationForKey:@"zoom"];
+		_modalMessageLabel.transform = CGAffineTransformIdentity;
 		[UIView animateWithDuration:0.25
 							  delay:1.5
 							options:UIViewAnimationOptionCurveEaseInOut
@@ -873,6 +883,10 @@ SINGLETON_IMPL(MainViewController);
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
 	[self setControlFrames:interfaceOrientation];
+	
+	if (!_paintView.painting) {
+		[_paintView updatePainting];
+	}
 }
 
 - (void) pressedBackgroundCancel:(id)sender {
@@ -1002,12 +1016,12 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) releasedOriginalButton:(id)sender {
-	[PreloadedSFX playSFX:PLSFX_BUTTON_UP];
+	//[PreloadedSFX playSFX:PLSFX_BUTTON_UP];
 	_paintView.overlayOriginal = NO;
 }
 
 - (void) pressedLoadButton:(UIButton*)sender {
-	[self popInView:sender];
+	[self animatePop:sender];
 	[self hideCurrentMenu];
 	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 	
@@ -1035,7 +1049,7 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedSaveButton:(UIButton*)sender {
-	[self popInView:sender];
+	[self animatePop:sender];
 	[self hideCurrentMenu];
 	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
 	
@@ -1047,7 +1061,7 @@ SINGLETON_IMPL(MainViewController);
 	} else if (sender == _saveToFacebook) {
 		SLComposeViewController *composer = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
 		[composer addImage:_paintView.renderedImage];
-		[composer setInitialText:@"Created with the Impression iOS app!"];
+		[composer setInitialText:@"Created with the Impression iOS app! http://appstore.com/impressionr"];
 		[self presentViewController:composer animated:YES completion:nil];
 	} else if (sender == _saveToInstagram) {
 		/* Create the file */
@@ -1059,7 +1073,7 @@ SINGLETON_IMPL(MainViewController);
 		static __strong UIDocumentInteractionController *documentInteractionController = nil;
 		documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:imgFilePath]];
 		documentInteractionController.UTI = @"com.instagram.exclusivegram";
-		//documentInteractionController.annotation = [NSDictionary dictionaryWithObject:@"Created with the Impression iOS app!" forKey:@"InstagramCaption"];
+		documentInteractionController.annotation = [NSDictionary dictionaryWithObject:@"Created with the Impression iOS app! http://appstore.com/impressionr" forKey:@"InstagramCaption"];
 		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
 		
 		if (!response) [self showModalMessage:@"Instagram not installed."];
@@ -1088,8 +1102,17 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedPurchaseButton:(id)sender {
-	[self showModalMessage:@"Hello"];
+	[self animatePop:sender];
+	[self hideCurrentMenu];
 	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
+	
+	if (sender == _buyProButton) {
+		[self showModalMessage:@"Contacting App Store"];
+		[[StoreManager sharedInstance] initiatePurchase];
+	} else {
+		[self showModalMessage:@"Contacting App Store"];
+		[[StoreManager sharedInstance] restorePurchase];
+	}
 }
 
 #pragma mark UIImagePickerViewControllerDelegate methods

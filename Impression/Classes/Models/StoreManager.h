@@ -8,10 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
-@interface StoreManager : NSObject
 
-@property (nonatomic, assign) BOOL saveMenuPurchased;
+@interface SKProduct (printing)
+- (NSString*) priceWithSymbol;
+@end
+
+
+
+@interface StoreManager : NSObject <SKProductsRequestDelegate, SKPaymentTransactionObserver>
+
+@property (nonatomic, assign) BOOL       saveMenuPurchased;
+@property (nonatomic, strong) SKProduct *saveMenuProduct;
 
 SINGLETON_INTR(StoreManager);
+
+- (void) updatePurchaseInfo;
+- (void) restorePurchase;
+- (void) initiatePurchase;
 
 @end
