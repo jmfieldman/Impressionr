@@ -7,6 +7,7 @@
 //
 
 #import "MainViewController.h"
+#import "StoreManager.h"
 
 @interface MainViewController ()
 
@@ -224,6 +225,12 @@ SINGLETON_IMPL(MainViewController);
 		_savePurchaseMenu.alpha = 0;
 		[self.view addSubview:_savePurchaseMenu];
 		
+		_modalMessageView = [[UIView alloc] initWithFrame:self.view.bounds];
+		_modalMessageView.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_modalMessageView.layer.cornerRadius = cornerRadius;
+		_modalMessageView.alpha = 0;
+		[self.view addSubview:_modalMessageView];
+						
 		/* Sliders */
 		float labelH = 24;
 		float labelY = universalPadding;
@@ -236,6 +243,14 @@ SINGLETON_IMPL(MainViewController);
 
 		UIColor *labelColor = [UIColor whiteColor];
 		UIFont *infoFont = [UIFont fontWithName:@"MuseoSansRounded-700" size:18];
+		
+		_modalMessageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40)];
+		_modalMessageLabel.backgroundColor = [UIColor clearColor];
+		_modalMessageLabel.textColor = [UIColor whiteColor];
+		_modalMessageLabel.text = @"";
+		_modalMessageLabel.font = infoFont;
+		_modalMessageLabel.textAlignment = NSTextAlignmentCenter;
+		[_modalMessageView addSubview:_modalMessageLabel];
 		
 		/* -- Line Settings -- */
 		
@@ -716,28 +731,42 @@ SINGLETON_IMPL(MainViewController);
 		
 		/* -- Save Purchase Menu -- */
 		
-		sliderY = 44;
+		sliderY = 64;
 		sliderYOffset = sliderH + universalPadding + 3;
 		menuIndex = 0;
 		
-		UILabel *savePurchaseTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40)];
+		UILabel *savePurchaseTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 60)];
 		savePurchaseTitle.backgroundColor = [UIColor clearColor];
 		savePurchaseTitle.textColor = [UIColor whiteColor];
-		savePurchaseTitle.text = @"Save/Post To";
+		savePurchaseTitle.text = @"The Save Menu\nmust be unlocked.";
 		savePurchaseTitle.font = infoFont;
+		savePurchaseTitle.numberOfLines = 2;
 		savePurchaseTitle.textAlignment = NSTextAlignmentCenter;
-		[_savePurchaseMenu addSubview:saveTitle];
+		[_savePurchaseMenu addSubview:savePurchaseTitle];
 		_proMenuHeight = sliderY;
 		
 		_buyProButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		_buyProButton.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
 		_buyProButton.backgroundColor = [UIColor whiteColor];
 		_buyProButton.layer.cornerRadius = sliderH / 2;
-		[_buyProButton setTitle:@"Photo Album" forState:UIControlStateNormal];
+		[_buyProButton setTitle:@"Unlock" forState:UIControlStateNormal];
 		_buyProButton.titleLabel.font = infoFont;
 		[_buyProButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-		[_buyProButton addTarget:self action:@selector(pressedSaveButton:) forControlEvents:UIControlEventTouchDown];
+		[_buyProButton addTarget:self action:@selector(pressedPurchaseButton:) forControlEvents:UIControlEventTouchDown];
 		[_savePurchaseMenu addSubview:_buyProButton];
+		_proMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
+		_restorePurchaseButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_restorePurchaseButton.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_restorePurchaseButton.backgroundColor = [UIColor whiteColor];
+		_restorePurchaseButton.layer.cornerRadius = sliderH / 2;
+		[_restorePurchaseButton setTitle:@"Restore Purchase" forState:UIControlStateNormal];
+		_restorePurchaseButton.titleLabel.font = infoFont;
+		[_restorePurchaseButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_restorePurchaseButton addTarget:self action:@selector(pressedPurchaseButton:) forControlEvents:UIControlEventTouchDown];
+		[_savePurchaseMenu addSubview:_restorePurchaseButton];
 		_proMenuHeight += sliderYOffset;
 		
 		menuIndex++;
@@ -807,9 +836,35 @@ SINGLETON_IMPL(MainViewController);
 	
 	_loadMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, _loadMenuHeight);
 	_saveMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, _saveMenuHeight);
+	_savePurchaseMenu.frame = CGRectMake(universalPadding, universalPadding + settingButtonOffset, menuWidth, _proMenuHeight);
 	
 	/* Adjust cancel button */
 	_cancelButton.frame = self.view.bounds;
+}
+
+- (void) showModalMessage:(NSString*)message {
+	/* Check message size */
+	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:_modalMessageLabel.font, NSFontAttributeName, nil];
+    CGSize labelsize = [[[NSAttributedString alloc] initWithString:message attributes:attributes] size];
+	
+	_modalMessageView.frame = CGRectMake(0, 0, ceil(labelsize.width) + 14, ceil(labelsize.height) + 14);
+	_modalMessageLabel.frame = _modalMessageView.frame;
+	_modalMessageView.center = self.view.center;
+	
+	_modalMessageLabel.text = message;
+	
+	[self popInView:_modalMessageView];
+	
+	dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^(void){
+		[UIView animateWithDuration:0.25
+							  delay:1.5
+							options:UIViewAnimationOptionCurveEaseInOut
+						 animations:^{
+							 _modalMessageView.transform = CGAffineTransformMakeScale(0.8, 0.8);
+							 _modalMessageView.alpha = 0;
+						 } completion:^(BOOL finished) { _modalMessageView.transform = CGAffineTransformIdentity; }];
+	});
+	
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation duration:(NSTimeInterval)duration {
@@ -909,10 +964,20 @@ SINGLETON_IMPL(MainViewController);
 }
 
 - (void) pressedSaveMenuButton:(id)sender {
-	if (_currentlyDisplayedMenu == _saveMenu) { [self hideCurrentMenu]; return; }
+	if ([StoreManager sharedInstance].saveMenuPurchased) {
+		/* Show save menu */
+		if (_currentlyDisplayedMenu == _saveMenu) { [self hideCurrentMenu]; return; }
+		
+		[self performSelector:@selector(popInView:) withObject:_saveMenu afterDelay:[self hideCurrentMenu]];
+		_currentlyDisplayedMenu = _saveMenu;
+	} else {
+		/* Show purchase menu */
+		if (_currentlyDisplayedMenu == _savePurchaseMenu) { [self hideCurrentMenu]; return; }
+		
+		[self performSelector:@selector(popInView:) withObject:_savePurchaseMenu afterDelay:[self hideCurrentMenu]];
+		_currentlyDisplayedMenu = _savePurchaseMenu;
+	}
 	
-	[self performSelector:@selector(popInView:) withObject:_saveMenu afterDelay:[self hideCurrentMenu]];
-	_currentlyDisplayedMenu = _saveMenu;
 }
 
 - (void) pressedPlayPauseButton:(id)sender {
@@ -962,6 +1027,7 @@ SINGLETON_IMPL(MainViewController);
 	
 	if (sender == _saveToClip) {
 		[UIPasteboard generalPasteboard].image = _paintView.renderedImage;
+		[self showModalMessage:@"Image copied!"];
 	} else if (sender == _saveToAlbum) {
 		UIImageWriteToSavedPhotosAlbum(_paintView.renderedImage, self, @selector(image:didFinishSavingWithError:contextInfo:), nil);
 	} else if (sender == _saveToFacebook) {
@@ -981,6 +1047,8 @@ SINGLETON_IMPL(MainViewController);
 		documentInteractionController.UTI = @"com.instagram.exclusivegram";
 		//documentInteractionController.annotation = [NSDictionary dictionaryWithObject:@"Created with the Impression iOS app!" forKey:@"InstagramCaption"];
 		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
+		
+		if (!response) [self showModalMessage:@"Instagram not installed."];
 	} else if (sender == _saveToOther) {
 		/* Create the file */
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -992,11 +1060,21 @@ SINGLETON_IMPL(MainViewController);
 		documentInteractionController = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:imgFilePath]];
 		//documentInteractionController.annotation = [NSDictionary dictionaryWithObject:@"Created with the Impression iOS app!" forKey:@"InstagramCaption"];
 		BOOL response = [documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
+		
+		if (!response) [self showModalMessage:@"No supported apps installed."];
 	}
 }
 
 - (void) image:(UIImage *)image didFinishSavingWithError:(NSError*)error contextInfo:(void *)contextInfo {
-	
+	if (error) {
+		[self showModalMessage:@"Save failed."];
+	} else {
+		[self showModalMessage:@"Image saved!"];
+	}
+}
+
+- (void) pressedPurchaseButton:(id)sender {
+	[self showModalMessage:@"Hello"];
 }
 
 #pragma mark UIImagePickerViewControllerDelegate methods

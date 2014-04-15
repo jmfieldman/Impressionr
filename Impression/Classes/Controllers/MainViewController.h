@@ -47,6 +47,10 @@
 	float     _saveMenuHeight;
 	float     _proMenuHeight;
 	
+	/* Modeal */
+	UIView   *_modalMessageView;
+	UILabel  *_modalMessageLabel;
+	
 	/* Sliders */
 	UISlider *_lineWidthSlider;
 	UISlider *_lineCountSlider;

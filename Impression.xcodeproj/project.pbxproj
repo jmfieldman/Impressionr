@@ -51,6 +51,7 @@
 		35C9F3EB18FB8A9900B023F4 /* camera~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3E718FB8A9900B023F4 /* camera~iphone.png */; };
 		35C9F3EC18FB8A9900B023F4 /* save@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3E818FB8A9900B023F4 /* save@2x~iphone.png */; };
 		35C9F3ED18FB8A9900B023F4 /* save~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 35C9F3E918FB8A9900B023F4 /* save~iphone.png */; };
+		35C9F3F018FD9FCF00B023F4 /* StoreManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F3EF18FD9FCF00B023F4 /* StoreManager.m */; };
 		35D6FE7A18F5927D0054C376 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7918F5927D0054C376 /* Foundation.framework */; };
 		35D6FE7C18F5927D0054C376 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */; };
 		35D6FE7E18F5927D0054C376 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35D6FE7D18F5927D0054C376 /* UIKit.framework */; };
@@ -136,6 +137,8 @@
 		35C9F3E718FB8A9900B023F4 /* camera~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera~iphone.png"; sourceTree = "<group>"; };
 		35C9F3E818FB8A9900B023F4 /* save@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save@2x~iphone.png"; sourceTree = "<group>"; };
 		35C9F3E918FB8A9900B023F4 /* save~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "save~iphone.png"; sourceTree = "<group>"; };
+		35C9F3EE18FD9FCF00B023F4 /* StoreManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StoreManager.h; sourceTree = "<group>"; };
+		35C9F3EF18FD9FCF00B023F4 /* StoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StoreManager.m; sourceTree = "<group>"; };
 		35D6FE7618F5927D0054C376 /* Impression.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Impression.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35D6FE7918F5927D0054C376 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		35D6FE7B18F5927D0054C376 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -362,6 +365,8 @@
 				35D6FECE18F59FD60054C376 /* PaintLine.m */,
 				35C9F39918F9E04B00B023F4 /* SettingsManager.h */,
 				35C9F39A18F9E04B00B023F4 /* SettingsManager.m */,
+				35C9F3EE18FD9FCF00B023F4 /* StoreManager.h */,
+				35C9F3EF18FD9FCF00B023F4 /* StoreManager.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -568,6 +573,7 @@
 				35D6FEC418F594370054C376 /* MainViewController.m in Sources */,
 				35D6FEBD18F592EB0054C376 /* MathHelper.m in Sources */,
 				35D6FEBB18F592EB0054C376 /* EXDebug.m in Sources */,
+				35C9F3F018FD9FCF00B023F4 /* StoreManager.m in Sources */,
 				35C9F3A818FADC6B00B023F4 /* PreloadedSFX.m in Sources */,
 				35D6FEBF18F592EB0054C376 /* PersistentDictionary.m in Sources */,
 				35D6FE8618F5927D0054C376 /* main.m in Sources */,
