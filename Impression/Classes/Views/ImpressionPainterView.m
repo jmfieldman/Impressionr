@@ -415,9 +415,9 @@
 	/* Do we need to paint down the original? */
 	if (_originalImageToDraw) {
 		CGContextSaveGState(_bitmapContext);
-		CGContextTranslateCTM(_bitmapContext, 0, _originalImageToDraw.size.height);
+		CGContextTranslateCTM(_bitmapContext, 0, _originalH);
 		CGContextScaleCTM(_bitmapContext, 1.0, -1.0);
-		CGContextDrawImage(_bitmapContext, CGRectMake(0, 0, _originalImageToDraw.size.width, _originalImageToDraw.size.height), _originalImageToDraw.CGImage);
+		CGContextDrawImage(_bitmapContext, CGRectMake(0, 0, _originalW, _originalH), _originalImageToDraw.CGImage);
 		CGContextRestoreGState(_bitmapContext);
 		_originalImageToDraw = nil;
 	} else {
