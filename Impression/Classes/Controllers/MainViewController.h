@@ -71,6 +71,7 @@
 	UIButton *_loadFromRoll;
 	UIButton *_loadFromCamera;
 	UIButton *_loadFromClip;
+	UIButton *_loadFromInsp;
 	
 	UIButton *_saveToAlbum;
 	UIButton *_saveToClip;

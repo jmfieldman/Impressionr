@@ -677,6 +677,19 @@ SINGLETON_IMPL(MainViewController);
 			menuIndex++;
 		}
 		
+		_loadFromInsp = [UIButton buttonWithType:UIButtonTypeCustom];
+		_loadFromInsp.frame = CGRectMake(sliderX, sliderY + (sliderYOffset * menuIndex) - 5, sliderW, sliderH);
+		_loadFromInsp.backgroundColor = [UIColor whiteColor];
+		_loadFromInsp.layer.cornerRadius = sliderH / 2;
+		[_loadFromInsp setTitle:@"Inspiration" forState:UIControlStateNormal];
+		_loadFromInsp.titleLabel.font = infoFont;
+		[_loadFromInsp setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+		[_loadFromInsp addTarget:self action:@selector(pressedLoadButton:) forControlEvents:UIControlEventTouchDown];
+		[_loadMenu addSubview:_loadFromInsp];
+		_loadMenuHeight += sliderYOffset;
+		
+		menuIndex++;
+		
 		/* -- Save Settings -- */
 		
 		sliderY = 44;
@@ -1054,6 +1067,11 @@ SINGLETON_IMPL(MainViewController);
 	[self animatePop:sender];
 	[self hideCurrentMenu];
 	[PreloadedSFX playSFX:PLSFX_BUTTON_DOWN];
+	
+	if (sender == _loadFromInsp) {
+		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.google.com/search?tbm=isch&source=hp&biw=1137&bih=690&q=scenery"]];
+		return;
+	}
 	
 	if (sender != _loadFromClip) {
 		/* Load from picker */

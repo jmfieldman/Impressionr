@@ -105,7 +105,12 @@
 	_image = image;
 	_originalImageToDraw = image;
 	_originalImageView.image = image;
-	_clearCount = 4;
+	_clearCount = 100;
+	
+	/* Kill existing lines */
+	for (PaintLine *line in _lines) {
+		line.lifeRemaining = 0;
+	}
 	
 	//NSLog(@"Setting image of size: %f %f", image.size.width, image.size.height);
 	int allowedImageWidth  = image.size.width;

@@ -14,6 +14,9 @@
 
 - (NSTimeInterval) paintInContext:(CGContextRef)context forTimeDuration:(NSTimeInterval)duration {
 			
+	/* Immediate death? */
+	if (_lifeRemaining <= 0) return duration;
+	
 	/* Setup line properties */
 	CGContextSetStrokeColorWithColor(context, _color.CGColor);
 	CGContextSetLineWidth(context, _lineWidth);
