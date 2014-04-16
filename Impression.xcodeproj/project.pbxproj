@@ -11,6 +11,9 @@
 		35446F0018F9994B00E75A9D /* grain@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446EFE18F9994B00E75A9D /* grain@2x.png */; };
 		35446F0218FC384900E75A9D /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35446F0118FC384900E75A9D /* Social.framework */; };
 		35446F0418FC385000E75A9D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 35446F0318FC385000E75A9D /* StoreKit.framework */; };
+		35446F0818FEDA3400E75A9D /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446F0518FEDA3400E75A9D /* icon80.png */; };
+		35446F0918FEDA3400E75A9D /* icon58.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446F0618FEDA3400E75A9D /* icon58.png */; };
+		35446F0A18FEDA3400E75A9D /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446F0718FEDA3400E75A9D /* icon114.png */; };
 		35C9F39818F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */; };
 		35C9F39B18F9E04B00B023F4 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39A18F9E04B00B023F4 /* SettingsManager.m */; };
 		35C9F39E18FADBFC00B023F4 /* ButtonEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */; };
@@ -114,6 +117,9 @@
 		35446EFE18F9994B00E75A9D /* grain@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grain@2x.png"; sourceTree = "<group>"; };
 		35446F0118FC384900E75A9D /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		35446F0318FC385000E75A9D /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		35446F0518FEDA3400E75A9D /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon80.png; sourceTree = "<group>"; };
+		35446F0618FEDA3400E75A9D /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon58.png; sourceTree = "<group>"; };
+		35446F0718FEDA3400E75A9D /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
 		35C9F39618F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDirectionalPanGestureRecognizer.h; sourceTree = "<group>"; };
 		35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDirectionalPanGestureRecognizer.m; sourceTree = "<group>"; };
 		35C9F39918F9E04B00B023F4 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
@@ -514,6 +520,9 @@
 		35D8727D18FDDA58008D6385 /* System */ = {
 			isa = PBXGroup;
 			children = (
+				35446F0518FEDA3400E75A9D /* icon80.png */,
+				35446F0618FEDA3400E75A9D /* icon58.png */,
+				35446F0718FEDA3400E75A9D /* icon114.png */,
 				35D8728018FDDB39008D6385 /* icon76.png */,
 				35D8728118FDDB39008D6385 /* icon152.png */,
 				35D8727E18FDDA58008D6385 /* icon120.png */,
@@ -646,13 +655,16 @@
 				35C9F3B618FADCC600B023F4 /* ching.caf in Resources */,
 				35C9F3B818FADCC600B023F4 /* drag2.caf in Resources */,
 				35C9F3CB18FAE8CE00B023F4 /* line_icon~iphone.png in Resources */,
+				35446F0918FEDA3400E75A9D /* icon58.png in Resources */,
 				35D8726C18FDCE6F008D6385 /* camera~ipad.png in Resources */,
 				35C9F3DE18FB732700B023F4 /* pause@2x~iphone.png in Resources */,
+				35446F0818FEDA3400E75A9D /* icon80.png in Resources */,
 				35D8727618FDCE6F008D6385 /* play~ipad.png in Resources */,
 				35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */,
 				35C9F3A418FADC0900B023F4 /* MuseoSansRounded-500.otf in Resources */,
 				35D8725C18FDCA23008D6385 /* wave_icon@2x~ipad.png in Resources */,
 				35C9F3DF18FB732700B023F4 /* pause~iphone.png in Resources */,
+				35446F0A18FEDA3400E75A9D /* icon114.png in Resources */,
 				35D8727518FDCE6F008D6385 /* play@2x~ipad.png in Resources */,
 				35446F0018F9994B00E75A9D /* grain@2x.png in Resources */,
 				35D8728218FDDB39008D6385 /* icon76.png in Resources */,
