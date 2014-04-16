@@ -107,7 +107,7 @@ SINGLETON_IMPL(StoreManager);
 	
 	for (SKPaymentTransaction *transaction in transactions) {
 		
-		EXLog(PURCHASE, INFO, @"Processing transaction for [%@]: %d", transaction.payment.productIdentifier, transaction.transactionState);
+		EXLog(PURCHASE, INFO, @"Processing transaction for [%@]: %d", transaction.payment.productIdentifier, (int)transaction.transactionState);
 		
 		if (transaction.transactionState == SKPaymentTransactionStatePurchased ||
 			transaction.transactionState == SKPaymentTransactionStateRestored) {
