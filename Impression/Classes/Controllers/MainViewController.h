@@ -26,6 +26,7 @@
 	UIButton *_originalButton;
 	UIButton *_loadButton;
 	UIButton *_saveButton;
+	UIButton *_reloadButton;
 	
 	/* But cancel button behind all UI */
 	UIButton *_cancelButton;
@@ -109,5 +110,7 @@ SINGLETON_INTR(MainViewController);
 - (void) showModalMessage:(NSString*)message;
 
 - (void) setPurchasePrice:(NSString*)price;
+
+- (void) restoreDefaultSliders;
 
 @end

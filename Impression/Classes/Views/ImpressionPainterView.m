@@ -7,7 +7,7 @@
 //
 
 #import "ImpressionPainterView.h"
-
+#import "SettingsManager.h"
 
 @implementation ImpressionPainterView
 
@@ -152,6 +152,9 @@
 	
 	/* Needs to redraw */
 	[self updatePainting];
+	
+	/* Reset paint settings */
+	[[SettingsManager sharedInstance] restoreDefaults];
 }
 
 - (void) recalculateScaling {

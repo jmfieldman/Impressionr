@@ -216,6 +216,14 @@ SINGLETON_IMPL(MainViewController);
 		_saveButton.imageView.layer.cornerRadius = 3;
 		[self.view addSubview:_saveButton];
 		
+		_reloadButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		_reloadButton.backgroundColor = [UIColor colorWithWhite:settingButtonBGWhite alpha:settingButtonBGAlpha];
+		_reloadButton.layer.cornerRadius = cornerRadius;
+		[_reloadButton setImage:[UIImage imageNamed:@"reload"] forState:UIControlStateNormal];
+		[_reloadButton addTarget:self action:@selector(pressedReloadButton:) forControlEvents:UIControlEventTouchDown];
+		_reloadButton.imageView.layer.cornerRadius = 3;
+		[self.view addSubview:_reloadButton];
+		
 		/* Menus */
 		float menuWidth = 200;
 		float universalPadding = s_isIPAD ? 12 : 8;
@@ -866,6 +874,7 @@ SINGLETON_IMPL(MainViewController);
 	
 	_loadButton.frame = CGRectMake(universalPadding, universalPadding, settingButtonSize, settingButtonSize);
 	_saveButton.frame = CGRectMake(universalPadding + settingButtonOffset*1, universalPadding, settingButtonSize, settingButtonSize);
+	_reloadButton.frame = CGRectMake(universalPadding + settingButtonOffset*2, universalPadding, settingButtonSize, settingButtonSize);
 	
 	float menuWidth = 200;
 	float menuX = self.view.bounds.size.width - menuWidth - universalPadding;
@@ -990,6 +999,10 @@ SINGLETON_IMPL(MainViewController);
 	[view.layer addAnimation:anim forKey:@"scale"];
 }
 
+- (void) restoreDefaultSliders {
+	[[SettingsManager sharedInstance] restoreDefaults];
+}
+
 - (void) pressedSwirlReset:(id)sender {
 	[self animatePop:_fieldResetButton];
 	[_paintView resetNoiseGrid];
@@ -1018,6 +1031,10 @@ SINGLETON_IMPL(MainViewController);
 	
 	[self performSelector:@selector(popInView:) withObject:_colorSettingsMenu afterDelay:[self hideCurrentMenu]];
 	_currentlyDisplayedMenu = _colorSettingsMenu;
+}
+
+- (void) pressedReloadButton:(id)sender {
+	_paintView.image = _paintView.image;
 }
 
 - (void) pressedLoadMenuButton:(id)sender {
@@ -1126,7 +1143,7 @@ SINGLETON_IMPL(MainViewController);
 		/* Create the file */
 		NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
 		NSString *imgFilePath = [paths[0] stringByAppendingPathComponent:@"upload.igo"];
-		NSData *imgData = UIImageJPEGRepresentation(_paintView.image, 0.9);
+		NSData *imgData = UIImageJPEGRepresentation(_paintView.renderedImage, 0.9);
 		[imgData writeToFile:imgFilePath atomically:YES];
 		
 		static __strong UIDocumentInteractionController *documentInteractionController = nil;

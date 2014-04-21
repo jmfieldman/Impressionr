@@ -38,6 +38,22 @@ SINGLETON_IMPL(SettingsManager);
 	return self;
 }
 
+- (void) restoreDefaults {
+	self.lineWidth = 0.15;
+	self.lineAlpha = 0.85;
+	self.lineCount = 0.70;
+	self.lineSpeed = 0.15;
+	
+	self.tintStrength = 0;
+	self.tintHue      = 0;
+	self.grainOpacity = 0.5;
+	self.saturation   = 1;
+	
+	self.angleFieldWeight = 1;
+	self.angleFieldOffset = 0;
+	self.angleFieldScale  = 1;
+}
+
 - (void) setLineCount:(float)lineCount {
 	_lineCount = lineCount;
 	FIX_RANGE(_lineCount);

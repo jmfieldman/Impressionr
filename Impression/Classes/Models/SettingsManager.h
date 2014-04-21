@@ -48,4 +48,6 @@ SINGLETON_INTR(SettingsManager);
 - (void) addDelegate:(id<SettingsManagerDelegate>)delegate;
 - (void) removeDelegate:(id<SettingsManagerDelegate>)delegate;
 
+- (void) restoreDefaults;
+
 @end

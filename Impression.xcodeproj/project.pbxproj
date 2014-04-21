@@ -14,6 +14,10 @@
 		35446F0818FEDA3400E75A9D /* icon80.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446F0518FEDA3400E75A9D /* icon80.png */; };
 		35446F0918FEDA3400E75A9D /* icon58.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446F0618FEDA3400E75A9D /* icon58.png */; };
 		35446F0A18FEDA3400E75A9D /* icon114.png in Resources */ = {isa = PBXBuildFile; fileRef = 35446F0718FEDA3400E75A9D /* icon114.png */; };
+		3555625B19056162006520A4 /* reload~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3555625719056162006520A4 /* reload~iphone.png */; };
+		3555625C19056162006520A4 /* reload~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3555625819056162006520A4 /* reload~ipad.png */; };
+		3555625D19056162006520A4 /* reload@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 3555625919056162006520A4 /* reload@2x~iphone.png */; };
+		3555625E19056162006520A4 /* reload@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 3555625A19056162006520A4 /* reload@2x~ipad.png */; };
 		35C9F39818F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */; };
 		35C9F39B18F9E04B00B023F4 /* SettingsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39A18F9E04B00B023F4 /* SettingsManager.m */; };
 		35C9F39E18FADBFC00B023F4 /* ButtonEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 35C9F39D18FADBFC00B023F4 /* ButtonEffects.m */; };
@@ -120,6 +124,10 @@
 		35446F0518FEDA3400E75A9D /* icon80.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon80.png; sourceTree = "<group>"; };
 		35446F0618FEDA3400E75A9D /* icon58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon58.png; sourceTree = "<group>"; };
 		35446F0718FEDA3400E75A9D /* icon114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon114.png; sourceTree = "<group>"; };
+		3555625719056162006520A4 /* reload~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload~iphone.png"; sourceTree = "<group>"; };
+		3555625819056162006520A4 /* reload~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload~ipad.png"; sourceTree = "<group>"; };
+		3555625919056162006520A4 /* reload@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload@2x~iphone.png"; sourceTree = "<group>"; };
+		3555625A19056162006520A4 /* reload@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reload@2x~ipad.png"; sourceTree = "<group>"; };
 		35C9F39618F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDirectionalPanGestureRecognizer.h; sourceTree = "<group>"; };
 		35C9F39718F9D80800B023F4 /* UIDirectionalPanGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDirectionalPanGestureRecognizer.m; sourceTree = "<group>"; };
 		35C9F39918F9E04B00B023F4 /* SettingsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsManager.h; sourceTree = "<group>"; };
@@ -456,6 +464,10 @@
 		35D6FEC818F595CB0054C376 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				3555625719056162006520A4 /* reload~iphone.png */,
+				3555625819056162006520A4 /* reload~ipad.png */,
+				3555625919056162006520A4 /* reload@2x~iphone.png */,
+				3555625A19056162006520A4 /* reload@2x~ipad.png */,
 				35D8725D18FDCE6F008D6385 /* camera@2x~ipad.png */,
 				35D8725E18FDCE6F008D6385 /* camera~ipad.png */,
 				35D8725F18FDCE6F008D6385 /* color_icon@2x~ipad.png */,
@@ -635,7 +647,9 @@
 				35D8727318FDCE6F008D6385 /* pause@2x~ipad.png in Resources */,
 				35C9F3B918FADCC600B023F4 /* drop.caf in Resources */,
 				35D8727118FDCE6F008D6385 /* original@2x~ipad.png in Resources */,
+				3555625D19056162006520A4 /* reload@2x~iphone.png in Resources */,
 				35C9F3D518FAF6DA00B023F4 /* slider_track_min@2x.png in Resources */,
+				3555625E19056162006520A4 /* reload@2x~ipad.png in Resources */,
 				35C9F3B418FADCC600B023F4 /* button_down.caf in Resources */,
 				35C9F3C418FAE81500B023F4 /* color_icon~iphone.png in Resources */,
 				35D8726E18FDCE6F008D6385 /* color_icon~ipad.png in Resources */,
@@ -658,6 +672,7 @@
 				35446F0918FEDA3400E75A9D /* icon58.png in Resources */,
 				35D8726C18FDCE6F008D6385 /* camera~ipad.png in Resources */,
 				35C9F3DE18FB732700B023F4 /* pause@2x~iphone.png in Resources */,
+				3555625C19056162006520A4 /* reload~ipad.png in Resources */,
 				35446F0818FEDA3400E75A9D /* icon80.png in Resources */,
 				35D8727618FDCE6F008D6385 /* play~ipad.png in Resources */,
 				35C9F3A318FADC0900B023F4 /* MuseoSansRounded-300.otf in Resources */,
@@ -668,6 +683,7 @@
 				35D8727518FDCE6F008D6385 /* play@2x~ipad.png in Resources */,
 				35446F0018F9994B00E75A9D /* grain@2x.png in Resources */,
 				35D8728218FDDB39008D6385 /* icon76.png in Resources */,
+				3555625B19056162006520A4 /* reload~iphone.png in Resources */,
 				35C9F3B718FADCC600B023F4 /* drag1.caf in Resources */,
 				35D6FE8C18F5927D0054C376 /* Images.xcassets in Resources */,
 				35D6FEC918F595CB0054C376 /* test_image1.jpg in Resources */,
