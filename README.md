@@ -16,3 +16,8 @@ Here's one of the really annoying drawing issues I had to deal with. To animate 
 I also decided to play around with some UI concepts, and think I came up with a relatively nice and light-feeling UI.
 
 I was a bit disappointed with Instagram. There is no way to post to Instagram from inside an app; you have to use the document sharing mechanism to open the image in the Instagram app. It was kind of an ugly multi-step flow.
+
+License
+-------
+
+Impressionr source code is distributed under the GPL v3 license.  See License.md for details.
